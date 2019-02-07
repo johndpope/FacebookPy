@@ -5,15 +5,15 @@ What does this quickstart script aim to do?
 - I do some unfollow and like by tags mostly
 
 NOTES:
-- I am an one month old InstaPy user, with a small following. So my numbers
+- I am an one month old FacebookPy user, with a small following. So my numbers
 in settings are bit conservative.
 """
 
-from instapy import InstaPy
-from instapy.util import smart_run
+from facebookpy import FacebookPy
+from facebookpy.util import smart_run
 
 # get a session!
-session = InstaPy(username='', password='')
+session = FacebookPy(username='', password='')
 
 # let's go! :>
 with smart_run(session):
@@ -71,18 +71,18 @@ with smart_run(session):
 
     """ Actions start here """
     # Unfollow users
-    """ Users who were followed by InstaPy, but not have followed back will 
+    """ Users who were followed by FacebookPy, but not have followed back will 
     be removed in
         One week (168 * 60 * 60)
         Yes, I give a liberal one week time to follow [back] :)
     """
-    session.unfollow_users(amount=25, InstapyFollowed=(True, "nonfollowers"),
+    session.unfollow_users(amount=25, FacebookpyFollowed=(True, "nonfollowers"),
                            style="RANDOM",
                            unfollow_after=168 * 60 * 60,
                            sleep_delay=600)
 
     # Remove specific users immediately
-    """ I use InstaPy only for my personal account, I sometimes use custom 
+    """ I use FacebookPy only for my personal account, I sometimes use custom 
     list to remove users who fill up my feed
         with annoying photos
     """

@@ -8,7 +8,7 @@ What does this quickstart script aim to do?
 
 NOTES:
 - I am using the bot headless on my vServer and proxy into a Raspberry PI I
-have at home, to always use my home IP to connect to Instagram.
+have at home, to always use my home IP to connect to Facebook.
   In my comments, I always ask for feedback, use more than 4 words and
   always have emojis.
   My comments work very well, as I get a lot of feedback to my posts and
@@ -21,11 +21,11 @@ have at home, to always use my home IP to connect to Instagram.
 
 # !/usr/bin/python2.7
 import random
-from instapy import InstaPy
-from instapy.util import smart_run
+from facebookpy import FacebookPy
+from facebookpy.util import smart_run
 
 # get a session!
-session = InstaPy(username='xxx', password='xxx', proxy_address='xxx',
+session = FacebookPy(username='xxx', password='xxx', proxy_address='xxx',
                   proxy_port='xxxx', headless_browser=True)
 
 # let's go! :>
@@ -102,9 +102,9 @@ with smart_run(session):
 
     # activity
     session.like_by_tags(my_hashtags, amount=60, media=None)
-    session.unfollow_users(amount=500, InstapyFollowed=(True, "nonfollowers"),
+    session.unfollow_users(amount=500, FacebookpyFollowed=(True, "nonfollowers"),
                            style="FIFO",
                            unfollow_after=12 * 60 * 60, sleep_delay=501)
-    session.unfollow_users(amount=500, InstapyFollowed=(True, "all"),
+    session.unfollow_users(amount=500, FacebookpyFollowed=(True, "all"),
                            style="FIFO", unfollow_after=24 * 60 * 60,
                            sleep_delay=501)

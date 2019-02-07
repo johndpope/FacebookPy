@@ -7,11 +7,11 @@ follows/day - 1400 unfollows/day running follow until reaches 7500 and than
 switch to unfollow until reaches 0.
 """
 
-from instapy import InstaPy
-from instapy.util import smart_run
+from facebookpy import FacebookPy
+from facebookpy.util import smart_run
 
 # get a session!
-session = InstaPy(username='', password='')
+session = FacebookPy(username='', password='')
 
 # let's go! :>
 with smart_run(session):

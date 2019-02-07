@@ -1,4 +1,4 @@
-echo "InstaPy Windows Setup"
+echo "FacebookPy Windows Setup"
 echo =============================================================================================
 echo "Installing Selenium"
 pip install selenium
@@ -7,8 +7,8 @@ py get-pip.py
 echo " "
 echo "Installing GUI Tool"
 $webclient = New-Object System.Net.WebClient
-$webclient.DownloadFile("https://github.com/Nemixalone/GUI-tool-for-InstaPy-script/releases/download/0.4/InstaPy-GUI.exe","$pwd\InstaPy-GUI.exe")
-mv "$pwd\InstaPy-GUI.exe" "$pwd\..\InstaPy-GUI.exe"
+$webclient.DownloadFile("https://github.com/Nemixalone/GUI-tool-for-FacebookPy-script/releases/download/0.4/FacebookPy-GUI.exe","$pwd\FacebookPy-GUI.exe")
+mv "$pwd\FacebookPy-GUI.exe" "$pwd\..\FacebookPy-GUI.exe"
 echo " "
 cd ..\
 echo "Downloading Chrome Driver..."

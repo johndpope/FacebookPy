@@ -2,25 +2,25 @@
 
 <img src="https://i.imgur.com/sJzfZsL.jpg" width="150" align="right">
 
-# InstaPy
-[![MIT license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://github.com/timgrossmann/InstaPy/blob/master/LICENSE)
+# FacebookPy
+[![MIT license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://github.com/timgrossmann/FacebookPy/blob/master/LICENSE)
 [![built with Selenium](https://img.shields.io/badge/built%20with-Selenium-yellow.svg)](https://github.com/SeleniumHQ/selenium)
 [![built with Python3](https://img.shields.io/badge/built%20with-Python3-red.svg)](https://www.python.org/)
-[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)](https://travis-ci.org/timgrossmann/InstaPy)
-[![Backers on Open Collective](https://opencollective.com/instapy/backers/badge.svg)](#backers)
+[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)](https://travis-ci.org/timgrossmann/FacebookPy)
+[![Backers on Open Collective](https://opencollective.com/facebookpy/backers/badge.svg)](#backers)
 
-### Tooling that automates your social media interactions to “farm” Likes, Comments, and Followers on Instagram
+### Tooling that automates your social media interactions to “farm” Likes, Comments, and Followers on Facebook
 Implemented in Python using the Selenium module.
 
 **Have an issue?**
-If you should encounter any issue, please first [search for similar issues](https://github.com/timgrossmann/InstaPy/issues) and only if you can't find any, create a new issue or use the [discord channel](https://discord.gg/FDETsht) for help.
+If you should encounter any issue, please first [search for similar issues](https://github.com/timgrossmann/FacebookPy/issues) and only if you can't find any, create a new issue or use the [discord channel](https://discord.gg/FDETsht) for help.
 
 #### Newsletter: [Sign Up for the Newsletter here!](http://eepurl.com/cZbV_v)
 
 
 ## **Installation**
 ```elm
-pip install instapy
+pip install facebookpy
 ```
 That's it 🍫☕
 
@@ -29,22 +29,22 @@ That's it 🍫☕
 Now all you need is a **quickstart** script to start _InstaPy_ 🥳  
 
 <details>
-  <summary> <b>Choose a <b>quickstart</b> script of your choice from the <a href="https://github.com/InstaPy/instapy-quickstart">instapy-quickstart</a> repository to get started 🔎</b></summary>
+  <summary> <b>Choose a <b>quickstart</b> script of your choice from the <a href="https://github.com/FacebookPy/facebookpy-quickstart">facebookpy-quickstart</a> repository to get started 🔎</b></summary>
 
-- Here is the easiest **quickstart** script you can use - [quickstart.py](https://github.com/InstaPy/instapy-quickstart/blob/master/quickstart.py)  
-- And here you can find lots of _sophisticated **quickstart** templates_ shared by the community! - [quickstart templates 📂](https://github.com/InstaPy/instapy-quickstart/tree/master/quickstart_templates)  
+- Here is the easiest **quickstart** script you can use - [quickstart.py](https://github.com/FacebookPy/facebookpy-quickstart/blob/master/quickstart.py)  
+- And here you can find lots of _sophisticated **quickstart** templates_ shared by the community! - [quickstart templates 📂](https://github.com/FacebookPy/facebookpy-quickstart/tree/master/quickstart_templates)  
 
 <br /> 
 
 You can also copy and paste this basic **quickstart** into a new text file and save it as `.py` file.
 ```python		
-""" Quickstart script for InstaPy usage """		
+""" Quickstart script for FacebookPy usage """		
 # imports		
-from instapy import InstaPy		
-from instapy import smart_run		
+from facebookpy import FacebookPy		
+from facebookpy import smart_run		
 	
-# get an InstaPy session!		
-session = InstaPy()		
+# get an FacebookPy session!		
+session = FacebookPy()		
 	
 with smart_run(session):		
     """ Activity flow """		
@@ -72,7 +72,7 @@ Read more about passing arguments from the command line interface in the section
 ```python
 # inside quickstart script
 
-session = InstaPy(username="abc",    
+session = FacebookPy(username="abc",    
                   password="123")   
 ```
 
@@ -86,11 +86,11 @@ Or do it right inside the **quickstart** script.
 ```python
 # inside quickstart script
 
-session = InstaPy(username="abc",    
+session = FacebookPy(username="abc",    
                   password="123",
                   headless_browser=True)  
 ```
-_Until you enable the **headless** mode, InstaPy will run in the **graphical** mode where you can watch the ongoing automation in your web browser_.
+_Until you enable the **headless** mode, FacebookPy will run in the **graphical** mode where you can watch the ongoing automation in your web browser_.
 
 
 > If you've used _InstaPy_ before installing it by **pip**, you have to move your _old_ data to the new **workspace** folder for once.
@@ -101,18 +101,18 @@ _Until you enable the **headless** mode, InstaPy will run in the **graphical** m
 #### **Update**
 ```elm
 
-pip install instapy -U
+pip install facebookpy -U
 
 ```
 
 #### **Install** a _**specific** version_
 ```elm
-pip install instapy==0.1.1
+pip install facebookpy==0.1.1
 ```
 
 #### **Uninstall**
 ```elm
-pip uninstall instapy
+pip uninstall facebookpy
 ```
 
 <br />
@@ -121,8 +121,8 @@ pip uninstall instapy
 
 ### Social
 
-#### [Twitter of InstaPy](https://twitter.com/InstaPy) | [Twitter of Tim](https://twitter.com/timigrossmann) | [How it works (Medium)](https://medium.freecodecamp.com/my-open-source-instagram-bot-got-me-2-500-real-followers-for-5-in-server-costs-e40491358340) |   
-[Talk about automating your Instagram](https://youtu.be/4TmKFZy-ioQ) | [Talk about doing Open-Source work](https://www.youtube.com/watch?v=A_UtST302Og&t=0s&list=PLa4P1NPX9hthXV-wko0xyxFpbhYZFkW7o) | [Listen to the "Talk Python to me"-Episode](https://talkpython.fm/episodes/show/142/automating-the-web-with-selenium-and-instapy)
+#### [Twitter of FacebookPy](https://twitter.com/FacebookPy) | [Twitter of Tim](https://twitter.com/timigrossmann) | [How it works (Medium)](https://medium.freecodecamp.com/my-open-source-facebook-bot-got-me-2-500-real-followers-for-5-in-server-costs-e40491358340) |   
+[Talk about automating your Facebook](https://youtu.be/4TmKFZy-ioQ) | [Talk about doing Open-Source work](https://www.youtube.com/watch?v=A_UtST302Og&t=0s&list=PLa4P1NPX9hthXV-wko0xyxFpbhYZFkW7o) | [Listen to the "Talk Python to me"-Episode](https://talkpython.fm/episodes/show/142/automating-the-web-with-selenium-and-facebookpy)
 
 ### Do you need help ?
 
@@ -132,27 +132,27 @@ pip uninstall instapy
 
 ### Do you want to support us ?
 
-<a href="https://opencollective.com/instapy/donate" target="_blank">
-  <img align="left" hspace="10" src="https://opencollective.com/instapy/contribute/button@2x.png?color=blue" width=300 />
+<a href="https://opencollective.com/facebookpy/donate" target="_blank">
+  <img align="left" hspace="10" src="https://opencollective.com/facebookpy/contribute/button@2x.png?color=blue" width=300 />
 </a>
 
 <a href="https://www.paypal.me/supportInstaPy">
   <img hspace="14" alt="paypalme" src="http://codeinpython.com/tutorials/wp-content/uploads/2017/09/PayPal-ME-300x300.jpg.png" width=100 />
 </a>
 
-**Help build InstaPy!**      
-Head over to https://github.com/timgrossmann/InstaPy/wiki/How-to-Contribute to find out how you can help.
+**Help build FacebookPy!**      
+Head over to https://github.com/timgrossmann/FacebookPy/wiki/How-to-Contribute to find out how you can help.
 
 ---
 
 ### Guides
 
 #### Video tutorials:
-**[Setting up InstaPy for MacOS using Firefox](https://www.youtube.com/watch?v=A1a8J_IjSPs)**
+**[Setting up FacebookPy for MacOS using Firefox](https://www.youtube.com/watch?v=A1a8J_IjSPs)**
 
-**[Setting up InstaPy at Digital Ocean (for Debian)](https://www.youtube.com/watch?v=2Ci-hXU1IEY)**
+**[Setting up FacebookPy at Digital Ocean (for Debian)](https://www.youtube.com/watch?v=2Ci-hXU1IEY)**
 
-**[Setting up InstaPy for Windows](https://www.youtube.com/watch?v=AOUraeus-XA)**
+**[Setting up FacebookPy for Windows](https://www.youtube.com/watch?v=AOUraeus-XA)**
 
 #### Written Guides:
 **[How to Ubuntu (64-Bit)](./docs/How_To_DO_Ubuntu_on_Digital_Ocean.md) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**
@@ -166,7 +166,7 @@ Head over to https://github.com/timgrossmann/InstaPy/wiki/How-to-Contribute to f
 
 ### Table of Contents
 * [Advanced Installation](#advanced-installation)
-* [InstaPy Available Features](#instapy-available-features)
+* [FacebookPy Available Features](#facebookpy-available-features)
   * [Commenting](#commenting)
   * [Following](#following)
   * [Following by a list](#following-by-a-list)
@@ -225,7 +225,7 @@ Head over to https://github.com/timgrossmann/InstaPy/wiki/How-to-Contribute to f
 * [Running with Docker microservices manual](#running-with-docker-microservices-manual)
 * [Running all-in-one with Docker (legacy)](#running-all-in-one-with-docker-legacy)
 * [Running all with Docker Compose using config file](./docs/How_to_Docker_Compose.md)
-* [Automate InstaPy](#automate-instapy)
+* [Automate FacebookPy](#automate-facebookpy)
   * [Windows Task Scheduler](#windows-task-scheduler)
   * [cron](#cron)
   * [Schedule](#schedule)
@@ -250,7 +250,7 @@ For example, there is a **bug** and its **fix** is _merged to the repo_ but a ne
 
 Then, you can do this to install the **actual state** of the _repo_ 😋
 ```erlang
-pip install -I https://github.com/timgrossmann/InstaPy/zipball/master
+pip install -I https://github.com/timgrossmann/FacebookPy/zipball/master
 ```
 
 Worths to note that, this installation option does not require _Git_ to be installed, too.  
@@ -283,15 +283,15 @@ That's why you will be able to install the actual state of the repo using the `-
 
 **1**. Clone _InstaPy_ repository into your computer
 ```erlang
-git clone https://github.com/timgrossmann/InstaPy.git
+git clone https://github.com/timgrossmann/FacebookPy.git
 ```
 
 **2**. Navigate to the _InstaPy_ project root directory
 ```erlang
-cd InstaPy
+cd FacebookPy
 ```
 
-**3**. Install the _local_ **instapy** package
+**3**. Install the _local_ **facebookpy** package
 ```erlang
 pip install -e .
 ```
@@ -331,12 +331,12 @@ python setup.py install
 
 **1**. Clone _InstaPy_ repository into your computer
 ```erlang
-git clone https://github.com/timgrossmann/InstaPy.git
+git clone https://github.com/timgrossmann/FacebookPy.git
 ```
 
 **2**. Navigate to the _InstaPy_ project root directory
 ```erlang
-cd InstaPy
+cd FacebookPy
 ```
 
 **3**. Make a virtual environment
@@ -349,7 +349,7 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-**5**. Install the _local_ **instapy** package
+**5**. Install the _local_ **facebookpy** package
 ```erlang
 pip install -e .
 ```
@@ -360,12 +360,12 @@ pip install -e .
 
 **1**. Clone _InstaPy_ repository into your computer
 ```erlang
-git clone https://github.com/timgrossmann/InstaPy.git
+git clone https://github.com/timgrossmann/FacebookPy.git
 ```
 
 **2**. Navigate to the _InstaPy_ project root directory
 ```erlang
-cd InstaPy
+cd FacebookPy
 ```
 
 **3**. Make a virtual environment
@@ -378,7 +378,7 @@ python3 -m venv venv
 venv\Scripts\activate.bat
 ```
 
-**5**. Install the _local_ **instapy** package
+**5**. Install the _local_ **facebookpy** package
 ```erlang
 pip install -e .
 ```
@@ -412,9 +412,9 @@ virtualenv venv
 source venv/bin/activate
 ```
 
-**3**. Install the **instapy** package from _Git_ by using **pip**
+**3**. Install the **facebookpy** package from _Git_ by using **pip**
 ```erlang
-pip install git+https://github.com/timgrossmann/InstaPy.git
+pip install git+https://github.com/timgrossmann/FacebookPy.git
 ```
 
 
@@ -433,7 +433,7 @@ In essence,
 
 <br />
 
-## InstaPy Available Features
+## FacebookPy Available Features
 
 ### Commenting
 
@@ -466,7 +466,7 @@ session.set_do_follow(enabled=True, percentage=10, times=2)
 ### Following by a list
 
 
-##### This will follow each account from a list of instagram nicknames
+##### This will follow each account from a list of facebook nicknames
 ```python
 follow_by_list(followlist=['samantha3', 'larry_ok'], times=1, sleep_delay=600, interact=False)
 ```
@@ -810,7 +810,7 @@ session.interact_by_comments(usernames=["somebody", "other.buddy"], posts_amount
 _It will unfollow ~`10` accounts and sleep for ~`10` minutes and then will continue to unfollow..._
 
 ##### There are `4` _Unfollow methods_ available to use:
-`|>` **customList**  `|>` **InstapyFollowed**  `|>` **nonFollowers**  `|>` **allFollowing**
+`|>` **customList**  `|>` **FacebookpyFollowed**  `|>` **nonFollowers**  `|>` **allFollowing**
 
 **1** - Unfollow **specific users** from a _CUSTOM_ list (_has `2` **track**s- `"all"` and `"nonfollowers"`_):  
 _when **track** is `"all"`, it will unfollow **all of the users** in a given list_;
@@ -825,14 +825,14 @@ session.unfollow_users(amount=84, customList=(True, custom_list, "nonfollowers")
 ```
 * **PRO**: `customList` method can take any kind of _iterable container_, such as `list`, `tuple` or `set`.
 
-**2** - Unfollow the users **WHO** was _followed by `InstaPy`_ (_has `2` **track**s- `"all"` and `"nonfollowers"`_):  
-_again, if you like to unfollow **all of the users** followed by InstaPy, use the **track**- `"all"`_;
+**2** - Unfollow the users **WHO** was _followed by `FacebookPy`_ (_has `2` **track**s- `"all"` and `"nonfollowers"`_):  
+_again, if you like to unfollow **all of the users** followed by FacebookPy, use the **track**- `"all"`_;
 ```python
-session.unfollow_users(amount=60, InstapyFollowed=(True, "all"), style="FIFO", unfollow_after=90*60*60, sleep_delay=501)
+session.unfollow_users(amount=60, FacebookpyFollowed=(True, "all"), style="FIFO", unfollow_after=90*60*60, sleep_delay=501)
 ```
-_but if you like you unfollow only the users followed by InstaPy **WHO do not follow you back**, use the **track**- `"nonfollowers"`_;
+_but if you like you unfollow only the users followed by FacebookPy **WHO do not follow you back**, use the **track**- `"nonfollowers"`_;
 ```python
-session.unfollow_users(amount=60, InstapyFollowed=(True, "nonfollowers"), style="FIFO", unfollow_after=90*60*60, sleep_delay=501)
+session.unfollow_users(amount=60, FacebookpyFollowed=(True, "nonfollowers"), style="FIFO", unfollow_after=90*60*60, sleep_delay=501)
 ```
 
 **3** - Unfollow the users **WHO** `do not` _follow you back_:
@@ -859,7 +859,7 @@ By using this, you can unfollow users **only after** following them certain amou
 _it will help to provide **seamless** unfollow activity without the notice of the target user_   
 To use it, just add `unfollow_after` parameter with the _desired time interval_, _e.g._,
 ```python
-session.unfollow_users(amount=94, InstapyFollowed=(True, "all"), style="RANDOM", unfollow_after=48*60*60, sleep_delay=600)
+session.unfollow_users(amount=94, FacebookpyFollowed=(True, "all"), style="RANDOM", unfollow_after=48*60*60, sleep_delay=600)
 ```
 _will unfollow users **only after following them** `48` hours (`2` days)_.  
 * Since `unfollow_after`s value is in _seconds_, you can simply give it `unfollow_after=3600` to unfollow after `3600` seconds.  
@@ -873,7 +873,7 @@ Sleep delay _sets_ the time it will sleep **after** every ~`10` unfollows (_defa
 > **NOTE**: You should know that, _in one RUN_, `unfollow_users` feature can take only one method from all `4` above.  
 That's why, **it is best** to **disable** other `3` methods _while using a one_:
 ```python
-session.unfollow_users(amount=200, customList=(True, ["user1", "user2", "user88", "user200"], "all"), InstapyFollowed=(False, "all"), nonFollowers=False, allFollowing=False, style="FIFO", unfollow_after=22*60*60, sleep_delay=600)
+session.unfollow_users(amount=200, customList=(True, ["user1", "user2", "user88", "user200"], "all"), FacebookpyFollowed=(False, "all"), nonFollowers=False, allFollowing=False, style="FIFO", unfollow_after=22*60*60, sleep_delay=600)
 ```
 _here the unfollow method- **customList** is used_  
 **OR** just keep the method you want to use and remove other 3 methods from the feature
@@ -1033,7 +1033,7 @@ session.set_skip_users(skip_private=True,
 		       dont_skip_business_categories=['Creators & Celebrities'])
 ```
 This will skip all business accounts except the ones that have a category that matches one item in the list of _dont_skip_business_categories_
-**N.B.** If both _dont_skip_business_categories_ and _skip_business_categories_, InstaPy will skip only business accounts in the list given from _skip_business_categories_.
+**N.B.** If both _dont_skip_business_categories_ and _skip_business_categories_, FacebookPy will skip only business accounts in the list given from _skip_business_categories_.
 
 > [A list of all availlable business categories can be found here](./assets/business_categories.md)
 
@@ -1123,12 +1123,12 @@ session.like_by_locations(['224442573'], amount=5, skip_top_posts=False)
 ```
 
 You can find locations for the `like_by_locations` function by:
-- Browsing https://www.instagram.com/explore/locations/
-- Regular instagram search.
+- Browsing https://www.facebook.com/explore/locations/
+- Regular facebook search.
 
 Example:
 * Search 'Salton Sea' and select the result with a location icon
-* The url is: https://www.instagram.com/explore/locations/224442573/salton-sea/
+* The url is: https://www.facebook.com/explore/locations/224442573/salton-sea/
 * Use everything after 'locations/' or just the number
 
 
@@ -1163,10 +1163,10 @@ session.like_by_feed(amount=100, randomize=True, unfollow=True, interact=True)
 ### Blacklist Campaign
 ```python
 # Controls your interactions by campaigns.
-# ex. this week InstaPy will like and comment interacting by campaign called
-# 'soccer', next time InstaPy runs, it will not interact again with users in
+# ex. this week FacebookPy will like and comment interacting by campaign called
+# 'soccer', next time FacebookPy runs, it will not interact again with users in
 # blacklist
-# In general, this means that once we turn off the soccer_campaign again, InstaPy
+# In general, this means that once we turn off the soccer_campaign again, FacebookPy
 # will have no track of the people it interacted with about soccer.
 # This will help you target people only once but several times for different campaigns
 
@@ -1219,7 +1219,7 @@ session.set_dont_like(['#exactmatch', '[startswith', ']endswith', 'broadmatch'])
 `.set_dont_like` searches the description and owner comments for hashtags and
 won't like the image if one of those hashtags are in there
 
-You have 4 options to exclude posts from your InstaPy session:
+You have 4 options to exclude posts from your FacebookPy session:
 * words starting with `#` will match only exact hashtags (e. g. `#cat` matches `#cat`, but not `#catpic`)
 * words starting with `[` will match all hashtags starting with your word (e. g. `[cat` matches `#catpic`, `#caturday` and so on)
 * words starting with `]` will match all hashtags ending with your word (e. g. `]cat` matches `#mycat`, `#instacat` and so on)
@@ -1263,21 +1263,21 @@ but none of the profiles are being followed - or any such functionality is misbe
 ### Bypass Suspicious Login Attempt
 
 If you're having issues with the "we detected an unusual login attempt" message,
-you can bypass it setting InstaPy in this way:
+you can bypass it setting FacebookPy in this way:
 
 ```python
-session = InstaPy(username=insta_username, password=insta_password, bypass_suspicious_attempt=True)
+session = FacebookPy(username=facebook_username, password=facebook_password, bypass_suspicious_attempt=True)
 ```
 
 ```bypass_suspicious_attempt=True``` will send the verification code to your
 email, and you will be prompted to enter the security code sent to your email.
 It will login to your account, now you can set bypass_suspicious_attempt to False
-```bypass_suspicious_attempt=False``` and InstaPy will quickly login using cookies.
+```bypass_suspicious_attempt=False``` and FacebookPy will quickly login using cookies.
 
 If you want to bypass suspicious login attempt with your phone number, set `bypass_with_mobile` to `True`
 
 ```python
-InstaPy(username=insta_username, password=insta_password, bypass_suspicious_attempt=True, bypass_with_mobile=True)
+FacebookPy(username=facebook_username, password=facebook_password, bypass_suspicious_attempt=True, bypass_with_mobile=True)
 ```
 
 
@@ -1314,7 +1314,7 @@ _Once_ likes **reach** peak, it will **jump** every other like, _yet_, **will do
 >_Same **form**_ **applies** to **all** actions. Just specify the peaks in desired intervals- **hourly** or **daily** you want to _supervise_.
 
 
-`sleep_after`: is used to put **InstaPy** to _sleep_ **after reaching peak** _rather than_ **jumping the action** (_or exiting- **for** server calls_)  
+`sleep_after`: is used to put **FacebookPy** to _sleep_ **after reaching peak** _rather than_ **jumping the action** (_or exiting- **for** server calls_)  
 _Any action_ can be included `["likes", "comments", "follows", "unfollows", "server_calls"]`.  
 _As if_ you want to put _sleep_ **only after** reaching **hourly** like peak, put `"likes_h"` **OR** put `"likes_d"` for _sleeping_ **only after** reaching **daily** like peak.  
 _such as_,
@@ -1390,7 +1390,7 @@ Defines the desired amount of usernames to grab from the given account
 `live_match`:  
 Defines the method of grabbing `Followers` data
 > **Knowledge Base**:  
-Every time you grab `Followers` data in `"full"` range of **any** user, it is also gonna be _stored in some corner_ of `InstaPy` **for that session**.
+Every time you grab `Followers` data in `"full"` range of **any** user, it is also gonna be _stored in some corner_ of `FacebookPy` **for that session**.
 
 + `live_match=False`:
     + If the user **already do have** a `Followers` data loaded _earlier_ in the **same** session, it will run a _smart_ `data-matching` _algorithm_.  
@@ -1403,7 +1403,7 @@ Every time you grab `Followers` data in `"full"` range of **any** user, it is al
 
 `store_locally`:  
 Gives the _option_ to `save` the loaded `Followers` data in a **local storage**  
-The files will be saved _into_ your **logs folder**, `~/InstaPy/logs/YourOwnUsername/relationship_data/Popeye/followers/` directory.  
+The files will be saved _into_ your **logs folder**, `~/FacebookPy/logs/YourOwnUsername/relationship_data/Popeye/followers/` directory.  
 Sample **filename** `14-06-2018~full~6874.json`:  
 + `14-06-2018` means the **time** of the data acquisition.
 + `"full"` means the **range** of the data acquisition;  
@@ -1450,7 +1450,7 @@ Defines the desired amount of usernames to grab from the given account
 `live_match`:  
 Defines the method of grabbing `Following` data
 > **Knowledge Base**:  
-Every time you grab `Following` data in `"full"` range of **any** user, it is also gonna be _stored in some corner_ of `InstaPy` **for that session**.
+Every time you grab `Following` data in `"full"` range of **any** user, it is also gonna be _stored in some corner_ of `FacebookPy` **for that session**.
 
 + `live_match=False`:
     + If the user **already do have** a `Following` data loaded _earlier_ in the **same** session, it will run a _smart_ `data-matching` _algorithm_.  
@@ -1463,7 +1463,7 @@ Every time you grab `Following` data in `"full"` range of **any** user, it is al
 
 `store_locally`:  
 Gives the _option_ to `save` the loaded `Following` data in a **local storage**  
-The files will be saved _into_ your **logs folder**, `~/InstaPy/logs/YourOwnUsername/relationship_data/lazy.smurf/following/` directory.  
+The files will be saved _into_ your **logs folder**, `~/FacebookPy/logs/YourOwnUsername/relationship_data/lazy.smurf/following/` directory.  
 Sample **filename** `15-06-2018~full~2409.json`:  
 + `15-06-2018` means the **time** of the data acquisition.
 + `"full"` means the **range** of the data acquisition;  
@@ -1525,7 +1525,7 @@ Defines the track to choose a file to compare for `"day"`, `"month"` and `"year"
 `live_match`:  
 Defines the method of grabbing **new** `Followers` data to compare with **existing** data
 > **Knowledge Base**:  
-Every time you grab `Followers` data in `"full"` range of **any** user, it is also gonna be _stored in some corner_ of `InstaPy` **for that session**.
+Every time you grab `Followers` data in `"full"` range of **any** user, it is also gonna be _stored in some corner_ of `FacebookPy` **for that session**.
 
 + `live_match=False`:
     + If the user **already do have** a `Followers` data loaded _earlier_ in the **same** session, it will run a _smart_ `data-matching` _algorithm_.  
@@ -1541,10 +1541,10 @@ Gives the _option_ to `save` the loaded `Unfollowers` data in a **local storage*
 There will be 2 files saved in their own directory:  
 + `all_unfollowers`:  
     + Will store all of the unfollowers in there  
-    + Its files will be saved at **logs folder**, `~/InstaPy/logs/YourOwnUsername/relationship_data/Bernard_bear/unfollowers/all_unfollowers/` directory.    
+    + Its files will be saved at **logs folder**, `~/FacebookPy/logs/YourOwnUsername/relationship_data/Bernard_bear/unfollowers/all_unfollowers/` directory.    
 + `active_unfollowers`:    
     + Will store only the unfollowers WHOM you are currently following.  
-    + Its files will be saved at **logs folder**, `~/InstaPy/logs/YourOwnUsername/relationship_data/Bernard_bear/unfollowers/active_unfollowers/` directory.    
+    + Its files will be saved at **logs folder**, `~/FacebookPy/logs/YourOwnUsername/relationship_data/Bernard_bear/unfollowers/active_unfollowers/` directory.    
 
 Sample **filename** `03-06-2018~all~75.json`:  
 + `03-06-2018` means the **time** of the data acquisition.
@@ -1585,7 +1585,7 @@ A desired username to pick its nonfollowers
 `live_match`:  
 Defines the method of grabbing `Followers` and `Following` data to compare with each other to find **nonfollowers**
 > **Knowledge Base**:  
-Every time you grab `Followers` and/or `Following` data in `"full"` range of **any** user, it is also gonna be _stored in some corner_ of `InstaPy` **for that session**.
+Every time you grab `Followers` and/or `Following` data in `"full"` range of **any** user, it is also gonna be _stored in some corner_ of `FacebookPy` **for that session**.
 
 + `live_match=False`:
     + If the user **already do have** a `Followers` and/or `Following` data loaded _earlier_ in the **same** session, it will run a _smart_ `data-matching` _algorithm_.  
@@ -1598,7 +1598,7 @@ Every time you grab `Followers` and/or `Following` data in `"full"` range of **a
 
 `store_locally`:  
 Gives the _option_ to `save` the loaded `Nonfollowers` data in a **local storage**  
-The files will be saved _into_ your **logs folder**, `~/InstaPy/logs/YourOwnUsername/relationship_data/ScoobyDoo/nonfollowers/` directory.  
+The files will be saved _into_ your **logs folder**, `~/FacebookPy/logs/YourOwnUsername/relationship_data/ScoobyDoo/nonfollowers/` directory.  
 Sample **filename** `01-06-2018~[5886-3575]~2465.json`:  
 + `01-06-2018` means the **time** of the data acquisition.
 + `5886` means the **count** of the followers retrieved.
@@ -1633,7 +1633,7 @@ A desired username to pick its fans
 `live_match`:  
 Defines the method of grabbing `Followers` and `Following` data to compare with each other to find **fans**
 > **Knowledge Base**:  
-Every time you grab `Followers` and/or `Following` data in `"full"` range of **any** user, it is also gonna be _stored in some corner_ of `InstaPy` **for that session**.
+Every time you grab `Followers` and/or `Following` data in `"full"` range of **any** user, it is also gonna be _stored in some corner_ of `FacebookPy` **for that session**.
 
 + `live_match=False`:
     + If the user **already do have** a `Followers` and/or `Following` data loaded _earlier_ in the **same** session, it will run a _smart_ `data-matching` _algorithm_.  
@@ -1646,7 +1646,7 @@ Every time you grab `Followers` and/or `Following` data in `"full"` range of **a
 
 `store_locally`:  
 Gives the _option_ to `save` the loaded `Fans` data in a **local storage**  
-The files will be saved _into_ your **logs folder**, `~/InstaPy/logs/YourOwnUsername/relationship_data/Smurfette/fans/` directory.  
+The files will be saved _into_ your **logs folder**, `~/FacebookPy/logs/YourOwnUsername/relationship_data/Smurfette/fans/` directory.  
 Sample **filename** `05-06-2018~[4591-2575]~3477.json`:  
 + `05-06-2018` means the **time** of the data acquisition.
 + `4591` means the **count** of the followers retrieved.
@@ -1680,7 +1680,7 @@ A desired username to pick its mutual following
 `live_match`:  
 Defines the method of grabbing `Followers` and `Following` data to compare with each other to find **mutual following**
 > **Knowledge Base**:  
-Every time you grab `Followers` and/or `Following` data in `"full"` range of **any** user, it is also gonna be _stored in some corner_ of `InstaPy` **for that session**.
+Every time you grab `Followers` and/or `Following` data in `"full"` range of **any** user, it is also gonna be _stored in some corner_ of `FacebookPy` **for that session**.
 
 + `live_match=False`:
     + If the user **already do have** a `Followers` and/or `Following` data loaded _earlier_ in the **same** session, it will run a _smart_ `data-matching` _algorithm_.  
@@ -1693,7 +1693,7 @@ Every time you grab `Followers` and/or `Following` data in `"full"` range of **a
 
 `store_locally`:  
 Gives the _option_ to `save` the loaded `Mutual Following` data in a **local storage**  
-The files will be saved _into_ your **logs folder**, `~/InstaPy/logs/YourOwnUsername/relationship_data/WinnieThePooh/mutual_following/` directory.  
+The files will be saved _into_ your **logs folder**, `~/FacebookPy/logs/YourOwnUsername/relationship_data/WinnieThePooh/mutual_following/` directory.  
 Sample **filename** `11-06-2018~[3872-2571]~1120.json`:  
 + `11-06-2018` means the **time** of the data acquisition.
 + `3872` means the **count** of the followers retrieved.
@@ -1912,10 +1912,10 @@ This project uses MeaningCloud™ (http://www.meaningcloud.com) for Text Analyti
 
 ### Use a proxy
 
-You can use InstaPy behind a proxy by specifying server address and port
+You can use FacebookPy behind a proxy by specifying server address and port
 
 ```python
-session = InstaPy(username=insta_username, password=insta_password, proxy_address='8.8.8.8', proxy_port=8080)
+session = FacebookPy(username=facebook_username, password=facebook_password, proxy_address='8.8.8.8', proxy_port=8080)
 ```
 
 To use proxy with authentication you should firstly generate proxy chrome extension (works only with headless_browser=False unless using FF where it works with headless_browser=True).
@@ -1926,15 +1926,15 @@ from proxy_extension import create_proxy_extension
 proxy = 'login:password@ip:port'
 proxy_chrome_extension = create_proxy_extension(proxy)
 
-session = InstaPy(username=insta_username, password=insta_password, proxy_chrome_extension=proxy_chrome_extension, nogui=True)
+session = FacebookPy(username=facebook_username, password=facebook_password, proxy_chrome_extension=proxy_chrome_extension, nogui=True)
 ```
 
 ### Switching to Firefox
 
-Chrome is the default browser, but InstaPy provides support for Firefox as well.
+Chrome is the default browser, but FacebookPy provides support for Firefox as well.
 
 ```python
-session = InstaPy(username=insta_username, password=insta_password, use_firefox=True)
+session = FacebookPy(username=facebook_username, password=facebook_password, use_firefox=True)
 ```
 
 ### Emoji Support
@@ -2081,7 +2081,7 @@ session.clarifai_check_img_for(['building'])
 ```python
 # checks the image for keywords food and lunch. To check for both, set full_match in
 # in session.set_use_clarifia to True, and if both keywords are found,
-# InstaPy will comment with the given comments. If full_match is False (default), it only
+# FacebookPy will comment with the given comments. If full_match is False (default), it only
 # requires a single tag to match Clarifai results.
 
 session.set_use_clarifai(enabled=True, api_key='xxx', full_match=True)
@@ -2101,7 +2101,7 @@ To setup a workflow, see the [Workflow Documentation](https://www.clarifai.com/d
 
 **NOTE** :As mentioned above, the `Focus`, `Face Detection`, `Face Embedding`, and `General Embedding` models are not current supported.
 
-Once you have a workflow setup, you can use InstaPy to check images with the Clarifai Image API by setting the `workflow` parameter in `session.set_use_clarifai` to the name of your custom workflow.
+Once you have a workflow setup, you can use FacebookPy to check images with the Clarifai Image API by setting the `workflow` parameter in `session.set_use_clarifai` to the name of your custom workflow.
 
 Let's say you want to comment 'Great shot!' on images of men or women with the hashtag `#selfie`, but you want to make sure not to comment on images which might contain inappropriate content. To get general concepts, e.g. `woman`, you would setup your workflow using `General` and to check the image for the concepts `nsfw` and `explicit` you would also want to add NSFW and Moderation models to your workflow.
 
@@ -2110,7 +2110,7 @@ For example:
 session.set_use_clarifai(enabled=True, api_key='xxx', workflow=['your-workflow'], proxy='123.123.123.123:5555')
 session.clarifai_check_img_for(['woman', 'man'], ['nsfw', 'explicit', 'suggestive'], comment=True, comments=['Great shot!'])
 ```
-If Clarifai's response includes the concepts of either `woman` or `man` but also includes at least `nsfw`, `explicit`, or `suggestive`, InstaPy will not comment. On the other hand, if Clarifai's response includes the concepts of either `woman` or `man` but does not include any of the concepts `nsfw`, `explicit`, or `suggestive`, InstaPy will add the comment `Great shot!`
+If Clarifai's response includes the concepts of either `woman` or `man` but also includes at least `nsfw`, `explicit`, or `suggestive`, FacebookPy will not comment. On the other hand, if Clarifai's response includes the concepts of either `woman` or `man` but does not include any of the concepts `nsfw`, `explicit`, or `suggestive`, FacebookPy will add the comment `Great shot!`
 
 
 ### Querying Multiple Models (Multiple API Calls)
@@ -2154,7 +2154,7 @@ Be aware that you cannot check video using a `workflow` and that only a select n
 Use the `nogui` parameter to interact with virtual display
 
 ```
-session = InstaPy(username='test', password='test', nogui=True)
+session = FacebookPy(username='test', password='test', nogui=True)
 ```
 
 ## Running on a Headless Browser
@@ -2164,19 +2164,19 @@ session = InstaPy(username='test', password='test', nogui=True)
 Use `headless_browser` parameter to run the bot via the CLI. Works great if running the scripts locally, or to deploy on a server. No GUI, less CPU intensive. [Example](http://g.recordit.co/BhEgXANLhJ.gif)
 
 ```
-session = InstaPy(username='test', password='test', headless_browser=True)
+session = FacebookPy(username='test', password='test', headless_browser=True)
 ```
 
 ## Running Multiple Accounts
 
 Use the multi_logs parameter if you are going to use multiple accounts and want the log files stored per account.
 ```
-session = InstaPy(username='test', password='test', multi_logs=True)
+session = FacebookPy(username='test', password='test', multi_logs=True)
 ```
 
 ## Running with Docker microservices manual
 
-Docker allows very easy and fast run of the instapy bot without any pain and tears.
+Docker allows very easy and fast run of the facebookpy bot without any pain and tears.
 
 ### 0. Preparations
 
@@ -2184,15 +2184,15 @@ Install docker from the official website [https://www.docker.com/](https://www.d
 
 Install VNC viewer if you do not have one. For windows, a good program is  [http://www.tightvnc.com/](http://www.tightvnc.com/)
 
-### 1. Set your instagram login and password
+### 1. Set your facebook login and password
 
-Open `docker_quickstart.py` and fill the quotes after insta_username and insta_password with your credentials.
+Open `docker_quickstart.py` and fill the quotes after facebook_username and facebook_password with your credentials.
 
 Don't forget to make other changes for the file as you want to. Read the documentation above for info.
 
 ### 2. Run and build containers with docker-compose
 
-First you need to open your terminal, move to the root folder (usually with the `cd` command) of instapy project and then type:
+First you need to open your terminal, move to the root folder (usually with the `cd` command) of facebookpy project and then type:
 ```bash
 docker-compose up -d --build
 ```
@@ -2203,7 +2203,7 @@ That's all! At this step, you are already successfully running your personal bot
 
 Run your VNC viewer, and type address and port `localhost:5900`. The password is `secret`.
 
-### 4. Stop your instapy bot
+### 4. Stop your facebookpy bot
 
 Use your terminal again, type in the same window:
 ```bash
@@ -2214,11 +2214,11 @@ Your bot is stopped!
 
 ### 5. Further steps
 
-Those are just basic steps to run instapy bot on your PC with docker. There are other docker-compose settings file in the root of project.
+Those are just basic steps to run facebookpy bot on your PC with docker. There are other docker-compose settings file in the root of project.
 
 #### Development environment to run, test and debug by SSH
 
-Use it to help us with development and test instapy! `docker-dev.yml` file.
+Use it to help us with development and test facebookpy! `docker-dev.yml` file.
 
 ```bash
 docker-compose -f docker-dev.yml up -d
@@ -2244,28 +2244,28 @@ docker-compose -f docker-prod.yml up -d
 
 First you need to build the image by running this in the Terminal:
 ```bash
-docker build -t instapy ./docker_conf/all_in_one
+docker build -t facebookpy ./docker_conf/all_in_one
 ```
 
 Make sure to use the `nogui` feature:
 ```python
 # you can use the nogui parameter to use a virtual display
 
-session = InstaPy(username='test', password='test', nogui=True)
+session = FacebookPy(username='test', password='test', nogui=True)
 ```
 
 ### 2. Run in a Container
 
 After the build succeeds, you can simply run the container with:
 ```bash
-docker run --name=instapy -e INSTA_USER=<your-user> -e INSTA_PW=<your-pw> -d --rm instapy
+docker run --name=facebookpy -e FACEBOOK_USER=<your-user> -e FACEBOOK_PW=<your-pw> -d --rm facebookpy
 ```
 
-## Automate InstaPy
+## Automate FacebookPy
 
 ### [Windows Task Scheduler](https://msdn.microsoft.com/en-us/library/windows/desktop/aa383614(v=vs.85).aspx)
 
-You can use Window's built in Task Scheduler to automate InstaPy, using a variety of trigger types: time, login, computer idles, etc. To schedule a simple daily run of an Instapy script follow the below directions
+You can use Window's built in Task Scheduler to automate FacebookPy, using a variety of trigger types: time, login, computer idles, etc. To schedule a simple daily run of an Facebookpy script follow the below directions
 1. Open [Windows Task Scheduler](https://msdn.microsoft.com/en-us/library/windows/desktop/aa383614(v=vs.85).aspx)
 2. Select "Create Basic Task"
 3. Fill out "Name" and "Description" as desired, click "Next"
@@ -2273,24 +2273,24 @@ You can use Window's built in Task Scheduler to automate InstaPy, using a variet
 5. On "Daily" screen, hit "Next"
 6. "Action Screen" select "Start a program" and then click "Next"
 7. "Program/script" enter the path, or browse to select the path to python. ([How to find python path on Windows](https://stackoverflow.com/questions/647515/how-can-i-get-python-path-under-windows))
-8. "Add arguments" input the InstaPy script path you wish to run. (Example: C:\Users\USER_NAME\Documents\GitHub\InstaPy\craigquick.py)
-9. "Start in" input Instapy install location (Example: C:\Users\USER_NAME\Documents\GitHub\InstaPy\). Click "Next"
+8. "Add arguments" input the FacebookPy script path you wish to run. (Example: C:\Users\USER_NAME\Documents\GitHub\FacebookPy\craigquick.py)
+9. "Start in" input Facebookpy install location (Example: C:\Users\USER_NAME\Documents\GitHub\FacebookPy\). Click "Next"
 10. To finish the process, hit "Finish"
 
 
 
 ### `cron`
 
-You can add InstaPy to your crontab, so that the script will be executed regularly. This is especially useful for servers, but be sure not to break Instagrams follow and like limits.
+You can add FacebookPy to your crontab, so that the script will be executed regularly. This is especially useful for servers, but be sure not to break Facebooks follow and like limits.
 
 ```
 # Edit or create a crontab
 crontab -e
-# Add information to execute your InstaPy regularly.
-# With cd you navigate to your InstaPy folder, with the part after &&
+# Add information to execute your FacebookPy regularly.
+# With cd you navigate to your FacebookPy folder, with the part after &&
 # you execute your quickstart.py with python. Make sure that those paths match
 # your environment.
-45 */4 * * * cd /home/user/InstaPy && /usr/bin/python ./quickstart.py
+45 */4 * * * cd /home/user/FacebookPy && /usr/bin/python ./quickstart.py
 ```
 
 ### [Schedule](https://github.com/dbader/schedule)
@@ -2302,13 +2302,13 @@ pip install schedule
 ```
 
 ```python
-from instapy import InstaPy
+from facebookpy import FacebookPy
 import schedule
 import time
 
 def job():
     try:
-        session = InstaPy(selenium_local_session=False) # Assuming running in Compose
+        session = FacebookPy(selenium_local_session=False) # Assuming running in Compose
         session.set_selenium_remote_session(selenium_url='http://selenium:4444/wd/hub')
         session.login()
         session.set_do_comment(enabled=True, percentage=20)
@@ -2333,14 +2333,14 @@ while True:
 ## Workspace folders
 ###### _InstaPy_ stores user's data files inside the **workspace** folder.
 
-By default, it is gonna be the **InstaPy** folder at your home folder.  
-Such as, if your username is `Cherry`, let's show where your InstaPy folder would be,
+By default, it is gonna be the **FacebookPy** folder at your home folder.  
+Such as, if your username is `Cherry`, let's show where your FacebookPy folder would be,
 
 |   OS    |       home folder     | _InstaPy_ **workspace** folder |  
 | ------- | --------------------- | ------------------------------ |
-| Windows | `C:\\Users\\Cherry\\` | `C:\\Users\\Cherry\\InstaPy\\` |
-|   Mac   |    `/Users/Cherry/`   |    `/Users/Cherry/InstaPy/`    |
-|  Linux  |    `/home/Cherry/`    |    `/home/Cherry/InstaPy/`     |
+| Windows | `C:\\Users\\Cherry\\` | `C:\\Users\\Cherry\\FacebookPy\\` |
+|   Mac   |    `/Users/Cherry/`   |    `/Users/Cherry/FacebookPy/`    |
+|  Linux  |    `/home/Cherry/`    |    `/home/Cherry/FacebookPy/`     |
 
 Note that, at the start of each run, it shows you the **workspace** folder in use.
 
@@ -2364,22 +2364,22 @@ Such as,
 
 
 ### Migrating your data to the workspace folder
-After installing InstaPy with pip, you have to run it once by calling `python quickstart.py`. Once the web browser opens, you can abort the session by closing the browser or your terminal. 
+After installing FacebookPy with pip, you have to run it once by calling `python quickstart.py`. Once the web browser opens, you can abort the session by closing the browser or your terminal. 
 
-You will now find an `InstaPy` folder located at the above mentioned home folder.
+You will now find an `FacebookPy` folder located at the above mentioned home folder.
 Simply copy and paste the content of your logs folder into that workspace folder in order to assure that all your data is migrated.
 
-> Please note that you only have to do this once. After that, you can get rid of your old, downloaded version of this repository since the InstaPy folder in your home folder will now be the default location for your data.
+> Please note that you only have to do this once. After that, you can get rid of your old, downloaded version of this repository since the FacebookPy folder in your home folder will now be the default location for your data.
 
 ### Set a _custom_ workspace folder
 You can use `set_workspace()` function to set a custom **workspace** folder,
 ```python
-from instapy import InstaPy
-from instapy import set_workspace
+from facebookpy import FacebookPy
+from facebookpy import set_workspace
 
-set_workspace("C:\\My\\Custom\\Path\\InstaPy\\")
+set_workspace("C:\\My\\Custom\\Path\\FacebookPy\\")
 
-session = InstaPy(...)
+session = FacebookPy(...)
 ```
 
 <details>
@@ -2390,15 +2390,15 @@ session = InstaPy(...)
   </summary>
 
 **1**-) You have to set your custom **workspace** folder before instantiates _InstaPy_.  
-**2**-) Your custom **workspace** folder must have `InstaPy` (*_case sensitive_) word in its name.  
+**2**-) Your custom **workspace** folder must have `FacebookPy` (*_case sensitive_) word in its name.  
 + If your path does not have it,  
 `set_workspace("C:\\Other\\Path\\InstaPie\\")`  
 then your **workspace** folder will be named and made as,  
-`"C:\\Other\\Path\\InstaPie\\InstaPy\\"`  
-👆🏼 `InstaPy` directory will be added as a new subdirectory in there, and be your **workspace** folder.
+`"C:\\Other\\Path\\InstaPie\\FacebookPy\\"`  
+👆🏼 `FacebookPy` directory will be added as a new subdirectory in there, and be your **workspace** folder.
 
-+ If your custom **workspace** folder name has a case-insensitive default name in it- `Instapy`, `instapy`, `instaPY`, etc.,  
-`set_workspace("C:\\Other\\Path\\instapy2\\")`  
++ If your custom **workspace** folder name has a case-insensitive default name in it- `Facebookpy`, `facebookpy`, `instaPY`, etc.,  
+`set_workspace("C:\\Other\\Path\\facebookpy2\\")`  
 then your **workspace** folder will be,   
 `"C:\\Other\\Path\\InstaPy2\\"`  
 as you can see, it normalizes name and sets the **workspace** folder.
@@ -2411,7 +2411,7 @@ as you can see, it normalizes name and sets the **workspace** folder.
 
 
 ### Set a custom **workspace** folder _permanently_ with ease
-If you want to set your custom **workspace** folder permanently and more easily, add a new environmental variable named `INSTAPY_WORKSPACE` with the value of the path of the desired **workspace** folder to your operating system.  
+If you want to set your custom **workspace** folder permanently and more easily, add a new environmental variable named `FACEBOOKPY_WORKSPACE` with the value of the path of the desired **workspace** folder to your operating system.  
 Then that will be the default **workspace** folder in all sessions [unless you change it using `set_workspace()` or so].
 
 
@@ -2419,14 +2419,14 @@ Then that will be the default **workspace** folder in all sessions [unless you c
 If you ever want to **get** the _location_ of your **workspace** folder, you can use
 the `get_workspace()` function,
 ```python
-from instapy import InstaPy
-from instapy import smart_run
-from instapy import set_workspace
+from facebookpy import FacebookPy
+from facebookpy import smart_run
+from facebookpy import set_workspace
 from isntapy import get_workspace
 
 set_workspace(path="C:\\Custom\\Path\\InstaPy_super\\")
 
-session = InstaPy(username="abc", password="123")
+session = FacebookPy(username="abc", password="123")
 
 with smart_run(session):
     # lots of code
@@ -2442,14 +2442,14 @@ It means, you must use only the `set_workspace()` feature to set a custom **work
 You can set any of the **custom** _locations_ you like, **any time**!  
 E.g. setting the _location_ of the **database** file,  
 ```python
-from instapy import InstaPy
-from instapy import set_workspace
+from facebookpy import FacebookPy
+from facebookpy import set_workspace
 
 
 set_workspace(...)   # if you will set a custom workspace, set it before anything
-Settings.db_location = "C:\\New\\Place\\DB\\instapy.db"
+Settings.db_location = "C:\\New\\Place\\DB\\facebookpy.db"
 
-session = InstaPy(...)
+session = FacebookPy(...)
 # code code
 ```
 
@@ -2466,8 +2466,8 @@ _E.g. while instantiating _InstaPy_, you make a logger at that given location an
 
 **b**-) If you set a custom **workspace** once and then set it again then your data locations will still use the previous locations:
 ```python
-from instapy import InstaPy
-from instapy import set_workspace
+from facebookpy import FacebookPy
+from facebookpy import set_workspace
 
 # first time settings custom workspace folder
 set_workspace("C:\\Users\\MMega\\Desktop\\My_InstaPy\\")
@@ -2477,7 +2477,7 @@ set_workspace("C:\\Users\\MMega\\Documents\\My_InstaPy\\")
 # locations of data files, e.g. chromedriver executable, logfolder, db will use first custom workspace locations.
 # if you still want to change their location to second one, then do this one by one:
 Settings.log_location = "C:\\Users\\MMega\\Documents\\My_InstaPy\\logs\\"
-Settings.database_location = "C:\\Users\\MMega\\Documents\\My_InstaPy\\db\\instapy.db"
+Settings.database_location = "C:\\Users\\MMega\\Documents\\My_InstaPy\\db\\facebookpy.db"
 Settings.chromedriver_location = "C:\\Users\\MMega\\Documents\\My_InstaPy\\logs\\chromedriver.exe"
 ```
 As you can see, you have to use `set_workspace()` only once.  
@@ -2487,17 +2487,17 @@ Why it is so difficult in those 👆🏼 regards?
 </details>
 
 ## Extensions
-[1. Session scheduling with Telegram](https://github.com/Tkd-Alex/Telegram-InstaPy-Scheduling)
+[1. Session scheduling with Telegram](https://github.com/Tkd-Alex/Telegram-FacebookPy-Scheduling)
 
 ## Extra Information
 
 ### Custom chromedriver version
-By default, InstaPy downloads the latest version of the chromedriver.
+By default, FacebookPy downloads the latest version of the chromedriver.
 Unless you need a specific version of the chromdriver, you're ready to go.
 
 You have two options to install the version you want to have:
-1. You can get the desired version of chromedriver binary by installing the same version of instapy-chromedriver package by pip [per their python version].
-1. You can manually download and put the chromedriver binary into the assets folder [at their workspace] and then InstaPy will always use it. You can find the specific versions of **chromedriver** for your OS [here](https://sites.google.com/a/chromium.org/chromedriver/downloads). Extract the .**zip** file and put it into the **assets** folder [at your **workspace** folder].
+1. You can get the desired version of chromedriver binary by installing the same version of facebookpy-chromedriver package by pip [per their python version].
+1. You can manually download and put the chromedriver binary into the assets folder [at their workspace] and then FacebookPy will always use it. You can find the specific versions of **chromedriver** for your OS [here](https://sites.google.com/a/chromium.org/chromedriver/downloads). Extract the .**zip** file and put it into the **assets** folder [at your **workspace** folder].
 
 ### Using one of the templates
 
@@ -2533,14 +2533,14 @@ session.set_simulation(enabled=True, percentage=66)
 
 
 ### Disable Image Loading
-If you want to save some bandwidth, you can simply disable the image/video loading. This will lead to, if you watch InstaPy running, not downloading and displaying any more images and videos.
+If you want to save some bandwidth, you can simply disable the image/video loading. This will lead to, if you watch FacebookPy running, not downloading and displaying any more images and videos.
 
 > Note: This can save a tremendous amount of data. This is turned off by default (`False`).
 
-To do this simply pass the `disable_image_load=True` parameter in the InstaPy constructor like so:
+To do this simply pass the `disable_image_load=True` parameter in the FacebookPy constructor like so:
 ```python
-session = InstaPy(username=insta_username,
-                  password=insta_password,
+session = FacebookPy(username=facebook_username,
+                  password=facebook_password,
                   headless_browser=False,
 		              disable_image_load=True,
                   multi_logs=True)
@@ -2557,10 +2557,10 @@ chromedriver_windows
 
 
 ### Changing DB or Chromedriver locations
-If you want to change the location/path of either the DB or the chromedriver, simply head into the `instapy/settings.py` file and change the following lines.
-Set these in instapy/settings.py if you're locating the library in the /usr/lib/pythonX.X/ directory.
+If you want to change the location/path of either the DB or the chromedriver, simply head into the `facebookpy/settings.py` file and change the following lines.
+Set these in facebookpy/settings.py if you're locating the library in the /usr/lib/pythonX.X/ directory.
 ```
-Settings.database_location = '/path/to/instapy.db'
+Settings.database_location = '/path/to/facebookpy.db'
 Settings.chromedriver_location = '/path/to/chromedriver'
 ```
 
@@ -2632,11 +2632,11 @@ Why? - cos,
 
 To solve that confusion, use this **style** to install packages by **pip**,
 ```powershell
-# install "instapy" package into python 3.7
-python -m pip install instapy
+# install "facebookpy" package into python 3.7
+python -m pip install facebookpy
 
-# install "instapy" package into python 2.7
-py2 -m pip install instapy
+# install "facebookpy" package into python 2.7
+py2 -m pip install facebookpy
 ```
 
 As you can see, it is,  
@@ -2647,14 +2647,14 @@ rather than,
 Other **pip** commands can be accomplished the same way, too.  
 Such as,
 ```powershell
-# update "instapy" package
-python -m pip install instapy -U
+# update "facebookpy" package
+python -m pip install facebookpy -U
 
-# uninstall "instapy" package
-python -m pip uninstall instapy
+# uninstall "facebookpy" package
+python -m pip uninstall facebookpy
 
-# show details of the "instapy" package installed by pip
-python -m pip show instapy
+# show details of the "facebookpy" package installed by pip
+python -m pip show facebookpy
 ```
 
 Using this style, you will never have to worry about what is the correct alias of the **pip** for you specific _python_ installation and all you have to know is just the _python_'s alias you use.  
@@ -2669,7 +2669,7 @@ E.g., let's assume you have,
 ```python
 # inside quickstart script
 
-session = InstaPy(username="abc")
+session = FacebookPy(username="abc")
 ```
 and you start that **quickstart** script as,
 ```erlang
@@ -2777,7 +2777,7 @@ You can also import that function into your **quickstart** script and parse the 
 ```python
 # inside quickstart script
 
-from instapy.util import parse_cli_args
+from facebookpy.util import parse_cli_args
 
 
 cli_args = parse_cli_args()
@@ -2803,20 +2803,20 @@ python quickstart.py -u abc
 
 ### Contributors
 
-This project exists thanks to all the people who contribute. [[Contribute](https://github.com/timgrossmann/InstaPy/wiki/How-to-Contribute)].
+This project exists thanks to all the people who contribute. [[Contribute](https://github.com/timgrossmann/FacebookPy/wiki/How-to-Contribute)].
 
-<a href="https://github.com/timgrossmann/InstaPy/graphs/contributors"><img src="https://opencollective.com/instapy/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/timgrossmann/FacebookPy/graphs/contributors"><img src="https://opencollective.com/facebookpy/contributors.svg?width=890&button=false" /></a>
 
 ### Backers
 
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/instapy#backer)]
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/facebookpy#backer)]
 
-<a href="https://opencollective.com/instapy#backers" target="_blank"><img src="https://opencollective.com/instapy/backers.svg?width=890"></a>
+<a href="https://opencollective.com/facebookpy#backers" target="_blank"><img src="https://opencollective.com/facebookpy/backers.svg?width=890"></a>
 
 ### Sponsors
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/instapy#sponsor)]
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/facebookpy#sponsor)]
 
-<a href="https://opencollective.com/instapy/sponsor/0/website" target="_blank"><img src="https://opencollective.com/instapy/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/facebookpy/sponsor/0/website" target="_blank"><img src="https://opencollective.com/facebookpy/sponsor/0/avatar.svg"></a>
 
 

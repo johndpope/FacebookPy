@@ -10,8 +10,8 @@ from io import open as io_open
 import re
 
 
-summary = "Tool for automated Instagram interactions"
-project_homepage = "https://github.com/timgrossmann/InstaPy"
+summary = "Tool for automated Facebook interactions"
+project_homepage = "https://github.com/timgrossmann/FacebookPy"
 here = path.abspath(path.dirname(__file__))
 
 
@@ -26,17 +26,17 @@ with open("requirements.txt") as f:
 documentation = readall("README.md")
 metadata = dict(
     re.findall(
-        r"""__([a-z]+)__ = "([^"]+)""", readall("instapy", "__init__.py")))
+        r"""__([a-z]+)__ = "([^"]+)""", readall("facebookpy", "__init__.py")))
 
 setup(
-    name="instapy",
+    name="facebookpy",
     version=metadata["version"],
     description=summary,
     long_description=documentation,
     long_description_content_type="text/markdown",
     author=u"Tim Großmann",
     author_email="contact.timgrossmann@gmail.com",
-    maintainer="InstaPy Community at Github",
+    maintainer="FacebookPy Community at Github",
     license="GPLv3",
     url=project_homepage,
     download_url=(project_homepage + "/archive/master.zip"),
@@ -46,17 +46,17 @@ setup(
         "Bug Reports": (project_homepage + "/issues"),
         "Funding": "https://www.paypal.me/supportInstaPy",
         "Say Thanks!": "http://saythanks.io/to/uluQulu",
-        "Source": (project_homepage + "/tree/master/instapy")
+        "Source": (project_homepage + "/tree/master/facebookpy")
     },
-    packages=["instapy"],
+    packages=["facebookpy"],
     # include_package_data=True,  # <- packs every data file in the package
     package_data={   # we need only the files below:
-        "instapy": ["icons/Windows/*.ico",
+        "facebookpy": ["icons/Windows/*.ico",
                     "icons/Linux/*.png",
                     "icons/Mac/*.icns"]
     },
     keywords=(
-        "instapy python instagram automation \
+        "facebookpy python facebook automation \
          marketing promotion bot selenium"
     ),
     classifiers=["Development Status :: 4 - Beta",

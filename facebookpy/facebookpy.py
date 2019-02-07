@@ -17,7 +17,7 @@ from contextlib import contextmanager
 from copy import deepcopy
 import unicodedata
 
-# import InstaPy modules
+# import FacebookPy modules
 from .clarifai_util import check_image
 from .comment_util import comment_image
 from .comment_util import verify_commenting
@@ -78,7 +78,7 @@ from selenium.common.exceptions import NoSuchElementException
 from .exceptions import InstaPyError
 
 
-class InstaPy:
+class FacebookPy:
     """Class to be instantiated to use the script"""
 
     def __init__(self,
@@ -133,8 +133,8 @@ class InstaPy:
         self.bypass_with_mobile = bypass_with_mobile
         self.disable_image_load = disable_image_load
 
-        self.username = username or os.environ.get('INSTA_USER')
-        self.password = password or os.environ.get('INSTA_PW')
+        self.username = username or os.environ.get('FACEBOOK_USER')
+        self.password = password or os.environ.get('FACEBOOK_PW')
         Settings.profile["name"] = self.username
 
 
@@ -268,14 +268,14 @@ class InstaPy:
         Settings.show_logs = show_logs or None
         self.multi_logs = multi_logs
         self.logfolder = get_logfolder(self.username, self.multi_logs)
-        self.logger = self.get_instapy_logger(self.show_logs)
+        self.logger = self.get_facebookpy_logger(self.show_logs)
 
         get_database(make=True)  # IMPORTANT: think twice before relocating
 
         if self.selenium_local_session is True:
             self.set_selenium_local_session()
 
-    def get_instapy_logger(self, show_logs):
+    def get_facebookpy_logger(self, show_logs):
         """
         Handles the creation and retrieval of loggers to avoid
         re-instantiation.
@@ -285,7 +285,7 @@ class InstaPy:
         if existing_logger is not None:
             return existing_logger
         else:
-            # initialize and setup logging system for the InstaPy object
+            # initialize and setup logging system for the FacebookPy object
             logger = logging.getLogger(self.username)
             logger.setLevel(logging.DEBUG)
             file_handler = logging.FileHandler(
@@ -3358,7 +3358,7 @@ class InstaPy:
     def unfollow_users(self,
                        amount=10,
                        customList=(False, [], "all"),
-                       InstapyFollowed=(False, "all"),
+                       FacebookpyFollowed=(False, "all"),
                        nonFollowers=False,
                        allFollowing=False,
                        style="FIFO",
@@ -3391,7 +3391,7 @@ class InstaPy:
                                   self.username,
                                   amount,
                                   customList,
-                                  InstapyFollowed,
+                                  FacebookpyFollowed,
                                   nonFollowers,
                                   allFollowing,
                                   style,
@@ -4172,8 +4172,8 @@ class InstaPy:
                 # cos this method has just one iterator
                 break
 
-            if "https://www.instagram.com/p/" not in url:
-                url = "https://www.instagram.com/p/" + url
+            if "https://www.facebook.com/p/" not in url:
+                url = "https://www.facebook.com/p/" + url
 
             self.logger.info('URL [{}/{}]'.format(index + 1, len(urls)))
             self.logger.info('--> {}'.format(url.encode('utf-8')))

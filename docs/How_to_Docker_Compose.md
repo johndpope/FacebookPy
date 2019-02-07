@@ -1,10 +1,10 @@
 # How to Docker
 
 ## Requirements
-In order to run InstaPy under this setup, is needed to have installed [docker](https://www.docker.com/get-started) and [docker-compose](https://docs.docker.com/compose/install/)
+In order to run FacebookPy under this setup, is needed to have installed [docker](https://www.docker.com/get-started) and [docker-compose](https://docs.docker.com/compose/install/)
 
 ## Directory structure
-Create a folder called **z_{user}** in repo root directory, where `{user}` is your instagram user. Since under this folder we will store sensible data, starting the name with **z_** avoids it to be published on GitHub.
+Create a folder called **z_{user}** in repo root directory, where `{user}` is your facebook user. Since under this folder we will store sensible data, starting the name with **z_** avoids it to be published on GitHub.
 The configuration is based on 3 files `start.py`, `docker-compose.yaml` and `data.yaml`.
 
 ### Docker compose
@@ -36,7 +36,7 @@ services:
 ### Data file
 What it stores in the example [Friends last post likes and interact with user based on hashtags](../quickstart_templates/Friends-last-post-likes-and-interact-with-user-based-on-hashtags.py):
 - Our credentials
-- A *protected* friend list which we want to keep after any acction from InstaPy
+- A *protected* friend list which we want to keep after any acction from FacebookPy
 - A list of hashtags that we whant to interact with
 - Control Flow
 
@@ -52,8 +52,8 @@ do_unfollow: boolean
 friendlist: [list]
 hashtags: [list]
 ```
-- username: Instagram Username
-- password: Instagram Password
+- username: Facebook Username
+- password: Facebook Password
 - friends_interaction: If `True` will like last two post from friendlist, if not, it won't even create _friends_ session
 - do_comments: If `True` will enable comments in like_by_tags interaction
 - do_follow: If `True` will enable follow users in like_by_tags interaction

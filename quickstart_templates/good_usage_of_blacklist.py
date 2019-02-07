@@ -9,15 +9,15 @@ NOTES:
 of this file :>
 """
 
-from instapy import InstaPy
-from instapy.util import smart_run
+from facebookpy import FacebookPy
+from facebookpy.util import smart_run
 
-insta_username = 'username'
-insta_password = 'password'
+facebook_username = 'username'
+facebook_password = 'password'
 
 # get a session!
-session = InstaPy(username=insta_username,
-                  password=insta_password,
+session = FacebookPy(username=facebook_username,
+                  password=facebook_password,
                   use_firefox=True,
                   page_delay=20,
                   bypass_suspicious_attempt=False,
@@ -73,7 +73,7 @@ with smart_run(session):
         unfollowed for whatever reason.
     """
     session.set_blacklist(enabled=False, campaign='blacklist')
-    session.unfollow_users(amount=1000, InstapyFollowed=(True, "all"),
+    session.unfollow_users(amount=1000, FacebookpyFollowed=(True, "all"),
                            style="FIFO", unfollow_after=None,
                            sleep_delay=600)
 
@@ -105,7 +105,7 @@ comments I use are only well-received by the followers of users in the first
 
 7-) Linux PRO-tip: This is a really basic command line syntax that I learned 
 yesterday, but less technical people may not have know about it as well. 
-using `&&` in terminal, you can chain InstaPy programs! if you send:
+using `&&` in terminal, you can chain FacebookPy programs! if you send:
 
 ```
 python InstaPyprogram1 && python InstaPyprogram2

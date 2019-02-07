@@ -20,12 +20,12 @@ _The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [0.1.1] - 2019-02-04
 ### Added
 - **Workspace** folders; Now user's data files will be stored at the **workspace** folder.  
-- _InstaPy_ has been published to _PyPI_; Now, can install/manage it by **pip** as **instapy** package.  
+- _InstaPy_ has been published to _PyPI_; Now, can install/manage it by **pip** as **facebookpy** package.  
 - _Github_ releases has been initiated; Will be released in-parallel with _PyPI_ deployments.  
 - Add Universal Testing Framework- **tox** with **pytest** & **flake8**.  
 - Upgrade _Travis CI_ usage (_**tox** as build script_).  
 - Send messages to _Discord_ #**status** channel about jobs' build states from _Travis CI_.
-- Add instapy-chromedriver package if no chromedriver is in path.
+- Add facebookpy-chromedriver package if no chromedriver is in path.
 - Add _argparsing_ feature. Users are now able to provide credentials (_and more_) through CLI args.
 - Turn off verification based on _relationship bounds_ **by default**, completely (_see #757815f commit_).
 - Simplify the default **quickstart** script much more.
@@ -128,7 +128,7 @@ _The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased] - 2018-12-08
 ### Fixed
-- Remove https://i.instagram.com/api/v1/users/{}/info/ as it not working and killing the unfollow with error.
+- Remove https://i.facebook.com/api/v1/users/{}/info/ as it not working and killing the unfollow with error.
 - Fix logging uncertain having no userid nor time log, will be important for sync feature.
 - Fix get active users when Video have no likes button / no posts in page.
 
@@ -151,13 +151,13 @@ _The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Added mandatory_language (updated check_link definition in like_util).
 
 ### Fixed
-- Add self.aborts for the follow followers and follow following because otherwise InstaPy won't exit properly on them.
+- Add self.aborts for the follow followers and follow following because otherwise FacebookPy won't exit properly on them.
 
 
 ## [Unreleased] - 2018-11-28
 ### Added
 - A new feature - Interact By Comments to **auto-like** comments, **auto-reply** to them, etc. (_see **README**_).  
-- New text analytics - MeaningCloud Sentiment Analysis API & Yandex Translate API (_Language Detection & Translation_) integrated into **InstaPy** for doing _sophisticated_ text analysis (_see **README**_).
+- New text analytics - MeaningCloud Sentiment Analysis API & Yandex Translate API (_Language Detection & Translation_) integrated into **FacebookPy** for doing _sophisticated_ text analysis (_see **README**_).
 
 ### Changed
 - Speed up _logging in_ at least 25 (_default `page_delay`_) seconds (_see #ee6acba commit_).
@@ -200,7 +200,7 @@ _The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased] - 2018-10-29
 ### Added
-- This CHANGELOG file to hopefully serve as a useful resource for InstaPy fellas to stay up-to-date with the changes happened so far.
+- This CHANGELOG file to hopefully serve as a useful resource for FacebookPy fellas to stay up-to-date with the changes happened so far.
 - **Custom action delays** capability (_see **README**_).
 - Now follow engine has the same compact _action verification procedure_ used in the unfollow engine.
 - Lots of stability in action verification steps which are held at newly added `verify_action` function.

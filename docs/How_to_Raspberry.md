@@ -1,4 +1,4 @@
-# Tutorial for Raspberry Pi3b: Install InstaPy with Python 3.7 and venv
+# Tutorial for Raspberry Pi3b: Install FacebookPy with Python 3.7 and venv
 
 ## Basic Raspbian Configuration
 NOTE: _If you add an empty file named ssh to the boot directory, ssh will be enabled when you first start your RPi (more info on the official website - section 3 - [here](https://www.raspberrypi.org/documentation/remote-access/ssh/)). If you do this, you can connect your RPi via ethernet, ssh in (once you have your ip) and skip right to the update step below (step 7). If you do not want to do this, follow the initial setup instructions to connect peripherals below._
@@ -47,15 +47,15 @@ NOTE: _If you add an empty file named ssh to the boot directory, ssh will be ena
 17. ```rm Python-3.7.0.tar.xz```
 
 
-## Install InstaPy
+## Install FacebookPy
 
 1. ```sudo apt-get update && sudo apt-get upgrade```
 2. ```mkdir Projects```
 3. ```cd Projects```
 4. ```python3 -m venv /home/pi/Projects/venv37```
 5. ```source venv37/bin/activate```
-6. ```git clone https://github.com/timgrossmann/InstaPy.git```
-7. ```cd InstaPy```
+6. ```git clone https://github.com/timgrossmann/FacebookPy.git```
+7. ```cd FacebookPy```
 8. ```python3 -m pip install --user .```
 
 NOTE: _the last step (7.) takes quite a while!_
@@ -102,7 +102,7 @@ _Encountered some errors when trying to run the quickstart.py and ran the next 3
 10. ```sudo pip install pyvirtualdisplay```
 11. ```sudo reboot (may not be required, but no harm)```
 
-_Assuming you've modified quickstart.py to your liking and added your Instagram login to instapy.py_
+_Assuming you've modified quickstart.py to your liking and added your Facebook login to facebookpy.py_
 
 12. ```sudo xvfb-run python quickstart.py```
 

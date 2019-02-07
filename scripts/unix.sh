@@ -1,4 +1,4 @@
-echo "Unix InstaPy Setup"
+echo "Unix FacebookPy Setup"
 echo =============================================================================================
 arch=$(getconf LONG_BIT)
 kernel=$(uname)

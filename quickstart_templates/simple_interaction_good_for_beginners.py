@@ -11,11 +11,11 @@ like the script does. It runs 24/7 at rather slower speed, but without
 problems (so far).
 """
 
-from instapy import InstaPy
-from instapy.util import smart_run
+from facebookpy import FacebookPy
+from facebookpy.util import smart_run
 
 # get a session!
-session = InstaPy(username='', password='')
+session = FacebookPy(username='', password='')
 
 # let's go! :>
 with smart_run(session):

@@ -7,11 +7,11 @@ these settings
 """
 
 import random
-from instapy import InstaPy
-from instapy.util import smart_run
+from facebookpy import FacebookPy
+from facebookpy.util import smart_run
 
 # get a session!
-session = InstaPy(username='', password='')
+session = FacebookPy(username='', password='')
 
 # let's go! :>
 with smart_run(session):
@@ -66,5 +66,5 @@ with smart_run(session):
     # unfollow activity
     session.set_dont_unfollow_active_users(enabled=True, posts=3)
     session.unfollow_users(amount=random.randint(30, 100),
-                           InstapyFollowed=(True, "all"), style="FIFO",
+                           FacebookpyFollowed=(True, "all"), style="FIFO",
                            unfollow_after=90 * 60 * 60, sleep_delay=501)

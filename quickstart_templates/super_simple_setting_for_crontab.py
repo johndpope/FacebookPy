@@ -6,11 +6,11 @@ What does this quickstart script aim to do?
 it's been working since 5 months with no problem.
 """
 
-from instapy import InstaPy
-from instapy.util import smart_run
+from facebookpy import FacebookPy
+from facebookpy.util import smart_run
 
 # get a session!
-session = InstaPy(username='', password='')
+session = FacebookPy(username='', password='')
 
 # let's go! :>
 with smart_run(session):

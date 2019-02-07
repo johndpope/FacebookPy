@@ -36,20 +36,20 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
 
-default_profile_pic_instagram = [
-    "https://instagram.flas1-2.fna.fbcdn.net/vp"
+default_profile_pic_facebook = [
+    "https://facebook.flas1-2.fna.fbcdn.net/vp"
     "/a8539c22ed9fec8e1c43b538b1ebfd1d/5C5A1A7A/t51.2885-19"
     "/11906329_960233084022564_1448528159_a.jpg",
-    "https://scontent-yyz1-1.cdninstagram.com/vp"
+    "https://scontent-yyz1-1.cdnfacebook.com/vp"
     "/a8539c22ed9fec8e1c43b538b1ebfd1d/5C5A1A7A/t51.2885-19"
     "/11906329_960233084022564_1448528159_a.jpg",
-    "https://instagram.faep12-1.fna.fbcdn.net/vp"
+    "https://facebook.faep12-1.fna.fbcdn.net/vp"
     "/a8539c22ed9fec8e1c43b538b1ebfd1d/5C5A1A7A/t51.2885-19"
     "/11906329_960233084022564_1448528159_a.jpg",
-    "https://instagram.fbts2-1.fna.fbcdn.net/vp"
+    "https://facebook.fbts2-1.fna.fbcdn.net/vp"
     "/a8539c22ed9fec8e1c43b538b1ebfd1d/5C5A1A7A/t51.2885-19"
     "/11906329_960233084022564_1448528159_a.jpg",
-    "https://scontent-mia3-1.cdninstagram.com/vp"
+    "https://scontent-mia3-1.cdnfacebook.com/vp"
     "/a8539c22ed9fec8e1c43b538b1ebfd1d/5C5A1A7A/t51.2885-19"
     "/11906329_960233084022564_1448528159_a.jpg"]
 
@@ -262,7 +262,7 @@ def validate_username(browser,
 
     if min_posts or max_posts or skip_private or skip_no_profile_pic or \
             skip_business:
-        user_link = "https://www.instagram.com/{}/".format(username)
+        user_link = "https://www.facebook.com/{}/".format(username)
         web_address_navigator(browser, user_link)
 
     if min_posts or max_posts:
@@ -310,11 +310,11 @@ def validate_username(browser,
         except WebDriverException:
             logger.error("~cannot get the post profile pic url")
             return False, "---> Sorry, couldn't get if user profile pic url\n"
-        if (profile_pic in default_profile_pic_instagram or str(
+        if (profile_pic in default_profile_pic_facebook or str(
                 profile_pic).find(
                 "11906329_960233084022564_1448528159_a.jpg") > 0) and (
                 random.randint(0, 100) <= skip_no_profile_pic_percentage):
-            return False, "{} has default instagram profile picture\n".format(
+            return False, "{} has default facebook profile picture\n".format(
                 username)
 
     # skip business
@@ -377,7 +377,7 @@ def getUserData(query,
 
 
 def update_activity(action="server_calls"):
-    """ Record every Instagram server call (page load, content load, likes,
+    """ Record every Facebook server call (page load, content load, likes,
         comments, follows, unfollow). """
     # check action availability
     quota_supervisor("server_calls")
@@ -458,7 +458,7 @@ def add_user_to_blacklist(username, campaign, action, logger, logfolder):
 def get_active_users(browser, username, posts, boundary, logger):
     """Returns a list with usernames who liked the latest n posts"""
 
-    user_link = 'https://www.instagram.com/{}/'.format(username)
+    user_link = 'https://www.facebook.com/{}/'.format(username)
 
     # check URL of the webpage, if it already is user's profile page,
     # then do not navigate to it again
@@ -793,7 +793,7 @@ def click_element(browser, element, tryNum=0):
     Before committing over this code, you MUST justify your change
     and potentially adding an 'if' statement that applies to your
     specific case. See the following issue for more details
-    https://github.com/timgrossmann/InstaPy/issues/1232
+    https://github.com/timgrossmann/FacebookPy/issues/1232
 
     explaination of the following recursive function:
       we will attempt to click the element given, if an error is thrown
@@ -875,7 +875,7 @@ def format_number(number):
 
 
 def username_url_to_username(username_url):
-    a = username_url.replace("https://www.instagram.com/", "")
+    a = username_url.replace("https://www.facebook.com/", "")
     username = a.split('/')
     return username[0]
 
@@ -907,7 +907,7 @@ def get_number_of_posts(browser):
 def get_relationship_counts(browser, username, logger):
     """ Gets the followers & following counts of a given user """
 
-    user_link = "https://www.instagram.com/{}/".format(username)
+    user_link = "https://www.facebook.com/{}/".format(username)
 
     # check URL of the webpage, if it already is user's profile page,
     # then do not navigate to it again
@@ -1107,7 +1107,7 @@ def highlight_print(username=None, message=None, priority=None, level=None,
 
     elif priority == "workspace":
         # ._. ._. ._. ._. ._. ._. ._. ._. ._. ._. ._. ._.
-        # E.g.: |> Workspace in use: "C:/Users/El/InstaPy"
+        # E.g.: |> Workspace in use: "C:/Users/El/FacebookPy"
         upper_char = " ._. "
         lower_char = None
 
@@ -1272,7 +1272,7 @@ def emergency_exit(browser, username, logger):
     using_proxy = True if Settings.connection_type == "proxy" else False
     # ping the server only if connected directly rather than through a proxy
     if not using_proxy:
-        server_address = "instagram.com"
+        server_address = "facebook.com"
         connection_state = ping_server(server_address, logger)
         if connection_state is False:
             return True, "not connected"
@@ -1328,9 +1328,9 @@ def check_authorization(browser, username, method, logger, notify=True):
         # navigate to owner's profile page only if it is on an unusual page
         current_url = get_current_url(browser)
         if (not current_url or
-                "https://www.instagram.com" not in current_url or
-                "https://www.instagram.com/graphql/" in current_url):
-            profile_link = 'https://www.instagram.com/{}/'.format(username)
+                "https://www.facebook.com" not in current_url or
+                "https://www.facebook.com/graphql/" in current_url):
+            profile_link = 'https://www.facebook.com/{}/'.format(username)
             web_address_navigator(browser, profile_link)
 
         # if user is not logged in, `activity_counts` will be `None`- JS `null`
@@ -1558,7 +1558,7 @@ def get_username_from_id(browser, user_id, logger):
 
     query_hash = "42323d64886122307be10013ad2dcc44"  # earlier-
     # "472f257a40c653c64c666ce877d59d2b"
-    graphql_query_URL = "https://www.instagram.com/graphql/query/?query_hash" \
+    graphql_query_URL = "https://www.facebook.com/graphql/query/?query_hash" \
                         "={}".format(query_hash)
     variables = {"id": str(user_id), "first": 1}
     post_url = u"{}&variables={}".format(graphql_query_URL,
@@ -1578,7 +1578,7 @@ def get_username_from_id(browser, user_id, logger):
 
         if user_data["edges"]:
             post_code = user_data["edges"][0]["node"]["shortcode"]
-            post_page = "https://www.instagram.com/p/{}".format(post_code)
+            post_page = "https://www.facebook.com/p/{}".format(post_code)
 
             web_address_navigator(browser, post_page)
             username = get_username(browser, "post", logger)
@@ -1606,7 +1606,7 @@ def get_username_from_id(browser, user_id, logger):
     #logger.info("Trying to find the username from the given user ID by a
     quick API call")
 
-    #req = requests.get(u"https://i.instagram.com/api/v1/users/{}/info/"
+    #req = requests.get(u"https://i.facebook.com/api/v1/users/{}/info/"
     #                   .format(user_id))
     #if req:
     #    data = json.loads(req.text)
@@ -1621,7 +1621,7 @@ def get_username_from_id(browser, user_id, logger):
     logger.info("Trying to find the username from the given user ID "
                 "by using the GraphQL Follow endpoint")
 
-    user_link_by_id = ("https://www.instagram.com/web/friendships/{}/follow/"
+    user_link_by_id = ("https://www.facebook.com/web/friendships/{}/follow/"
                        .format(user_id))
 
     web_address_navigator(browser, user_link_by_id)
@@ -2004,8 +2004,8 @@ def close_dialog_box(browser):
 def parse_cli_args():
     """ Parse arguments passed by command line interface """
 
-    AP_kwargs = dict(prog="InstaPy",
-                     description="Parse InstaPy constructor's arguments",
+    AP_kwargs = dict(prog="FacebookPy",
+                     description="Parse FacebookPy constructor's arguments",
                      epilog="And that's how you'd pass arguments by CLI..",
                      conflict_handler="resolve")
     if python_version() < "3.5":

@@ -16,16 +16,16 @@ import schedule
 import traceback
 import requests
 
-from instapy import InstaPy
-from instapy.util import smart_run
+from facebookpy import FacebookPy
+from facebookpy.util import smart_run
 
-insta_username = ''
-insta_password = ''
+facebook_username = ''
+facebook_password = ''
 
 
 def get_session():
-    session = InstaPy(username=insta_username,
-                      password=insta_password,
+    session = FacebookPy(username=facebook_username,
+                      password=facebook_password,
                       headless_browser=True,
                       nogui=True,
                       multi_logs=False)
@@ -36,7 +36,7 @@ def get_session():
 def follow():
     # Send notification to my Telegram
     requests.get(
-        "https://api.telegram.org/******&text='InstaPy Follower Started @ {}'"
+        "https://api.telegram.org/******&text='FacebookPy Follower Started @ {}'"
             .format(datetime.now().strftime("%H:%M:%S")))
 
     # get a session!
@@ -73,14 +73,14 @@ def follow():
 
     # Send notification to my Telegram
     requests.get(
-        "https://api.telegram.org/******&text='InstaPy Follower Stopped @ {}'"
+        "https://api.telegram.org/******&text='FacebookPy Follower Stopped @ {}'"
         .format(datetime.now().strftime("%H:%M:%S")))
 
 
 def unfollow():
     requests.get(
         "https://api.telegram.org/******/sendMessage?chat_id=*****&text"
-        "='InstaPy Unfollower Started @ {}'"
+        "='FacebookPy Unfollower Started @ {}'"
         .format(datetime.now().strftime("%H:%M:%S")))
 
     # get a session!
@@ -101,14 +101,14 @@ def unfollow():
 
     requests.get(
         "https://api.telegram.org/******/sendMessage?chat_id=*****&text"
-        "='InstaPy Unfollower Stopped @ {}'"
+        "='FacebookPy Unfollower Stopped @ {}'"
         .format(datetime.now().strftime("%H:%M:%S")))
 
 
 def xunfollow():
     requests.get(
         "https://api.telegram.org/******/sendMessage?chat_id=*****&text"
-        "='InstaPy Unfollower WEDNESDAY Started @ {}'"
+        "='FacebookPy Unfollower WEDNESDAY Started @ {}'"
             .format(datetime.now().strftime("%H:%M:%S")))
 
     # get a session!
@@ -130,7 +130,7 @@ def xunfollow():
 
     requests.get(
         "https://api.telegram.org/******/sendMessage?chat_id=*****&text"
-        "='InstaPy Unfollower WEDNESDAY Stopped @ {}'"
+        "='FacebookPy Unfollower WEDNESDAY Stopped @ {}'"
             .format(datetime.now().strftime("%H:%M:%S")))
 
 

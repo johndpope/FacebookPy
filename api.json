@@ -253,7 +253,7 @@
       ]
     },
     {
-      "name": "InstapyFollowed",
+      "name": "FacebookpyFollowed",
       "type": [
         "Error<Couldn't extract type>"
       ],
@@ -600,7 +600,7 @@
         "style",
         "unfollow_after",
         "sleep_delay",
-        "InstapyFollowed",
+        "FacebookpyFollowed",
         "nonFollowers",
         "allFollowing"
       ]

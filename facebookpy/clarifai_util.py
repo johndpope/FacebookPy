@@ -22,7 +22,7 @@ def check_image(browser,
         image.
         If a workflow has been selected, get list of tags from Clarifai API
         by checking link against models included in the workflow. If a workflow
-        hasn't been provided, InstaPy will check images against given model(
+        hasn't been provided, FacebookPy will check images against given model(
         s)"""
         clarifai_api = ClarifaiApp(api_key=clarifai_api_key)
         clarifai_tags = []

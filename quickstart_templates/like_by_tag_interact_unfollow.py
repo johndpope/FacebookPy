@@ -6,12 +6,12 @@ What does this quickstart script aim to do?
 """
 
 import random
-from instapy import InstaPy
-from instapy.util import smart_run
+from facebookpy import FacebookPy
+from facebookpy.util import smart_run
 
 # login credentials
-insta_username = ''
-insta_password = ''
+facebook_username = ''
+facebook_password = ''
 
 dont_likes = ['sex', 'nude', 'naked', 'beef', 'pork', 'seafood',
               'egg', 'chicken', 'cheese', 'sausage', 'lobster',
@@ -38,8 +38,8 @@ ignore_list = ['vegan', 'veggie', 'plantbased']
 accounts = ['accounts with similar content']
 
 # get a session!
-session = InstaPy(username=insta_username,
-                  password=insta_password,
+session = FacebookPy(username=facebook_username,
+                  password=facebook_password,
                   headless_browser=True)
 
 with smart_run(session):
@@ -60,5 +60,5 @@ with smart_run(session):
                          amount=random.randint(50, 100), interact=True)
 
     session.unfollow_users(amount=random.randint(75, 150),
-                           InstapyFollowed=(True, "all"), style="FIFO",
+                           FacebookpyFollowed=(True, "all"), style="FIFO",
                            unfollow_after=90 * 60 * 60, sleep_delay=501)

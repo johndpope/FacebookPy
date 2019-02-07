@@ -5,15 +5,15 @@ What does this quickstart script aim to do?
 - This is my simple but effective script.
 """
 
-from instapy import InstaPy
-from instapy.util import smart_run
+from facebookpy import FacebookPy
+from facebookpy.util import smart_run
 
-insta_username = ''
-insta_password = ''
+facebook_username = ''
+facebook_password = ''
 
 # get a session!
-session = InstaPy(username=insta_username,
-                  password=insta_password,
+session = FacebookPy(username=facebook_username,
+                  password=facebook_password,
                   headless_browser=True,
                   multi_logs=True)
 

@@ -4,7 +4,7 @@ import time
 import pickle
 from selenium.webdriver.common.action_chains import ActionChains
 
-# import InstaPy modules
+# import FacebookPy modules
 from .time_util import sleep
 from .util import update_activity
 from .util import web_address_navigator
@@ -25,7 +25,7 @@ def bypass_suspicious_login(browser, bypass_with_mobile):
     when there isn't available cookie for the username, otherwise it will and
     shows "Unable to locate email or phone button" message, folollowed by
     CRITICAL - Wrong login data!"""
-    # close sign up Instagram modal if available
+    # close sign up Facebook modal if available
     try:
         close_button = browser.find_element_by_xpath("[text()='Close']")
 
@@ -101,7 +101,7 @@ def bypass_suspicious_login(browser, bypass_with_mobile):
     # update server calls
     update_activity()
 
-    print('Instagram detected an unusual login attempt')
+    print('Facebook detected an unusual login attempt')
     print('A security code was sent to your {}'.format(choice))
     security_code = input('Type the security code here: ')
 
@@ -137,7 +137,7 @@ def bypass_suspicious_login(browser, bypass_with_mobile):
             "again.']"))
 
         if wrong_login is not None:
-            print(('Wrong security code! Please check the code Instagram'
+            print(('Wrong security code! Please check the code Facebook'
                    'sent you and try again.'))
 
     except NoSuchElementException:
@@ -157,7 +157,7 @@ def login_user(browser,
     assert username, 'Username not provided'
     assert password, 'Password not provided'
 
-    ig_homepage = "https://www.instagram.com"
+    ig_homepage = "https://www.facebook.com"
     web_address_navigator(browser, ig_homepage)
     cookie_loaded = False
 
@@ -173,7 +173,7 @@ def login_user(browser,
     # include time.sleep(1) to prevent getting stuck on google.com
     time.sleep(1)
 
-    # changes instagram website language to english to use english xpaths
+    # changes facebook website language to english to use english xpaths
     if switch_language:
         language_element_ENG = browser.find_element_by_xpath(
             "//select[@class='hztqj']/option[text()='English']")
@@ -290,7 +290,7 @@ def login_user(browser,
 
 
 def dismiss_get_app_offer(browser, logger):
-    """ Dismiss 'Get the Instagram App' page after a fresh login """
+    """ Dismiss 'Get the Facebook App' page after a fresh login """
     offer_elem = "//*[contains(text(), 'Get App')]"
     dismiss_elem = "//*[contains(text(), 'Not Now')]"
 

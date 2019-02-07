@@ -8,7 +8,7 @@ from os.path import isfile as file_exists
 from os.path import sep as native_slash
 from platform import python_version
 
-from instapy_chromedriver import binary_path
+from facebookpy_chromedriver import binary_path
 
 from .util import highlight_print
 from .settings import Settings
@@ -74,7 +74,7 @@ def set_workspace(path=None):
 
     else:
         message = ("Sorry! You can't change workspace after"
-                   " InstaPy has started :>\t~using existing..")
+                   " FacebookPy has started :>\t~using existing..")
         highlight_print(Settings.profile["name"],
                         message,
                         "workspace",
@@ -108,7 +108,7 @@ def update_locations():
 
     # update database location
     if not Settings.database_location:
-        Settings.database_location = localize_path("db", "instapy.db")
+        Settings.database_location = localize_path("db", "facebookpy.db")
 
     # update chromedriver location
     if not Settings.chromedriver_location:
@@ -161,7 +161,7 @@ def remove_last_slash(path):
 
 
 def verify_workspace_name(path):
-    """ Make sure chosen workspace name is InstaPy friendly """
+    """ Make sure chosen workspace name is FacebookPy friendly """
 
     path = slashen(path)
     path = remove_last_slash(path)
@@ -223,8 +223,8 @@ def get_chromedriver_location():
         validate_path(assets_path)
 
         CD = binary_path
-        chrome_version = pkg_resources.get_distribution("instapy_chromedriver").version
-        message = "Using built in instapy-chromedriver executable (version {})".format(chrome_version)
+        chrome_version = pkg_resources.get_distribution("facebookpy_chromedriver").version
+        message = "Using built in facebookpy-chromedriver executable (version {})".format(chrome_version)
         highlight_print(Settings.profile["name"],
                         message,
                         "workspace",

@@ -11,8 +11,8 @@ from os.path import join as join_path
 from os.path import exists as path_exists
 
 
-WORKSPACE = {"name": "InstaPy",
-             "path": environmental_variables.get("INSTAPY_WORKSPACE")}
+WORKSPACE = {"name": "FacebookPy",
+             "path": environmental_variables.get("FACEBOOKPY_WORKSPACE")}
 OS_ENV = ("windows" if platform == "win32"
           else "osx" if platform == "darwin"
           else "linux")
@@ -34,7 +34,7 @@ class Settings:
 
     # locations
     log_location = localize_path("logs")
-    database_location = localize_path("db", "instapy.db")
+    database_location = localize_path("db", "facebookpy.db")
     specific_chromedriver = "chromedriver_{}".format(OS_ENV)
     chromedriver_location = localize_path("assets", specific_chromedriver)
     if (not chromedriver_location
@@ -44,7 +44,7 @@ class Settings:
     # minimum supported version of chromedriver
     chromedriver_min_version = 2.36
 
-    # set a logger cache outside the InstaPy object to avoid
+    # set a logger cache outside the FacebookPy object to avoid
     # re-instantiation issues
     loggers = {}
     logger = None
@@ -72,7 +72,7 @@ class Settings:
     # true, chrome if false.
     use_firefox = None
 
-    # state of instantiation of InstaPy
+    # state of instantiation of FacebookPy
     InstaPy_is_running = False
 
 

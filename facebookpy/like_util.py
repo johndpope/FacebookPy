@@ -25,7 +25,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 def get_links_from_feed(browser, amount, num_of_search, logger):
     """Fetches random number of links from feed and returns a list of links"""
 
-    feeds_link = 'https://www.instagram.com/'
+    feeds_link = 'https://www.facebook.com/'
 
     # Check URL of the webpage, if it already is in Feeds page, then do not
     # navigate to it again
@@ -77,7 +77,7 @@ def get_links_for_location(browser,
         # Make it an array to use it in the following part
         media = [media]
 
-    location_link = "https://www.instagram.com/explore/locations/{}".format(
+    location_link = "https://www.facebook.com/explore/locations/{}".format(
         location)
     web_address_navigator(browser, location_link)
 
@@ -146,7 +146,7 @@ def get_links_for_location(browser,
                 sc_rolled += 1
                 sleep(
                     nap)  # if not slept, and internet speed is low,
-                # instagram will only scroll one time, instead of many times
+                # facebook will only scroll one time, instead of many times
                 # you sent scroll command...
 
             sleep(3)
@@ -229,7 +229,7 @@ def get_links_for_tag(browser,
 
     tag = (tag[1:] if tag[:1] == '#' else tag)
 
-    tag_link = "https://www.instagram.com/explore/tags/{}".format(tag)
+    tag_link = "https://www.facebook.com/explore/tags/{}".format(tag)
     web_address_navigator(browser, tag_link)
 
     top_elements = browser.find_element_by_xpath('//main/article/div[1]')
@@ -310,7 +310,7 @@ def get_links_for_tag(browser,
                 sc_rolled += 1
                 sleep(
                     nap)  # if not slept, and internet speed is low,
-                # instagram will only scroll one time, instead of many times
+                # facebook will only scroll one time, instead of many times
                 # you sent scoll command...
 
             sleep(3)
@@ -396,7 +396,7 @@ def get_links_for_username(browser,
 
     logger.info('Getting {} image list...'.format(person))
 
-    user_link = "https://www.instagram.com/{}/".format(person)
+    user_link = "https://www.facebook.com/{}/".format(person)
     if taggedImages:
         user_link = user_link + 'tagged/'
 
@@ -406,7 +406,7 @@ def get_links_for_username(browser,
 
     if "Page Not Found" in browser.title:
         logger.error(
-            'Intagram error: The link you followed may be broken, or the '
+            'Facebook error: The link you followed may be broken, or the '
             'page may have been removed...')
         return False
 

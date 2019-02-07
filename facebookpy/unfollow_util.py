@@ -43,7 +43,7 @@ from selenium.common.exceptions import ElementNotVisibleException
 
 
 def set_automated_followed_pool(username, unfollow_after, logger, logfolder):
-    """ Generare a user list based on the InstaPy followed usernames """
+    """ Generare a user list based on the FacebookPy followed usernames """
     pool_name = "{0}{1}_followedPool.csv".format(logfolder, username)
     automatedFollowedPool = {"all": {}, "eligible": {}}
     time_stamp = None
@@ -111,7 +111,7 @@ def get_following_status(browser, track, username, person, person_id, logger,
                          logfolder):
     """ Verify if you are following the user in the loaded page """
     if track == "profile":
-        ig_homepage = "https://www.instagram.com/"
+        ig_homepage = "https://www.facebook.com/"
         web_address_navigator(browser, ig_homepage + person)
 
     follow_button_XP = ("//button[text()='Following' or \
@@ -171,7 +171,7 @@ def unfollow(browser,
              username,
              amount,
              customList,
-             InstapyFollowed,
+             FacebookpyFollowed,
              nonFollowers,
              allFollowing,
              style,
@@ -200,19 +200,19 @@ def unfollow(browser,
     else:
         customList = False
 
-    if (InstapyFollowed is not None and
-            type(InstapyFollowed) in [tuple, list] and
-            len(InstapyFollowed) == 2 and
-            InstapyFollowed[0] is True and
-            InstapyFollowed[1] in ["all", "nonfollowers"]):
-        unfollow_track = InstapyFollowed[1]
-        InstapyFollowed = True
+    if (FacebookpyFollowed is not None and
+            type(FacebookpyFollowed) in [tuple, list] and
+            len(FacebookpyFollowed) == 2 and
+            FacebookpyFollowed[0] is True and
+            FacebookpyFollowed[1] in ["all", "nonfollowers"]):
+        unfollow_track = FacebookpyFollowed[1]
+        FacebookpyFollowed = True
     else:
-        InstapyFollowed = False
+        FacebookpyFollowed = False
 
     unfollowNum = 0
 
-    user_link = "https://www.instagram.com/{}/".format(username)
+    user_link = "https://www.facebook.com/{}/".format(username)
 
     # check URL of the webpage, if it already is the one to be navigated
     # then do not navigate to it again
@@ -239,15 +239,15 @@ def unfollow(browser,
         amount = allfollowing
 
     if (customList is True or
-            InstapyFollowed is True or
+            FacebookpyFollowed is True or
             nonFollowers is True):
 
         if customList is True:
             logger.info("Unfollowing from the list of pre-defined usernames\n")
             unfollow_list = customList_data
 
-        elif InstapyFollowed is True:
-            logger.info("Unfollowing the users followed by InstaPy\n")
+        elif FacebookpyFollowed is True:
+            logger.info("Unfollowing the users followed by FacebookPy\n")
             unfollow_list = list(automatedFollowedPool["eligible"].keys())
 
         elif nonFollowers is True:
@@ -263,8 +263,8 @@ def unfollow(browser,
 
         # pick only the users in the right track- ["all" or "nonfollowers"]
         # for `customList` and
-        #  `InstapyFollowed` unfollow methods
-        if customList is True or InstapyFollowed is True:
+        #  `FacebookpyFollowed` unfollow methods
+        if customList is True or FacebookpyFollowed is True:
             if unfollow_track == "nonfollowers":
                 all_followers = get_followers(browser,
                                               username,
@@ -309,7 +309,7 @@ def unfollow(browser,
                         "pass `unfollow_after`: {}\n".format(
                 len(unfollow_list), len(not_found), len(non_eligible)))
 
-        elif InstapyFollowed is True:
+        elif FacebookpyFollowed is True:
             non_eligible = [user for user in
                             automatedFollowedPool["all"].keys() if
                             user not in automatedFollowedPool[
@@ -620,7 +620,7 @@ def follow_user(browser, track, login, user_name, button, blacklist, logger,
         if track == "profile":
             # check URL of the webpage, if it already is user's profile
             # page, then do not navigate to it again
-            user_link = "https://www.instagram.com/{}/".format(user_name)
+            user_link = "https://www.facebook.com/{}/".format(user_name)
             web_address_navigator(browser, user_link)
 
         # find out CURRENT following status
@@ -965,7 +965,7 @@ def get_given_user_followers(browser,
     """
     user_name = user_name.strip()
 
-    user_link = "https://www.instagram.com/{}/".format(user_name)
+    user_link = "https://www.facebook.com/{}/".format(user_name)
     web_address_navigator(browser, user_link)
 
     if not is_page_available(browser, logger):
@@ -1031,7 +1031,7 @@ def get_given_user_following(browser,
                              logfolder):
     user_name = user_name.strip()
 
-    user_link = "https://www.instagram.com/{}/".format(user_name)
+    user_link = "https://www.facebook.com/{}/".format(user_name)
     web_address_navigator(browser, user_link)
 
     if not is_page_available(browser, logger):
@@ -1242,7 +1242,7 @@ def unfollow_user(browser, track, username, person, person_id, button,
     if track in ["profile", "post"]:
         """ Method of unfollowing from a user's profile page or post page """
         if track == "profile":
-            user_link = "https://www.instagram.com/{}/".format(person)
+            user_link = "https://www.facebook.com/{}/".format(person)
             web_address_navigator(browser, user_link)
 
         # find out CURRENT follow status
@@ -1504,9 +1504,9 @@ def post_unfollow_actions(browser, person, logger):
 
 
 def get_follow_requests(browser, amount, sleep_delay, logger, logfolder):
-    """ Get follow requests from instagram access tool list """
+    """ Get follow requests from facebook access tool list """
 
-    user_link = "https://www.instagram.com/accounts/access_tool" \
+    user_link = "https://www.facebook.com/accounts/access_tool" \
                 "/current_follow_requests"
     web_address_navigator(browser, user_link)
 

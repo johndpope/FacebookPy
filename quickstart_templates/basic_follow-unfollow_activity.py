@@ -14,21 +14,21 @@ get followers has similar contents to mine in order to be sure that my
 content could be appreciated. After the following step, I start unfollowing
 the user that don't followed me back.
 - At the end I clean my account unfollowing all the users followed with
-InstaPy.
+FacebookPy.
 """
 
 # imports
-from instapy import InstaPy
-from instapy.util import smart_run
+from facebookpy import FacebookPy
+from facebookpy.util import smart_run
 
 # login credentials
-insta_username = ''
-insta_password = ''
+facebook_username = ''
+facebook_password = ''
 
-# get an InstaPy session!
-# set headless_browser=True to run InstaPy in the background
-session = InstaPy(username=insta_username,
-                  password=insta_password,
+# get an FacebookPy session!
+# set headless_browser=True to run FacebookPy in the background
+session = FacebookPy(username=facebook_username,
+                  password=facebook_password,
                   headless_browser=False)
 
 with smart_run(session):
@@ -53,7 +53,7 @@ with smart_run(session):
 
     """ First step of Unfollow action - Unfollow not follower users...
     """
-    session.unfollow_users(amount=500, InstapyFollowed=(True, "nonfollowers"),
+    session.unfollow_users(amount=500, FacebookpyFollowed=(True, "nonfollowers"),
                            style="FIFO",
                            unfollow_after=12 * 60 * 60, sleep_delay=601)
 
@@ -64,12 +64,12 @@ with smart_run(session):
 
     """ Second step of Unfollow action - Unfollow not follower users...
     """
-    session.unfollow_users(amount=500, InstapyFollowed=(True, "nonfollowers"),
+    session.unfollow_users(amount=500, FacebookpyFollowed=(True, "nonfollowers"),
                            style="FIFO",
                            unfollow_after=12 * 60 * 60, sleep_delay=601)
 
-    """ Clean all followed user - Unfollow all users followed by InstaPy...
+    """ Clean all followed user - Unfollow all users followed by FacebookPy...
     """
-    session.unfollow_users(amount=500, InstapyFollowed=(True, "all"),
+    session.unfollow_users(amount=500, FacebookpyFollowed=(True, "all"),
                            style="FIFO", unfollow_after=24 * 60 * 60,
                            sleep_delay=601)

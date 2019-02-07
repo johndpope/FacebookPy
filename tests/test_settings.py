@@ -1,4 +1,4 @@
-from instapy import Settings
+from facebookpy import Settings
 
 
 def test_settings():

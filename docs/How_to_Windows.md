@@ -48,15 +48,15 @@
 #### 3.x Setup:
 
 ##### 3.1 Install Required Modules
-- Go to your InstaPy directory.
+- Go to your FacebookPy directory.
 - press Shift + Right click and open command window (with admin rights !!) and type
 - python setup.py install
 
 ##### 3.2 Download the GUI (optional)
-- Download the zip-File from the GUI-tool-for-InstaPy-script.
+- Download the zip-File from the GUI-tool-for-FacebookPy-script.
 - follow the install instructions on this page.
-- don't forget to copy the \*.exe files in the folder InstaPy-master.
-> [https://github.com/Nemixalone/GUI-tool-for-InstaPy-script]
+- don't forget to copy the \*.exe files in the folder FacebookPy-master.
+> [https://github.com/Nemixalone/GUI-tool-for-FacebookPy-script]
 
 ##### 3.3 Download the latest chromedriver
 - Download the newest chrome driver.
@@ -64,14 +64,14 @@
 > [https://sites.google.com/a/chromium.org/chromedriver/downloads]
 
 
-#### 4. Edit the instapy.py file
-- Open file instapy.py an disabling the clarifai import
+#### 4. Edit the facebookpy.py file
+- Open file facebookpy.py an disabling the clarifai import
 - comment the line "from .clarifai_util import check_image"
 > `from .clarifai_util import check_image`
 
 
 #### 5. Starting the script
-- Start the Gui by clicking at the file InstaPy.exe
+- Start the Gui by clicking at the file FacebookPy.exe
 - Insert your parameters and press run
 - After the first run the file quickstart.py is filled with your parameters
 - now you can edit them manually in a editor (e.g. notepad pro)

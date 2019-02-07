@@ -12,12 +12,12 @@ NOTES:
 """
 
 import random
-from instapy import InstaPy
-from instapy.util import smart_run
+from facebookpy import FacebookPy
+from facebookpy.util import smart_run
 
 # login credentials
-insta_username = 'username'
-insta_password = 'password'
+facebook_username = 'username'
+facebook_password = 'password'
 
 # restriction data
 dont_likes = ['#exactmatch', '[startswith', ']endswith', 'broadmatch']
@@ -45,8 +45,8 @@ target_business_categories = ['category1', 'category2', 'category3']
 comments = ['comment1', 'comment2', 'comment3']
 
 # get a session!
-session = InstaPy(username=insta_username,
-                  password=insta_password,
+session = FacebookPy(username=facebook_username,
+                  password=facebook_password,
                   headless_browser=True,
                   disable_image_load=True,
                   multi_logs=True)
@@ -107,15 +107,15 @@ with smart_run(session):
     """ Unfollow nonfollowers after one day...
     """
     session.unfollow_users(amount=random.randint(75, 100),
-                           InstapyFollowed=(True, "nonfollowers"),
+                           FacebookpyFollowed=(True, "nonfollowers"),
                            style="FIFO",
                            unfollow_after=24 * 60 * 60, sleep_delay=600)
 
-    """ Unfollow all users followed by InstaPy after one week to keep the 
+    """ Unfollow all users followed by FacebookPy after one week to keep the 
     following-level clean...
     """
     session.unfollow_users(amount=random.randint(75, 100),
-                           InstapyFollowed=(True, "all"), style="FIFO",
+                           FacebookpyFollowed=(True, "all"), style="FIFO",
                            unfollow_after=168 * 60 * 60, sleep_delay=600)
 
 """

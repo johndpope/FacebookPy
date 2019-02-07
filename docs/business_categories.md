@@ -1,4 +1,4 @@
-### List of available Instagram business categories
+### List of available Facebook business categories
 - Advertising Agency
 - Advertising/Marketing
 - Art

@@ -1,5 +1,5 @@
-# This is the swarm version of docker-compose.yml, for running InstaPy under Docker swarm
-# An example configuration / process is available at https://geek-cookbook.funkypenguin.co.nz/recipies/instapy/
+# This is the swarm version of docker-compose.yml, for running FacebookPy under Docker swarm
+# An example configuration / process is available at https://geek-cookbook.funkypenguin.co.nz/recipies/facebookpy/
 
 version: '3'
 services:
@@ -8,8 +8,8 @@ services:
     environment:
       - PYTHONUNBUFFERED=0
 
-    # Modify the image to whatever Tim's image tag ends up as. I used funkypenguin/instapy for my build
-    image: funkypenguin/instapy:latest
+    # Modify the image to whatever Tim's image tag ends up as. I used funkypenguin/facebookpy for my build
+    image: funkypenguin/facebookpy:latest
 
     # When using swarm, you can't use relative paths, so the following needs to be set to the full filesystem path to your logs and docker_quickstart.py
     # Bind-mount docker_quickstart.py, since now that we're using a public image, we can't "bake" our credentials into the image anymore
@@ -18,7 +18,7 @@ services:
       - /full/path/to/docker_quickstart.py:/code/docker_quickstart.py:ro
 
     # This section allows docker to restart the container when it exits (either normally or abnormally), which ensures that
-    # InstaPy keeps re-running. Tweak the delay to avoid being banned for excessive activity 
+    # FacebookPy keeps re-running. Tweak the delay to avoid being banned for excessive activity 
     deploy:
       restart_policy:
         condition: any

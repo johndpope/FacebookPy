@@ -38,7 +38,7 @@ def get_followers(browser,
         "Retrieving {} `Followers` data of {} {}".format(tense, username,
                                                          grab_info))
 
-    user_link = "https://www.instagram.com/{}/".format(username)
+    user_link = "https://www.facebook.com/{}/".format(username)
     web_address_navigator(browser, user_link)
 
     # Get followers count
@@ -68,10 +68,10 @@ def get_followers(browser,
     use_firefox = Settings.use_firefox
 
     if use_firefox:
-        graphql_endpoint = 'view-source:https://www.instagram.com/graphql' \
+        graphql_endpoint = 'view-source:https://www.facebook.com/graphql' \
                            '/query/'
     else:
-        graphql_endpoint = 'https://www.instagram.com/graphql/query/'
+        graphql_endpoint = 'https://www.facebook.com/graphql/query/'
 
     graphql_followers = (
             graphql_endpoint + '?query_hash=37479f2b8209594dde7facb0d904896a')
@@ -298,7 +298,7 @@ def get_following(browser,
         "Retrieving {} `Following` data of {} {}".format(tense, username,
                                                          grab_info))
 
-    user_link = "https://www.instagram.com/{}/".format(username)
+    user_link = "https://www.facebook.com/{}/".format(username)
     web_address_navigator(browser, user_link)
 
     # Get following count
@@ -328,10 +328,10 @@ def get_following(browser,
     use_firefox = Settings.use_firefox
 
     if use_firefox:
-        graphql_endpoint = 'view-source:https://www.instagram.com/graphql' \
+        graphql_endpoint = 'view-source:https://www.facebook.com/graphql' \
                            '/query/'
     else:
-        graphql_endpoint = 'https://www.instagram.com/graphql/query/'
+        graphql_endpoint = 'https://www.facebook.com/graphql/query/'
 
     graphql_following = (
             graphql_endpoint + '?query_hash=58712303d941c6855d4e888c5f0cd22f')

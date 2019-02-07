@@ -10,8 +10,8 @@ Folder content:
 Content files examples (comments between parenthesis)
 
 ::data.yaml::
-username: user              # (instagram user)
-password: password          # (instagram password)
+username: user              # (facebook user)
+password: password          # (facebook password)
 friends_interaction: True   # (if True will like friendlist posts,
 False will avoid create friends session)
 do_comments: True           # (if True will comment on user interaction)
@@ -55,8 +55,8 @@ Inside z_{user} directory:
 import yaml
 import os
 import random
-from instapy import InstaPy
-from instapy.util import smart_run
+from facebookpy import FacebookPy
+from facebookpy.util import smart_run
 
 """
 Loading data
@@ -64,8 +64,8 @@ Loading data
 current_path = os.path.abspath(os.path.dirname(__file__))
 data = yaml.safe_load(open("%s/data.yaml" % (current_path)))
 
-insta_username = data['username']
-insta_password = data['password']
+facebook_username = data['username']
+facebook_password = data['password']
 friendlist = data['friendlist']
 hashtags = data['hashtags']
 
@@ -84,8 +84,8 @@ for comment in range(5):
 Like last two posts from friendlists
 """
 if data['friends_interaction']:
-    friends = InstaPy(username=insta_username,
-                      password=insta_password,
+    friends = FacebookPy(username=facebook_username,
+                      password=facebook_password,
                       selenium_local_session=False,
                       disable_image_load=True,
                       multi_logs=False)
@@ -104,8 +104,8 @@ if data['friends_interaction']:
 """
 Collecting followers
 """
-bot = InstaPy(username=insta_username,
-              password=insta_password,
+bot = FacebookPy(username=facebook_username,
+              password=facebook_password,
               selenium_local_session=False,
               disable_image_load=True,
               multi_logs=False)
@@ -185,19 +185,19 @@ with smart_run(bot):
                      interact=True)
 
     """
-    Unfollow non-followers after 3 days and all followed by InstaPy from a 
+    Unfollow non-followers after 3 days and all followed by FacebookPy from a 
     week ago.
     """
     if data['do_unfollow']:
         bot.set_blacklist(enabled=False,
                           campaign='blacklist')
         bot.unfollow_users(amount=random.randint(75, 100),
-                           InstapyFollowed=(True, "nonfollowers"),
+                           FacebookpyFollowed=(True, "nonfollowers"),
                            style="FIFO",
                            unfollow_after=72 * 60 * 60,
                            sleep_delay=600)
         bot.unfollow_users(amount=1000,
-                           InstapyFollowed=(True, "all"),
+                           FacebookpyFollowed=(True, "all"),
                            style="FIFO",
                            unfollow_after=168 * 60 * 60,
                            sleep_delay=600)

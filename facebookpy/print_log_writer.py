@@ -19,7 +19,7 @@ def get_log_time():
 def log_follower_num(browser, username, logfolder):
     """Prints and logs the current number of followers to
     a seperate file"""
-    user_link = "https://www.instagram.com/{}".format(username)
+    user_link = "https://www.facebook.com/{}".format(username)
     web_address_navigator(browser, user_link)
 
     try:
@@ -50,7 +50,7 @@ def log_follower_num(browser, username, logfolder):
 def log_following_num(browser, username, logfolder):
     """Prints and logs the current number of followers to
     a seperate file"""
-    user_link = "https://www.instagram.com/{}".format(username)
+    user_link = "https://www.facebook.com/{}".format(username)
     web_address_navigator(browser, user_link)
 
     try:

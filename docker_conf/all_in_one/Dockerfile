@@ -62,19 +62,19 @@ RUN cd ~ \
 RUN apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
-# Adding InstaPy
-RUN git clone https://github.com/timgrossmann/InstaPy.git \
+# Adding FacebookPy
+RUN git clone https://github.com/timgrossmann/FacebookPy.git \
     && wget ${CRHOMEDRIVER} \
     && unzip chromedriver_linux64 \
-    && mv chromedriver InstaPy/assets/chromedriver \
-    && chmod +x InstaPy/assets/chromedriver \
-    && chmod 755 InstaPy/assets/chromedriver \
-    && cd InstaPy \
+    && mv chromedriver FacebookPy/assets/chromedriver \
+    && chmod +x FacebookPy/assets/chromedriver \
+    && chmod 755 FacebookPy/assets/chromedriver \
+    && cd FacebookPy \
     && pip install . \
-    && sed -ie 's/#self.display/self.display/g' instapy/instapy.py
+    && sed -ie 's/#self.display/self.display/g' facebookpy/facebookpy.py
 
 # Copying the your quickstart file into the container and setting directory
-COPY quickstart.py ./InstaPy
-WORKDIR /InstaPy
+COPY quickstart.py ./FacebookPy
+WORKDIR /FacebookPy
 
 CMD ["python3.5", "quickstart.py"]

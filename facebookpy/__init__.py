@@ -1,6 +1,6 @@
 # flake8: noqa
 
-from .instapy import InstaPy
+from .facebookpy import FacebookPy
 from .util import smart_run
 from .settings import Settings
 from .file_manager import set_workspace

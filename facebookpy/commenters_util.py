@@ -1,6 +1,6 @@
 """Methods to extract the data for the given usernames profile"""
 # code created by modification of original code copied from
-# https://github.com/timgrossmann/instagram-profilecrawl/blob/master/util
+# https://github.com/timgrossmann/facebook-profilecrawl/blob/master/util
 # /extractor.py
 import time
 from time import sleep
@@ -99,7 +99,7 @@ def extract_post_info(browser):
 
 def extract_information(browser, username, daysold, max_pic):
     """Get all the information for the given username"""
-    web_address_navigator(browser, 'https://www.instagram.com/' + username)
+    web_address_navigator(browser, 'https://www.facebook.com/' + username)
 
     try:
         num_of_posts = get_number_of_posts(browser)
@@ -119,7 +119,7 @@ def extract_information(browser, username, daysold, max_pic):
         links2 = []
         links3 = []
         # list links contains 30 links from the current view, as that is the
-        # maximum Instagram is showing at one time
+        # maximum Facebook is showing at one time
         # list links2 contains all the links collected so far without
         # duplicates, in mixed order
         # list links3 contains all the links collected so far with
@@ -387,7 +387,7 @@ def get_photo_urls_from_profile(browser, username, links_to_return_amount=1,
     username = username_url_to_username(username)
     print("\nGetting likers from user: ", username, "\n")
     web_address_navigator(browser,
-                          'https://www.instagram.com/' + username + '/')
+                          'https://www.facebook.com/' + username + '/')
     sleep(1)
 
     photos_a_elems = browser.find_elements_by_xpath("//div/a")
