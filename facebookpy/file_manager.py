@@ -8,7 +8,7 @@ from os.path import isfile as file_exists
 from os.path import sep as native_slash
 from platform import python_version
 
-from facebookpy_chromedriver import binary_path
+from instapy_chromedriver import binary_path
 
 from .util import highlight_print
 from .settings import Settings
@@ -223,7 +223,7 @@ def get_chromedriver_location():
         validate_path(assets_path)
 
         CD = binary_path
-        chrome_version = pkg_resources.get_distribution("facebookpy_chromedriver").version
+        chrome_version = pkg_resources.get_distribution("instapy_chromedriver").version
         message = "Using built in facebookpy-chromedriver executable (version {})".format(chrome_version)
         highlight_print(Settings.profile["name"],
                         message,
