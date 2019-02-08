@@ -175,9 +175,10 @@ def login_user(browser,
 
     # changes facebook website language to english to use english xpaths
     if switch_language:
-        language_element_ENG = browser.find_element_by_xpath(
-            "//select[@class='hztqj']/option[text()='English']")
-        click_element(browser, language_element_ENG)
+        links = browser.find_elements_by_xpath('//*[@id="pageFooter"]/ul/li')
+        for link in links:
+            if link.get_attribute('title') == "English (UK)":
+                click_element(browser, link)
 
     web_address_navigator(browser, ig_homepage)
     reload_webpage(browser)
@@ -201,7 +202,8 @@ def login_user(browser,
 
     # Check if the first div is 'Create an Account' or 'Log In'
     login_elem = browser.find_element_by_xpath(
-        "//article//a[text()='Log in']")
+        '//*[@id="email"]'
+        )
 
     if login_elem is not None:
         try:
@@ -224,7 +226,7 @@ def login_user(browser,
     explicit_wait(browser, "TC", login_page_title, logger)
 
     # wait until the 'username' input element is located and visible
-    input_username_XP = "//input[@name='username']"
+    input_username_XP = '//*[@id="email"]'
     explicit_wait(browser, "VOEL", [input_username_XP, "XPath"], logger)
 
     input_username = browser.find_element_by_xpath(input_username_XP)
@@ -243,7 +245,7 @@ def login_user(browser,
 
     #  password
     input_password = browser.find_elements_by_xpath(
-        "//input[@name='password']")
+        '//*[@id="pass"]')
 
     if not isinstance(password, str):
         password = str(password)
@@ -258,8 +260,10 @@ def login_user(browser,
     for i in range(2):
         update_activity()
 
+    sleep(1)
+
     login_button = browser.find_element_by_xpath(
-        "//button[text()='Log in']")
+        '//*[@type="submit"]')
 
     (ActionChains(browser)
      .move_to_element(login_button)
@@ -268,6 +272,8 @@ def login_user(browser,
 
     # update server calls
     update_activity()
+
+    sleep(1)
 
     dismiss_get_app_offer(browser, logger)
     dismiss_notification_offer(browser, logger)
