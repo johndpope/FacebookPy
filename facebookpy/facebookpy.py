@@ -1103,7 +1103,7 @@ class FacebookPy:
 
     def validate_user_call(self, user_name):
         """ Short call of validate_username() function """
-        # TODO:FIX IT:HACED TEMPORARILY
+        # TODO:FIX IT:HAKED TEMPORARILY
         return True, "Valid user"
         # validation, details = validate_username(self.browser,
         #                                         user_name,

@@ -1011,9 +1011,13 @@ def get_given_user_followers(browser,
 
     channel = "Follow"
 
-    #TODO: Fix it: Add simulated, make person_list randomised
+    #TODO: Fix it: Add simulated
     simulated_list = []
-    person_list = followers_list[10:]
+    if amount < len(followers_list)
+        person_list = random.sample(followers_list, amount)
+    else:
+        person_list = followers_list
+
     # person_list, simulated_list = get_users_through_dialog(browser, login,
     #                                                        user_name, amount,
     #                                                        allfollowers,
