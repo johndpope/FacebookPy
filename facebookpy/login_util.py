@@ -200,34 +200,34 @@ def login_user(browser,
         print("Issue with cookie for user {}. Creating "
               "new cookie...".format(username))
 
-    # Check if the first div is 'Create an Account' or 'Log In'
-    login_elem = browser.find_element_by_xpath(
-        '//*[@id="email"]'
-        )
+    # # Check if the first div is 'Create an Account' or 'Log In'
+    # login_elem = browser.find_element_by_xpath(
+    #     '//*[@id="email"]'
+    #     )
 
-    if login_elem is not None:
-        try:
-            (ActionChains(browser)
-             .move_to_element(login_elem)
-             .click()
-             .perform())
-        except MoveTargetOutOfBoundsException:
-            login_elem.click()
+    # if login_elem is not None:
+    #     try:
+    #         (ActionChains(browser)
+    #          .move_to_element(login_elem)
+    #          .click()
+    #          .perform())
+    #     except MoveTargetOutOfBoundsException:
+    #         login_elem.click()
 
-        # update server calls
-        update_activity()
+    #     # update server calls
+    #     update_activity()
 
     # Enter username and password and logs the user in
     # Sometimes the element name isn't 'Username' and 'Password'
     # (valid for placeholder too)
 
     # wait until it navigates to the login page
-    login_page_title = "Login"
-    explicit_wait(browser, "TC", login_page_title, logger)
+    # login_page_title = "Login"
+    # explicit_wait(browser, "TC", login_page_title, logger)
 
     # wait until the 'username' input element is located and visible
     input_username_XP = '//*[@id="email"]'
-    explicit_wait(browser, "VOEL", [input_username_XP, "XPath"], logger)
+    # explicit_wait(browser, "VOEL", [input_username_XP, "XPath"], logger)
 
     input_username = browser.find_element_by_xpath(input_username_XP)
 
@@ -244,8 +244,7 @@ def login_user(browser,
     sleep(1)
 
     #  password
-    input_password = browser.find_elements_by_xpath(
-        '//*[@id="pass"]')
+    input_password = browser.find_elements_by_xpath('//*[@id="pass"]')
 
     if not isinstance(password, str):
         password = str(password)
@@ -282,7 +281,7 @@ def login_user(browser,
         bypass_suspicious_login(browser, bypass_with_mobile)
 
     # wait until page fully load
-    explicit_wait(browser, "PFL", [], logger, 5)
+    # explicit_wait(browser, "PFL", [], logger, 5)
 
     # Check if user is logged-in (If there's two 'nav' elements)
     nav = browser.find_elements_by_xpath('//div[@role="navigation"]')

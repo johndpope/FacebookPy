@@ -904,57 +904,10 @@ def get_number_of_posts(browser):
     return num_of_posts
 
 
-def get_relationship_counts(browser, username, logger):
+def get_following_count(browser, username, logger):
     """ Gets the followers & following counts of a given user """
-
-    user_link = "https://www.facebook.com/{}/".format(username)
-
-    # check URL of the webpage, if it already is user's profile page,
-    # then do not navigate to it again
+    user_link = "https://www.facebook.com/{}/following".format(username.split('@')[0])
     web_address_navigator(browser, user_link)
-
-    try:
-        followers_count = browser.execute_script(
-            "return window._sharedData.entry_data."
-            "ProfilePage[0].graphql.user.edge_followed_by.count")
-
-    except WebDriverException:
-        try:
-            followers_count = format_number(
-                browser.find_element_by_xpath("//a[contains"
-                                              "(@href,"
-                                              "'followers')]/span").text)
-        except NoSuchElementException:
-            try:
-                browser.execute_script("location.reload()")
-                update_activity()
-
-                followers_count = browser.execute_script(
-                    "return window._sharedData.entry_data."
-                    "ProfilePage[0].graphql.user.edge_followed_by.count")
-
-            except WebDriverException:
-                try:
-                    topCount_elements = browser.find_elements_by_xpath(
-                        "//span[contains(@class,'g47SY')]")
-
-                    if topCount_elements:
-                        followers_count = format_number(
-                            topCount_elements[1].text)
-
-                    else:
-                        logger.info(
-                            "Failed to get followers count of '{}'  ~empty "
-                            "list".format(
-                                username.encode("utf-8")))
-                        followers_count = None
-
-                except NoSuchElementException:
-                    logger.error(
-                        "Error occurred during getting the followers count "
-                        "of '{}'\n".format(
-                            username.encode("utf-8")))
-                    followers_count = None
 
     try:
         following_count = browser.execute_script(
@@ -964,41 +917,38 @@ def get_relationship_counts(browser, username, logger):
     except WebDriverException:
         try:
             following_count = format_number(
-                browser.find_element_by_xpath("//a[contains"
-                                              "(@href,"
-                                              "'following')]/span").text)
+                browser.find_element_by_xpath('//a[@name="Following"]/span[2]').text)
 
-        except NoSuchElementException:
-            try:
-                browser.execute_script("location.reload()")
-                update_activity()
+        except NoSuchElementException as e:
+            logger.error(e)
+    return following_count
 
-                following_count = browser.execute_script(
-                    "return window._sharedData.entry_data."
-                    "ProfilePage[0].graphql.user.edge_follow.count")
 
-            except WebDriverException:
-                try:
-                    topCount_elements = browser.find_elements_by_xpath(
-                        "//span[contains(@class,'g47SY')]")
+def get_followers_count(browser, username, logger):
+    """ Gets the followers & following counts of a given user """
+    user_link = "https://www.facebook.com/{}/followers".format(username.split('@')[0])
+    web_address_navigator(browser, user_link)
 
-                    if topCount_elements:
-                        following_count = format_number(
-                            topCount_elements[2].text)
+    try:
+        followers_count = browser.execute_script(
+            "return window._sharedData.entry_data."
+            "ProfilePage[0].graphql.user.edge_follow.count")
 
-                    else:
-                        logger.info(
-                            "Failed to get following count of '{}'  ~empty "
-                            "list".format(
-                                username.encode("utf-8")))
-                        following_count = None
+    except WebDriverException:
+        try:
+            followers_count = format_number(
+                browser.find_element_by_xpath('//a[@name="Followers"]/span[2]').text)
 
-                except (NoSuchElementException, IndexError):
-                    logger.error(
-                        "\nError occurred during getting the following count "
-                        "of '{}'\n".format(username.encode("utf-8")))
-                    following_count = None
+        except NoSuchElementException as e:
+            logger.error(e)
+    return followers_count
 
+def get_relationship_counts(browser, username, logger):
+    """ Gets the followers & following counts of a given user """
+    followers_count = get_followers_count(browser, username, logger)
+    following_count = get_following_count(browser, username, logger)
+    logger.info('followers_count = {}'.format(followers_count))
+    logger.info('following_count = {}'.format(following_count))
     return followers_count, following_count
 
 
@@ -1333,6 +1283,12 @@ def check_authorization(browser, username, method, logger, notify=True):
         profile_link = 'https://www.facebook.com'.format(username.split('@')[0])
         web_address_navigator(browser, profile_link)
         logger.critical("--> '{}' is not logged in!\n".format(username))
+        nav = browser.find_elements_by_xpath('//div[@role="navigation"]')
+        if len(nav) == 2:
+            # create cookie for username
+            pickle.dump(browser.get_cookies(), open(
+                '{0}{1}_cookie.pkl'.format(logfolder, username), 'wb'))
+            return True
         return False
 
         # # if user is not logged in, `activity_counts` will be `None`- JS `null`
@@ -1895,22 +1851,24 @@ def save_account_progress(browser, username, logger):
     logger.info('Saving account progress...')
     followers, following = get_relationship_counts(browser, username, logger)
 
+    #TODO:FIX IT
     # save profile total posts
-    posts = getUserData("graphql.user.edge_owner_to_timeline_media.count",
-                        browser)
+    # posts = getUserData("graphql.user.edge_owner_to_timeline_media.count",
+    #                     browser)
 
     try:
         # DB instance
         db, id = get_database()
         conn = sqlite3.connect(db)
+        logger.info('INSERTING Data: {}, {}, {}'.format(id, followers, following))
         with conn:
             conn.row_factory = sqlite3.Row
             cur = conn.cursor()
             sql = ("INSERT INTO accountsProgress (profile_id, followers, "
-                   "following, total_posts, created, modified) "
+                   "following, created, modified) "
                    "VALUES (?, ?, ?, ?, strftime('%Y-%m-%d %H:%M:%S'), "
                    "strftime('%Y-%m-%d %H:%M:%S'))")
-            cur.execute(sql, (id, followers, following, posts))
+            cur.execute(sql, (id, followers, following))
             conn.commit()
     except Exception:
         logger.exception('message')
