@@ -1013,7 +1013,7 @@ def get_given_user_followers(browser,
 
     #TODO: Fix it: Add simulated
     simulated_list = []
-    if amount < len(followers_list)
+    if amount < len(followers_list):
         person_list = random.sample(followers_list, amount)
     else:
         person_list = followers_list

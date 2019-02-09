@@ -260,100 +260,90 @@ def validate_username(browser,
                                     truncate_float(relationship_ratio, 2)))
                         return False, inap_msg
 
-    if min_posts or max_posts or skip_private or skip_no_profile_pic or \
-            skip_business:
-        user_link = "https://www.facebook.com/{}/".format(username)
-        web_address_navigator(browser, user_link)
+    # TODO All graphql logics have to be reimplemented
+    # ie POST, Profile pic, business related logics have to be rewitten
+    # if min_posts or max_posts or skip_private or skip_no_profile_pic or \
+    #         skip_business:
+    #     user_link = "https://www.facebook.com/{}/".format(username)
+    #     web_address_navigator(browser, user_link)
 
-    if min_posts or max_posts:
-        # if you are interested in relationship number of posts boundaries
-        try:
-            number_of_posts = getUserData(
-                "graphql.user.edge_owner_to_timeline_media.count", browser)
-        except WebDriverException:
-            logger.error("~cannot get number of posts for username")
-            inap_msg = "---> Sorry, couldn't check for number of posts of " \
-                       "username\n"
-            return False, inap_msg
-        if max_posts:
-            if number_of_posts > max_posts:
-                inap_msg = (
-                    "Number of posts ({}) of '{}' exceeds the maximum limit "
-                    "given {}\n"
-                    .format(number_of_posts, username, max_posts))
-                return False, inap_msg
-        if min_posts:
-            if number_of_posts < min_posts:
-                inap_msg = (
-                    "Number of posts ({}) of '{}' is less than the minimum "
-                    "limit given {}\n"
-                    .format(number_of_posts, username, min_posts))
-                return False, inap_msg
+    # if min_posts or max_posts:
+    #     # if you are interested in relationship number of posts boundaries
+    #     try:
+    #         number_of_posts = getUserData(
+    #             "graphql.user.edge_owner_to_timeline_media.count", browser)
+    #     except WebDriverException:
+    #         logger.error("~cannot get number of posts for username")
+    #         inap_msg = "---> Sorry, couldn't check for number of posts of " \
+    #                    "username\n"
+    #         return False, inap_msg
+    #     if max_posts:
+    #         if number_of_posts > max_posts:
+    #             inap_msg = (
+    #                 "Number of posts ({}) of '{}' exceeds the maximum limit "
+    #                 "given {}\n"
+    #                 .format(number_of_posts, username, max_posts))
+    #             return False, inap_msg
+    #     if min_posts:
+    #         if number_of_posts < min_posts:
+    #             inap_msg = (
+    #                 "Number of posts ({}) of '{}' is less than the minimum "
+    #                 "limit given {}\n"
+    #                 .format(number_of_posts, username, min_posts))
+    #             return False, inap_msg
 
     """Skip users"""
-
-    # skip private
-    if skip_private:
-        try:
-            is_private = getUserData("graphql.user.is_private", browser)
-        except WebDriverException:
-            logger.error("~cannot get if user is private")
-            return False, "---> Sorry, couldn't get if user is private\n"
-        if is_private and (random.randint(0, 100) <= skip_private_percentage):
-            return False, "{} is private account, by default skip\n".format(
-                username)
-
     # skip no profile pic
-    if skip_no_profile_pic:
-        try:
-            profile_pic = getUserData("graphql.user.profile_pic_url", browser)
-        except WebDriverException:
-            logger.error("~cannot get the post profile pic url")
-            return False, "---> Sorry, couldn't get if user profile pic url\n"
-        if (profile_pic in default_profile_pic_facebook or str(
-                profile_pic).find(
-                "11906329_960233084022564_1448528159_a.jpg") > 0) and (
-                random.randint(0, 100) <= skip_no_profile_pic_percentage):
-            return False, "{} has default facebook profile picture\n".format(
-                username)
+        # if skip_no_profile_pic:
+    #     try:
+    #         profile_pic = getUserData("graphql.user.profile_pic_url", browser)
+    #     except WebDriverException:
+    #         logger.error("~cannot get the post profile pic url")
+    #         return False, "---> Sorry, couldn't get if user profile pic url\n"
+    #     if (profile_pic in default_profile_pic_facebook or str(
+    #             profile_pic).find(
+    #             "11906329_960233084022564_1448528159_a.jpg") > 0) and (
+    #             random.randint(0, 100) <= skip_no_profile_pic_percentage):
+    #         return False, "{} has default facebook profile picture\n".format(
+    #             username)
 
     # skip business
-    if skip_business:
-        # if is business account skip under conditions
-        try:
-            is_business_account = getUserData(
-                "graphql.user.is_business_account", browser)
-        except WebDriverException:
-            logger.error("~cannot get if user has business account active")
-            return False, "---> Sorry, couldn't get if user has business " \
-                          "account active\n"
+    # if skip_business:
+    #     # if is business account skip under conditions
+    #     try:
+    #         is_business_account = getUserData(
+    #             "graphql.user.is_business_account", browser)
+    #     except WebDriverException:
+    #         logger.error("~cannot get if user has business account active")
+    #         return False, "---> Sorry, couldn't get if user has business " \
+    #                       "account active\n"
 
-        if is_business_account:
-            try:
-                category = getUserData("graphql.user.business_category_name",
-                                       browser)
-            except WebDriverException:
-                logger.error("~cannot get category name for user")
-                return False, "---> Sorry, couldn't get category name for " \
-                              "user\n"
+    #     if is_business_account:
+    #         try:
+    #             category = getUserData("graphql.user.business_category_name",
+    #                                    browser)
+    #         except WebDriverException:
+    #             logger.error("~cannot get category name for user")
+    #             return False, "---> Sorry, couldn't get category name for " \
+    #                           "user\n"
 
-            if len(skip_business_categories) == 0:
-                # skip if not in dont_include
-                if category not in dont_skip_business_categories:
-                    if len(dont_skip_business_categories) == 0 and (
-                            random.randint(0,
-                                           100) <= skip_business_percentage):
-                        return False, "'{}' has a business account\n".format(
-                            username)
-                    else:
-                        return False, ("'{}' has a business account in the "
-                                       "undesired category of '{}'\n"
-                                       .format(username, category))
-            else:
-                if category in skip_business_categories:
-                    return False, ("'{}' has a business account in the "
-                                   "undesired category of '{}'\n"
-                                   .format(username, category))
+    #         if len(skip_business_categories) == 0:
+    #             # skip if not in dont_include
+    #             if category not in dont_skip_business_categories:
+    #                 if len(dont_skip_business_categories) == 0 and (
+    #                         random.randint(0,
+    #                                        100) <= skip_business_percentage):
+    #                     return False, "'{}' has a business account\n".format(
+    #                         username)
+    #                 else:
+    #                     return False, ("'{}' has a business account in the "
+    #                                    "undesired category of '{}'\n"
+    #                                    .format(username, category))
+    #         else:
+    #             if category in skip_business_categories:
+    #                 return False, ("'{}' has a business account in the "
+    #                                "undesired category of '{}'\n"
+    #                                .format(username, category))
 
     # if everything is ok
     return True, "Valid user"
@@ -871,7 +861,10 @@ def format_number(number):
                            '00000' if '.' in formatted_num else '000000',
                            formatted_num)
     formatted_num = formatted_num.replace('.', '')
-    return int(formatted_num)
+    try:
+        return int(formatted_num)
+    except Exception:
+        return 0
 
 
 def username_url_to_username(username_url):
