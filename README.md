@@ -14,8 +14,6 @@ Implemented in Python using the Selenium module.
 
 **Have an issue?**
 If you should encounter any issue, please first [search for similar issues](https://github.com/socialbotspy/FacebookPy/issues)
-#### Newsletter: [Sign Up for the Newsletter here!](http://eepurl.com/cZbV_v)
-
 
 ## **Installation**
 It is recomended to use via pyenv
@@ -125,13 +123,6 @@ Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute t
 
 ### Guides
 
-#### Video tutorials:
-**[Setting up FacebookPy for MacOS using Firefox](https://www.youtube.com/watch?v=A1a8J_IjSPs)**
-
-**[Setting up FacebookPy at Digital Ocean (for Debian)](https://www.youtube.com/watch?v=2Ci-hXU1IEY)**
-
-**[Setting up FacebookPy for Windows](https://www.youtube.com/watch?v=AOUraeus-XA)**
-
 #### Written Guides:
 **[How to Ubuntu (64-Bit)](./docs/How_To_DO_Ubuntu_on_Digital_Ocean.md) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**
 
@@ -164,10 +155,6 @@ Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute t
   * [Liking based on the number of existing likes a post has](#liking-based-on-the-number-of-existing-likes-a-post-has)
   * [Commenting based on the number of existing comments a post has](#commenting-based-on-the-number-of-existing-comments-a-post-has)
   * [Commenting based on mandatory words in the description or first comment](#commenting-based-on-mandatory-words-in-the-description-or-first-comment)
-  * [Comment by Locations](#comment-by-locations)
-  * [Like by Locations](#like-by-locations)
-  * [Like by Tags](#like-by-tags)
-  * [Like by Feeds](#like-by-feeds)
   * [Mandatory Words](#mandatory-words)
   * [Mandatory Language](#mandatory-language)
   * [Restricting Likes](#restricting-likes)
@@ -1008,70 +995,6 @@ This feature is helpful when you want to comment only on specific tags.
 session.set_delimit_commenting(enabled=True, comments_mandatory_words=['cat', 'dog'])
 ```
 > This will only comment on posts that contain either cat or dog in the post description or first comment.
-
-### Comment by Locations
-
-```python
-session.comment_by_locations(['224442573/salton-sea/'], amount=100)
-# or
-session.comment_by_locations(['224442573'], amount=100)
-# or include media entities from top posts section
-
-session.comment_by_locations(['224442573'], amount=5, skip_top_posts=False)
-```
-
-This method allows commenting by locations, without liking posts. To get locations follow instructions in 'Like by Locations'
-
-
-
-### Like by Locations
-
-```python
-session.like_by_locations(['224442573/salton-sea/'], amount=100)
-# or
-session.like_by_locations(['224442573'], amount=100)
-# or include media entities from top posts section
-
-session.like_by_locations(['224442573'], amount=5, skip_top_posts=False)
-```
-
-You can find locations for the `like_by_locations` function by:
-- Browsing https://www.facebook.com/explore/locations/
-- Regular facebook search.
-
-Example:
-* Search 'Salton Sea' and select the result with a location icon
-* The url is: https://www.facebook.com/explore/locations/224442573/salton-sea/
-* Use everything after 'locations/' or just the number
-
-
-### Like by Tags
-
-```python
-# Like posts based on hashtags
-session.like_by_tags(['natgeo', 'world'], amount=10)
-```
-
-### Like by Tags and interact with user
-
-```python
-# Like posts based on hashtags and like 3 posts of its poster
-session.set_user_interact(amount=3, randomize=True, percentage=100, media='Photo')
-session.like_by_tags(['natgeo', 'world'], amount=10, interact=True)
-```
-
-### Like by Feeds
-
-```python
-# This is used to perform likes on your own feeds
-# amount=100  specifies how many total likes you want to perform
-# randomize=True randomly skips posts to be liked on your feed
-# unfollow=True unfollows the author of a post which was considered
-# inappropriate interact=True visits the author's profile page of a
-# certain post and likes a given number of his pictures, then returns to feed
-
-session.like_by_feed(amount=100, randomize=True, unfollow=True, interact=True)
-```
 
 ### Blacklist Campaign
 ```python
