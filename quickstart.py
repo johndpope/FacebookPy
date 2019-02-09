@@ -54,4 +54,3 @@ with smart_run(session):
                                   amount=random.randint(30, 60),
                                   randomize=True, sleep_delay=600,
                                   interact=True)
-

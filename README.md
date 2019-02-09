@@ -167,17 +167,13 @@ Head over to https://github.com/timgrossmann/FacebookPy/wiki/How-to-Contribute t
 ### Table of Contents
 * [Advanced Installation](#advanced-installation)
 * [FacebookPy Available Features](#facebookpy-available-features)
-  * [Commenting](#commenting)
   * [Following](#following)
   * [Following by a list](#following-by-a-list)
   * [Follow someone else's followers](#follow-someone-elses-followers)
-  * [Follow users that someone else is following](#follow-users-that-someone-else-is-following)
   * [Follow someone else's followers/following](#follow-someone-elses-followersfollowing)  
   * [Follow the likers of photos of users](#follow-the-likers-of-photos-of-users)  
   * [Follow the commenters of photos of users](#follow-the-commenters-of-photos-of-users)  
   * [Interact with specific users](#interact-with-specific-users)
-  * [Interact with specific users' tagged posts](#interact-with-specific-users-tagged-posts)
-  * [Interact with users that someone else is following](#interact-with-users-that-someone-else-is-following)
   * [Interact with someone else's followers](#interact-with-someone-elses-followers)
   * [Interact on posts at given URLs](#interact-on-posts-at-given-urls)
   * [Interact by Comments](#interact-by-comments)
@@ -435,24 +431,6 @@ In essence,
 
 ## FacebookPy Available Features
 
-### Commenting
-
-```python
-# default enabled=False, ~ every 4th image will be commented on
-
-session.set_do_comment(enabled=True, percentage=25)
-session.set_comments(['Awesome', 'Really Cool', 'I like your stuff'])
-
-# you can also set comments for specific media types (Photo / Video)
-
-session.set_comments(['Nice shot!'], media='Photo')
-session.set_comments(['Great Video!'], media='Video')
-
-# and you can add the username of the poster to the comment by using
-
-session.set_comments(['Nice shot! @{}'], media='Photo')
-```
-
 
 ### Following
 
@@ -503,49 +481,6 @@ session.follow_user_followers(['friend1', 'friend2', 'friend3'], amount=10, rand
 session.follow_user_followers(['friend1', 'friend2', 'friend3'], amount=10, randomize=False, sleep_delay=60)
 ```
 > **Note**: [simulation](#simulation) takes place while running this feature.
-
-
-
-### Follow users that someone else is following
-
-```python
-# Follows the people that a given users are following
-# The usernames can be either a list or a string
-# The amount is for each account, in this case 30 users will be followed
-# If randomize is false it will pick in a top-down fashion
-
-session.follow_user_following(['friend1', 'friend2', 'friend3'], amount=10, randomize=False)
-
-# default sleep_delay=600 (10min) for every 10 user following, in this case
-# sleep for 60 seconds
-
-session.follow_user_following(['friend1', 'friend2', 'friend3'], amount=10, randomize=False, sleep_delay=60)
-```
-> **Note**: [simulation](#simulation) takes place while running this feature.
-
-
-
-### Follow someone else's followers/following
-
-```python
-# For 50% of the 30 newly followed, move to their profile
-# and randomly choose 5 pictures to be liked.
-# Take into account the other set options like the comment rate
-# and the filtering for inappropriate words or users
-
-session.set_user_interact(amount=5, randomize=True, percentage=50, media='Photo')
-session.follow_user_followers(['friend1', 'friend2', 'friend3'], amount=10, randomize=False, interact=True)
-```
-
-
-
-### Follow by Tags
-
-```python
-# Follow user based on hashtags (without liking the image)
-
-session.follow_by_tags(['tag1', 'tag2'], amount=10)
-```
 
 
 
