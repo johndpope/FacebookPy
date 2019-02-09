@@ -3,18 +3,17 @@
 <img src="https://i.imgur.com/sJzfZsL.jpg" width="150" align="right">
 
 # FacebookPy
-[![MIT license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://github.com/timgrossmann/FacebookPy/blob/master/LICENSE)
+[![MIT license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://github.com/socialbotspy/FacebookPy/blob/master/LICENSE)
 [![built with Selenium](https://img.shields.io/badge/built%20with-Selenium-yellow.svg)](https://github.com/SeleniumHQ/selenium)
 [![built with Python3](https://img.shields.io/badge/built%20with-Python3-red.svg)](https://www.python.org/)
-[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)](https://travis-ci.org/timgrossmann/FacebookPy)
+[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)](https://travis-ci.org/socialbotspy/FacebookPy)
 [![Backers on Open Collective](https://opencollective.com/facebookpy/backers/badge.svg)](#backers)
 
 ### Tooling that automates your social media interactions to “farm” Likes, Comments, and Followers on Facebook
 Implemented in Python using the Selenium module.
 
 **Have an issue?**
-If you should encounter any issue, please first [search for similar issues](https://github.com/timgrossmann/FacebookPy/issues) and only if you can't find any, create a new issue or use the [discord channel](https://discord.gg/FDETsht) for help.
-
+If you should encounter any issue, please first [search for similar issues](https://github.com/socialbotspy/FacebookPy/issues)
 #### Newsletter: [Sign Up for the Newsletter here!](http://eepurl.com/cZbV_v)
 
 
@@ -29,7 +28,7 @@ pip install -r requirements.txt
 
 <br />
 
-Now all you need is a **quickstart** script to start _InstaPy_ 🥳  
+Now all you need is a **quickstart** script to start _FacebookPy_ 🥳
 
 <details>
   <summary> <b>Choose a <b>quickstart</b> script of your choice from the <a href="https://github.com/FacebookPy/facebookpy-quickstart">facebookpy-quickstart</a> repository to get started 🔎</b></summary>
@@ -81,7 +80,7 @@ session = FacebookPy(username="abc",
 
 <br />
 
-🛸 Also, if you like to run _InstaPy_ in **background**, just enable the **headless** mode!
+🛸 Also, if you like to run _FacebookPy_ in **background**, just enable the **headless** mode!
 ```erlang
 python quickstart.py -u abc -p 123 --headless-browser
 ```
@@ -96,7 +95,7 @@ session = FacebookPy(username="abc",
 _Until you enable the **headless** mode, FacebookPy will run in the **graphical** mode where you can watch the ongoing automation in your web browser_.
 
 
-> If you've used _InstaPy_ before installing it by **pip**, you have to move your _old_ data to the new **workspace** folder for once.
+> If you've used _FacebookPy_ before installing it by **pip**, you have to move your _old_ data to the new **workspace** folder for once.
 [Read how to do this here](#migrating-your-data-to-the-workspace-folder).
 
 <br />
@@ -105,14 +104,9 @@ _Until you enable the **headless** mode, FacebookPy will run in the **graphical*
 
 ### Social
 
-#### [Twitter of FacebookPy](https://twitter.com/FacebookPy) | [Twitter of Tim](https://twitter.com/timigrossmann) | [How it works (Medium)](https://medium.freecodecamp.com/my-open-source-facebook-bot-got-me-2-500-real-followers-for-5-in-server-costs-e40491358340) |   
+#### [Twitter of FacebookPy](https://twitter.com/FacebookPy) | [Twitter of Ishan](https://twitter.com/ishandutta2007) | [How it works (Medium)](https://medium.freecodecamp.com/my-open-source-facebook-bot-got-me-2-500-real-followers-for-5-in-server-costs-e40491358340) |
 [Talk about automating your Facebook](https://youtu.be/4TmKFZy-ioQ) | [Talk about doing Open-Source work](https://www.youtube.com/watch?v=A_UtST302Og&t=0s&list=PLa4P1NPX9hthXV-wko0xyxFpbhYZFkW7o) | [Listen to the "Talk Python to me"-Episode](https://talkpython.fm/episodes/show/142/automating-the-web-with-selenium-and-facebookpy)
 
-### Do you need help ?
-
-<a href="https://discord.gg/FDETsht">
-  <img hspace="3" alt="Discord channel" src="https://camo.githubusercontent.com/e4a739df27356a78e9cae2e2dda642d118567e7c/68747470733a2f2f737465616d63646e2d612e616b616d616968642e6e65742f737465616d636f6d6d756e6974792f7075626c69632f696d616765732f636c616e732f32373039303534312f386464356339303766326130656563623733646336613437373666633961323538373865626364642e706e67" width=214/>
-</a>
 
 ### Do you want to support us ?
 
@@ -120,12 +114,12 @@ _Until you enable the **headless** mode, FacebookPy will run in the **graphical*
   <img align="left" hspace="10" src="https://opencollective.com/facebookpy/contribute/button@2x.png?color=blue" width=300 />
 </a>
 
-<a href="https://www.paypal.me/supportInstaPy">
+<a href="https://www.paypal.me/supportFacebookPy">
   <img hspace="14" alt="paypalme" src="http://codeinpython.com/tutorials/wp-content/uploads/2017/09/PayPal-ME-300x300.jpg.png" width=100 />
 </a>
 
 **Help build FacebookPy!**      
-Head over to https://github.com/timgrossmann/FacebookPy/wiki/How-to-Contribute to find out how you can help.
+Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute to find out how you can help.
 
 ---
 
@@ -226,11 +220,11 @@ Head over to https://github.com/timgrossmann/FacebookPy/wiki/How-to-Contribute t
 
 ### Advanced Installation
 #### 🛠 Install or update to the unreleased version  
-For example, there is a **bug** and its **fix** is _merged to the repo_ but a newer version of _InstaPy_ [_containing_ that **fix**] is not yet released to _PyPI_ to be able to be _installed_ or _updated_ by **pip**.  
+For example, there is a **bug** and its **fix** is _merged to the repo_ but a newer version of _FacebookPy_ [_containing_ that **fix**] is not yet released to _PyPI_ to be able to be _installed_ or _updated_ by **pip**.
 
 Then, you can do this to install the **actual state** of the _repo_ 😋
 ```erlang
-pip install -I https://github.com/timgrossmann/FacebookPy/zipball/master
+pip install -I https://github.com/socialbotspy/FacebookPy/zipball/master
 ```
 
 Worths to note that, this installation option does not require _Git_ to be installed, too.  
@@ -243,7 +237,7 @@ Worths to note that, this installation option does not require _Git_ to be insta
     </b>
   </summary>
 
-Since _InstaPy_'s version is not yet being incremented which is the reason you're installing it from a _zipball_, then if you don't use the `-I` flag, **pip** will complain saying,  
+Since _FacebookPy_'s version is not yet being incremented which is the reason you're installing it from a _zipball_, then if you don't use the `-I` flag, **pip** will complain saying,
 - "_Hey, I have already installed the x.y.z version! Skipping installation..._"  
 
 But obviously, even though the version is the same, _zipball_ has the current state of the repository.  
@@ -259,14 +253,14 @@ That's why you will be able to install the actual state of the repo using the `-
 <br />
 
 #### ⚗ Install manually and manage using advanced git commands
-###### For those who want to tweak or enhance _InstaPy_.
+###### For those who want to tweak or enhance _FacebookPy_.
 
-**1**. Clone _InstaPy_ repository into your computer
+**1**. Clone _FacebookPy_ repository into your computer
 ```erlang
-git clone https://github.com/timgrossmann/FacebookPy.git
+git clone https://github.com/socialbotspy/FacebookPy.git
 ```
 
-**2**. Navigate to the _InstaPy_ project root directory
+**2**. Navigate to the _FacebookPy_ project root directory
 ```erlang
 cd FacebookPy
 ```
@@ -282,7 +276,7 @@ pip install -e .
     </b>
   </summary>
 
-Since you're gonna install the local version of _InstaPy_ you'll probably change its code per your need which is the reason you do an advanced installation from a _Git_ source, then if you don't use the `-e` flag, you'll have to install that local package by **pip** every time after making a change.  
+Since you're gonna install the local version of _FacebookPy_ you'll probably change its code per your need which is the reason you do an advanced installation from a _Git_ source, then if you don't use the `-e` flag, you'll have to install that local package by **pip** every time after making a change.
 
 But fortunately, `-e` flag comes to help;  
 `-e` means _editable_ install, so that after editing files you don't need to re-install the package again since it will always refer to the edited files cos with the _editable_ install, it just **links** the project's location to **pip**'s install location _rather than_ adding them to **pip** location separately..
@@ -298,7 +292,7 @@ python setup.py install
 
 #### ⛑ Install into a Virtual Environment
 
-###### The best way to install _InstaPy_ is to create a virtual environment and install _InstaPy_ there, then, run it from a separate file.
+###### The best way to install _FacebookPy_ is to create a virtual environment and install _FacebookPy_ there, then, run it from a separate file.
 
 <details>
   <summary>
@@ -309,12 +303,12 @@ python setup.py install
 
 ##### Mac/Linux
 
-**1**. Clone _InstaPy_ repository into your computer
+**1**. Clone _FacebookPy_ repository into your computer
 ```erlang
-git clone https://github.com/timgrossmann/FacebookPy.git
+git clone https://github.com/socialbotspy/FacebookPy.git
 ```
 
-**2**. Navigate to the _InstaPy_ project root directory
+**2**. Navigate to the _FacebookPy_ project root directory
 ```erlang
 cd FacebookPy
 ```
@@ -338,12 +332,12 @@ pip install -e .
 
 ##### Windows
 
-**1**. Clone _InstaPy_ repository into your computer
+**1**. Clone _FacebookPy_ repository into your computer
 ```erlang
-git clone https://github.com/timgrossmann/FacebookPy.git
+git clone https://github.com/socialbotspy/FacebookPy.git
 ```
 
-**2**. Navigate to the _InstaPy_ project root directory
+**2**. Navigate to the _FacebookPy_ project root directory
 ```erlang
 cd FacebookPy
 ```
@@ -366,8 +360,8 @@ pip install -e .
 
 If you're not _familiar_ with **venv**, please [read about it here](https://docs.python.org/3/library/venv.html) and use it to your advantage;    
 
-- Running `source venv/bin/activate` will _activate_ the correct _python_ to run _InstaPy_. To exit an activated **venv** run `deactivate`.  
-- Now, copy & paste the **quickstart.py** _python_ code below and then run your first _InstaPy_ script.  
+- Running `source venv/bin/activate` will _activate_ the correct _python_ to run _FacebookPy_. To exit an activated **venv** run `deactivate`.
+- Now, copy & paste the **quickstart.py** _python_ code below and then run your first _FacebookPy_ script.
   Remember to run it with _python_ from the **venv**.  
 - To make sure which _python_ is used, run `which python` which will tell you the active version of _python_.  
 - Whenever you run the script, the virtual environment must be _active_.
@@ -394,7 +388,7 @@ source venv/bin/activate
 
 **3**. Install the **facebookpy** package from _Git_ by using **pip**
 ```erlang
-pip install git+https://github.com/timgrossmann/FacebookPy.git
+pip install git+https://github.com/socialbotspy/FacebookPy.git
 ```
 
 
@@ -403,9 +397,9 @@ If you're not _familiar_ with **virtualenv**, please [read about it here](https:
 In essence,    
  - This is be the **only** _python_ library you should install as `root` (_e.g., with `sudo`_).  
  - All other _python_ libraries should be inside a **virtualenv**.  
- - Running `source venv/bin/activate` will activate the correct _python_ to run _InstaPy_.  
+ - Running `source venv/bin/activate` will activate the correct _python_ to run _FacebookPy_.
   And to exit an activated **virtualenv** run `deactivate`.  
- - Now, copy & paste the **quickstart.py** _python_ code below and run your first _InstaPy_ script.  
+ - Now, copy & paste the **quickstart.py** _python_ code below and run your first _FacebookPy_ script.
  Remember to run it with _python_ from the **virtualenv**, so from **venv/bin/python**.  
  - To make sure which _python_ is used, run `which python` which would tell you the active version of _python_.
 
@@ -2250,12 +2244,12 @@ while True:
 
 
 ## Workspace folders
-###### _InstaPy_ stores user's data files inside the **workspace** folder.
+###### _FacebookPy_ stores user's data files inside the **workspace** folder.
 
 By default, it is gonna be the **FacebookPy** folder at your home folder.  
 Such as, if your username is `Cherry`, let's show where your FacebookPy folder would be,
 
-|   OS    |       home folder     | _InstaPy_ **workspace** folder |  
+|   OS    |       home folder     | _FacebookPy_ **workspace** folder |
 | ------- | --------------------- | ------------------------------ |
 | Windows | `C:\\Users\\Cherry\\` | `C:\\Users\\Cherry\\FacebookPy\\` |
 |   Mac   |    `/Users/Cherry/`   |    `/Users/Cherry/FacebookPy/`    |
@@ -2308,7 +2302,7 @@ session = FacebookPy(...)
     </b>
   </summary>
 
-**1**-) You have to set your custom **workspace** folder before instantiates _InstaPy_.  
+**1**-) You have to set your custom **workspace** folder before instantiates _FacebookPy_.
 **2**-) Your custom **workspace** folder must have `FacebookPy` (*_case sensitive_) word in its name.  
 + If your path does not have it,  
 `set_workspace("C:\\Other\\Path\\InstaPie\\")`  
@@ -2319,12 +2313,12 @@ then your **workspace** folder will be named and made as,
 + If your custom **workspace** folder name has a case-insensitive default name in it- `Facebookpy`, `facebookpy`, `instaPY`, etc.,  
 `set_workspace("C:\\Other\\Path\\facebookpy2\\")`  
 then your **workspace** folder will be,   
-`"C:\\Other\\Path\\InstaPy2\\"`  
+`"C:\\Other\\Path\\FacebookPy2\\"`
 as you can see, it normalizes name and sets the **workspace** folder.
 
 
 ##### _Why naming is so important?_
- - It will help to easily adapt to the flexible _InstaPy_ usage with that default formal name.
+ - It will help to easily adapt to the flexible _FacebookPy_ usage with that default formal name.
 
 </details>
 
@@ -2343,7 +2337,7 @@ from facebookpy import smart_run
 from facebookpy import set_workspace
 from isntapy import get_workspace
 
-set_workspace(path="C:\\Custom\\Path\\InstaPy_super\\")
+set_workspace(path="C:\\Custom\\Path\\FacebookPy_super\\")
 
 session = FacebookPy(username="abc", password="123")
 
@@ -2380,8 +2374,8 @@ session = FacebookPy(...)
     </b>
   </summary>
 
-**a**-) You cannot set a custom **workspace** folder after _InstaPy_ has been instantiated;  
-_E.g. while instantiating _InstaPy_, you make a logger at that given location and trying to change the_ `log_location` _really needs to restart the LOGGER adapter and make another logger instance, but it can be achieved in future_.
+**a**-) You cannot set a custom **workspace** folder after _FacebookPy_ has been instantiated;
+_E.g. while instantiating _FacebookPy_, you make a logger at that given location and trying to change the_ `log_location` _really needs to restart the LOGGER adapter and make another logger instance, but it can be achieved in future_.
 
 **b**-) If you set a custom **workspace** once and then set it again then your data locations will still use the previous locations:
 ```python
@@ -2389,15 +2383,15 @@ from facebookpy import FacebookPy
 from facebookpy import set_workspace
 
 # first time settings custom workspace folder
-set_workspace("C:\\Users\\MMega\\Desktop\\My_InstaPy\\")
+set_workspace("C:\\Users\\MMega\\Desktop\\My_FacebookPy\\")
 # second time settings custom workspace folder
-set_workspace("C:\\Users\\MMega\\Documents\\My_InstaPy\\")
+set_workspace("C:\\Users\\MMega\\Documents\\My_FacebookPy\\")
 
 # locations of data files, e.g. chromedriver executable, logfolder, db will use first custom workspace locations.
 # if you still want to change their location to second one, then do this one by one:
-Settings.log_location = "C:\\Users\\MMega\\Documents\\My_InstaPy\\logs\\"
-Settings.database_location = "C:\\Users\\MMega\\Documents\\My_InstaPy\\db\\facebookpy.db"
-Settings.chromedriver_location = "C:\\Users\\MMega\\Documents\\My_InstaPy\\logs\\chromedriver.exe"
+Settings.log_location = "C:\\Users\\MMega\\Documents\\My_FacebookPy\\logs\\"
+Settings.database_location = "C:\\Users\\MMega\\Documents\\My_FacebookPy\\db\\facebookpy.db"
+Settings.chromedriver_location = "C:\\Users\\MMega\\Documents\\My_FacebookPy\\logs\\chromedriver.exe"
 ```
 As you can see, you have to use `set_workspace()` only once.  
 Why it is so difficult in those 👆🏼 regards?  
@@ -2701,9 +2695,9 @@ python quickstart.py -u abc
 
 ### Contributors
 
-This project exists thanks to all the people who contribute. [[Contribute](https://github.com/timgrossmann/FacebookPy/wiki/How-to-Contribute)].
+This project exists thanks to all the people who contribute. [[Contribute](https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute)].
 
-<a href="https://github.com/timgrossmann/FacebookPy/graphs/contributors"><img src="https://opencollective.com/facebookpy/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/socialbotspy/FacebookPy/graphs/contributors"><img src="https://opencollective.com/facebookpy/contributors.svg?width=890&button=false" /></a>
 
 ### Backers
 

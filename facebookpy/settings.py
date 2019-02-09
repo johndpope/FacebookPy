@@ -73,7 +73,7 @@ class Settings:
     use_firefox = None
 
     # state of instantiation of FacebookPy
-    InstaPy_is_running = False
+    FacebookPy_is_running = False
 
 
 class Storage:

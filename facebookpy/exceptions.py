@@ -1,7 +1,7 @@
 """ Custom Exceptions """
 
 
-class InstaPyError(Exception):
+class FacebookPyError(Exception):
     """ General error for FacebookPy exceptions """
 
     pass

@@ -15,7 +15,7 @@ from .settings import Settings
 from .settings import localize_path
 from .settings import WORKSPACE
 from .settings import OS_ENV
-from .exceptions import InstaPyError
+from .exceptions import FacebookPyError
 
 
 def get_workspace():
@@ -42,7 +42,7 @@ def get_workspace():
 def set_workspace(path=None):
     """ Set a custom workspace for use """
 
-    if not Settings.InstaPy_is_running:
+    if not Settings.FacebookPy_is_running:
         if path:
             path = verify_workspace_name(path)
             workspace_is_new = differ_paths(WORKSPACE["path"], path)
@@ -206,7 +206,7 @@ def validate_path(path):
                    "\n\t{}".format(exc_name,
                                    path,
                                    str(exc).encode("utf-8")))
-            raise InstaPyError(msg)
+            raise FacebookPyError(msg)
 
 
 def get_chromedriver_location():

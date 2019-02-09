@@ -11,7 +11,7 @@ import re
 
 
 summary = "Tool for automated Facebook interactions"
-project_homepage = "https://github.com/timgrossmann/FacebookPy"
+project_homepage = "https://github.com/socialbotspy/FacebookPy"
 here = path.abspath(path.dirname(__file__))
 
 
@@ -34,8 +34,8 @@ setup(
     description=summary,
     long_description=documentation,
     long_description_content_type="text/markdown",
-    author=u"Tim Großmann",
-    author_email="contact.timgrossmann@gmail.com",
+    author=u"Ishan",
+    author_email="ishandutta2007@gmail.com",
     maintainer="FacebookPy Community at Github",
     license="GPLv3",
     url=project_homepage,
@@ -44,7 +44,7 @@ setup(
         "How Tos": (project_homepage + "/tree/master/docs"),
         "Examples": (project_homepage + "/tree/master/quickstart_templates"),
         "Bug Reports": (project_homepage + "/issues"),
-        "Funding": "https://www.paypal.me/supportInstaPy",
+        "Funding": "https://www.paypal.me/supportFacebookPy",
         "Say Thanks!": "http://saythanks.io/to/uluQulu",
         "Source": (project_homepage + "/tree/master/facebookpy")
     },

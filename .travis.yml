@@ -68,7 +68,7 @@ jobs:
         distributions: sdist bdist_wheel
         on:
           tags: true
-          repo: timgrossmann/FacebookPy
+          repo: socialbotspy/FacebookPy
           branches:
             only:
               - master
@@ -86,8 +86,7 @@ after_failure:
 notifications:
   email:
     recipients:
-      - contact.timgrossmann@gmail.com
-      - shahriyarguliyev@hotmail.com
+      - ishandutta2007@gmail.com
 
     on_success: change
     on_failure: always

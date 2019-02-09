@@ -793,7 +793,7 @@ def click_element(browser, element, tryNum=0):
     Before committing over this code, you MUST justify your change
     and potentially adding an 'if' statement that applies to your
     specific case. See the following issue for more details
-    https://github.com/timgrossmann/FacebookPy/issues/1232
+    https://github.com/socialbotspy/FacebookPy/issues/1232
 
     explaination of the following recursive function:
       we will attempt to click the element given, if an error is thrown

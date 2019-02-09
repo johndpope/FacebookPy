@@ -75,7 +75,7 @@ from .file_manager import get_logfolder
 
 # import exceptions
 from selenium.common.exceptions import NoSuchElementException
-from .exceptions import InstaPyError
+from .exceptions import FacebookPyError
 
 
 class FacebookPy:
@@ -112,10 +112,10 @@ class FacebookPy:
             cli_args.bypass_suspicious_attempt or bypass_suspicious_attempt)
         bypass_with_mobile = cli_args.bypass_with_mobile or bypass_with_mobile
 
-        Settings.InstaPy_is_running = True
+        Settings.FacebookPy_is_running = True
         # workspace must be ready before anything
         if not get_workspace():
-            raise InstaPyError(
+            raise FacebookPyError(
                 "Oh no! I don't have a workspace to work at :'(")
 
         self.nogui = nogui
@@ -325,7 +325,7 @@ class FacebookPy:
                                                            self.page_delay,
                                                            self.logger)
         if len(err_msg) > 0:
-            raise InstaPyError(err_msg)
+            raise FacebookPyError(err_msg)
 
     def set_selenium_remote_session(self, selenium_url='',
                                     selenium_driver=None):
@@ -576,13 +576,13 @@ class FacebookPy:
         Which 'project' will be used (only 5000 calls per month)
 
         Raises:
-            InstaPyError if os is windows
+            FacebookPyError if os is windows
         """
         if self.aborting:
             return self
 
         # if os.name == 'nt':
-        #    raise InstaPyError('Clarifai is not supported on Windows')
+        #    raise FacebookPyError('Clarifai is not supported on Windows')
 
         self.use_clarifai = enabled
 
@@ -3993,7 +3993,7 @@ class FacebookPy:
     def end(self):
         """Closes the current session"""
 
-        Settings.InstaPy_is_running = False
+        Settings.FacebookPy_is_running = False
         close_browser(self.browser, False, self.logger)
 
         with interruption_handler():

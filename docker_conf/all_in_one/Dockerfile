@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-MAINTAINER Grossmann Tim <contact.timgrossmann@gmail.com>
+MAINTAINER Ishan <ishandutta2007@gmail.com>
 
 # Set env variables
 ENV CHROME https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -63,7 +63,7 @@ RUN apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Adding FacebookPy
-RUN git clone https://github.com/timgrossmann/FacebookPy.git \
+RUN git clone https://github.com/socialbotspy/FacebookPy.git \
     && wget ${CRHOMEDRIVER} \
     && unzip chromedriver_linux64 \
     && mv chromedriver FacebookPy/assets/chromedriver \

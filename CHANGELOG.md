@@ -20,7 +20,7 @@ _The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [0.1.1] - 2019-02-04
 ### Added
 - **Workspace** folders; Now user's data files will be stored at the **workspace** folder.  
-- _InstaPy_ has been published to _PyPI_; Now, can install/manage it by **pip** as **facebookpy** package.  
+- _FacebookPy_ has been published to _PyPI_; Now, can install/manage it by **pip** as **facebookpy** package.
 - _Github_ releases has been initiated; Will be released in-parallel with _PyPI_ deployments.  
 - Add Universal Testing Framework- **tox** with **pytest** & **flake8**.  
 - Upgrade _Travis CI_ usage (_**tox** as build script_).  

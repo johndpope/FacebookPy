@@ -33,7 +33,7 @@ $ sudo rm google-chrome-stable_current_amd64.deb
 ### FacebookPy
 
 ```bash
-$ git clone https://github.com/timgrossmann/FacebookPy.git
+$ git clone https://github.com/socialbotspy/FacebookPy.git
 $ latest_version=$(wget https://chromedriver.storage.googleapis.com/LATEST_RELEASE -O -)
 $ wget https://chromedriver.storage.googleapis.com/${latest_version}/chromedriver_linux64.zip
 $ unzip chromedriver_linux64

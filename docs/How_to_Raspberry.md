@@ -54,7 +54,7 @@ NOTE: _If you add an empty file named ssh to the boot directory, ssh will be ena
 3. ```cd Projects```
 4. ```python3 -m venv /home/pi/Projects/venv37```
 5. ```source venv37/bin/activate```
-6. ```git clone https://github.com/timgrossmann/FacebookPy.git```
+6. ```git clone https://github.com/socialbotspy/FacebookPy.git```
 7. ```cd FacebookPy```
 8. ```python3 -m pip install --user .```
 
