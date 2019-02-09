@@ -19,10 +19,13 @@ If you should encounter any issue, please first [search for similar issues](http
 
 
 ## **Installation**
+It is recomended to use via pyenv
+We will be supporting python 3.6.0 and above going forward
 ```elm
-pip install facebookpy
+pip install pyenv
+pyenv local 3.6.0
+pip install -r requirements.txt
 ```
-That's it 🍫☕
 
 <br />
 
@@ -95,25 +98,6 @@ _Until you enable the **headless** mode, FacebookPy will run in the **graphical*
 
 > If you've used _InstaPy_ before installing it by **pip**, you have to move your _old_ data to the new **workspace** folder for once.
 [Read how to do this here](#migrating-your-data-to-the-workspace-folder).
-
-<br />
-
-#### **Update**
-```elm
-
-pip install facebookpy -U
-
-```
-
-#### **Install** a _**specific** version_
-```elm
-pip install facebookpy==0.1.1
-```
-
-#### **Uninstall**
-```elm
-pip uninstall facebookpy
-```
 
 <br />
 
@@ -2565,32 +2549,11 @@ Why? - cos,
 - `pip` command is for _python_ 2.7  
 - `python` command is for _python_ 3.7  
 
-To solve that confusion, use this **style** to install packages by **pip**,
-```powershell
-# install "facebookpy" package into python 3.7
-python -m pip install facebookpy
-
-# install "facebookpy" package into python 2.7
-py2 -m pip install facebookpy
-```
-
 As you can see, it is,  
 `python -m pip ...`  
 rather than,  
 `pip ...`
 
-Other **pip** commands can be accomplished the same way, too.  
-Such as,
-```powershell
-# update "facebookpy" package
-python -m pip install facebookpy -U
-
-# uninstall "facebookpy" package
-python -m pip uninstall facebookpy
-
-# show details of the "facebookpy" package installed by pip
-python -m pip show facebookpy
-```
 
 Using this style, you will never have to worry about what is the correct alias of the **pip** for you specific _python_ installation and all you have to know is just the _python_'s alias you use.  
 
