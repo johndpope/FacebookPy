@@ -102,8 +102,7 @@ _Until you enable the **headless** mode, FacebookPy will run in the **graphical*
 
 ### Social
 
-#### [Twitter of FacebookPy](https://twitter.com/FacebookPy) | [Twitter of Ishan](https://twitter.com/ishandutta2007) | [How it works (Medium)](https://medium.freecodecamp.com/my-open-source-facebook-bot-got-me-2-500-real-followers-for-5-in-server-costs-e40491358340) |
-[Talk about automating your Facebook](https://youtu.be/4TmKFZy-ioQ) | [Talk about doing Open-Source work](https://www.youtube.com/watch?v=A_UtST302Og&t=0s&list=PLa4P1NPX9hthXV-wko0xyxFpbhYZFkW7o) | [Listen to the "Talk Python to me"-Episode](https://talkpython.fm/episodes/show/142/automating-the-web-with-selenium-and-facebookpy)
+#### [Twitter of FacebookPy](https://twitter.com/FacebookPy) | [Twitter of Ishan](https://twitter.com/ishandutta2007) | [Talk about doing Open-Source work](https://www.youtube.com/watch?v=A_UtST302Og&t=0s&list=PLa4P1NPX9hthXV-wko0xyxFpbhYZFkW7o) | [Listen to the "Talk Python to me"-Episode](https://talkpython.fm/episodes/show/142/automating-the-web-with-selenium-and-facebookpy)
 
 
 ### Do you want to support us ?
@@ -134,7 +133,6 @@ Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute t
 # Documentation
 
 ### Table of Contents
-* [Advanced Installation](#advanced-installation)
 * [FacebookPy Available Features](#facebookpy-available-features)
   * [Following](#following)
   * [Following by a list](#following-by-a-list)
@@ -203,194 +201,6 @@ Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute t
   * [Custom action delays](#custom-action-delays)
   * [How to avoid _python_ & **pip** confusion](#how-to-avoid-python--pip-confusion)
   * [Pass arguments by CLI](#pass-arguments-by-cli)
-
-
-### Advanced Installation
-#### 🛠 Install or update to the unreleased version  
-For example, there is a **bug** and its **fix** is _merged to the repo_ but a newer version of _FacebookPy_ [_containing_ that **fix**] is not yet released to _PyPI_ to be able to be _installed_ or _updated_ by **pip**.
-
-Then, you can do this to install the **actual state** of the _repo_ 😋
-```erlang
-pip install -I https://github.com/socialbotspy/FacebookPy/zipball/master
-```
-
-Worths to note that, this installation option does not require _Git_ to be installed, too.  
-`-I` flag in there is used to _ignore the installed_ packages and _reinstall_ them instead.  
-
-<details>
-  <summary>
-    <b>
-      Learn why <code>-I</code> flag is required 🔎
-    </b>
-  </summary>
-
-Since _FacebookPy_'s version is not yet being incremented which is the reason you're installing it from a _zipball_, then if you don't use the `-I` flag, **pip** will complain saying,
-- "_Hey, I have already installed the x.y.z version! Skipping installation..._"  
-
-But obviously, even though the version is the same, _zipball_ has the current state of the repository.  
-That's why you will be able to install the actual state of the repo using the `-I` flag.
-
-</details>
-
-<br />
-
->**PRO** Tip:  
-  Read the section - [How to avoid _python_ & **pip** confusion](#how-to-avoid-python--pip-confusion) 😄
-
-<br />
-
-#### ⚗ Install manually and manage using advanced git commands
-###### For those who want to tweak or enhance _FacebookPy_.
-
-**1**. Clone _FacebookPy_ repository into your computer
-```erlang
-git clone https://github.com/socialbotspy/FacebookPy.git
-```
-
-**2**. Navigate to the _FacebookPy_ project root directory
-```erlang
-cd FacebookPy
-```
-
-**3**. Install the _local_ **facebookpy** package
-```erlang
-pip install -e .
-```
-<details>
-  <summary>
-    <b>
-      Learn why <code>-e</code> flag is required 🔎
-    </b>
-  </summary>
-
-Since you're gonna install the local version of _FacebookPy_ you'll probably change its code per your need which is the reason you do an advanced installation from a _Git_ source, then if you don't use the `-e` flag, you'll have to install that local package by **pip** every time after making a change.
-
-But fortunately, `-e` flag comes to help;  
-`-e` means _editable_ install, so that after editing files you don't need to re-install the package again since it will always refer to the edited files cos with the _editable_ install, it just **links** the project's location to **pip**'s install location _rather than_ adding them to **pip** location separately..
-<br />
-</details>
-or
-
-```erlang
-python setup.py install
-```
-
-<br />
-
-#### ⛑ Install into a Virtual Environment
-
-###### The best way to install _FacebookPy_ is to create a virtual environment and install _FacebookPy_ there, then, run it from a separate file.
-
-<details>
-  <summary>
-    <b>
-      Guide for <b>Pythons</b> >= 3.6 🔎
-    </b>
-  </summary>
-
-##### Mac/Linux
-
-**1**. Clone _FacebookPy_ repository into your computer
-```erlang
-git clone https://github.com/socialbotspy/FacebookPy.git
-```
-
-**2**. Navigate to the _FacebookPy_ project root directory
-```erlang
-cd FacebookPy
-```
-
-**3**. Make a virtual environment
-```erlang
-python3 -m venv venv
-```
-
-**4**. Activate the virtual environment
-```erlang
-source venv/bin/activate
-```
-
-**5**. Install the _local_ **facebookpy** package
-```erlang
-pip install -e .
-```
-
-
-
-##### Windows
-
-**1**. Clone _FacebookPy_ repository into your computer
-```erlang
-git clone https://github.com/socialbotspy/FacebookPy.git
-```
-
-**2**. Navigate to the _FacebookPy_ project root directory
-```erlang
-cd FacebookPy
-```
-
-**3**. Make a virtual environment
-```erlang
-python3 -m venv venv
-```
-
-**4**. Activate the virtual environment
-```erlang
-venv\Scripts\activate.bat
-```
-
-**5**. Install the _local_ **facebookpy** package
-```erlang
-pip install -e .
-```
-
-
-If you're not _familiar_ with **venv**, please [read about it here](https://docs.python.org/3/library/venv.html) and use it to your advantage;    
-
-- Running `source venv/bin/activate` will _activate_ the correct _python_ to run _FacebookPy_. To exit an activated **venv** run `deactivate`.
-- Now, copy & paste the **quickstart.py** _python_ code below and then run your first _FacebookPy_ script.
-  Remember to run it with _python_ from the **venv**.  
-- To make sure which _python_ is used, run `which python` which will tell you the active version of _python_.  
-- Whenever you run the script, the virtual environment must be _active_.
-
-</details>
-
-
-<details>
-  <summary>
-    <b>
-      Guide for <b>Pythons</b> < 3.6 🔎
-    </b>
-  </summary>
-
-**1**. Make a virtual environment
-```erlang
-virtualenv venv
-```
-
-**2**. Activate the virtual environment
-```erlang
-source venv/bin/activate
-```
-
-**3**. Install the **facebookpy** package from _Git_ by using **pip**
-```erlang
-pip install git+https://github.com/socialbotspy/FacebookPy.git
-```
-
-
-If you're not _familiar_ with **virtualenv**, please [read about it here](https://virtualenv.pypa.io/en/stable/) and use it to your advantage;  
-
-In essence,    
- - This is be the **only** _python_ library you should install as `root` (_e.g., with `sudo`_).  
- - All other _python_ libraries should be inside a **virtualenv**.  
- - Running `source venv/bin/activate` will activate the correct _python_ to run _FacebookPy_.
-  And to exit an activated **virtualenv** run `deactivate`.  
- - Now, copy & paste the **quickstart.py** _python_ code below and run your first _FacebookPy_ script.
- Remember to run it with _python_ from the **virtualenv**, so from **venv/bin/python**.  
- - To make sure which _python_ is used, run `which python` which would tell you the active version of _python_.
-
-</details>
 
 <br />
 
