@@ -189,9 +189,9 @@ def login_user(browser,
                                       username,
                                       "activity counts",
                                       logger,
-                                      False)
+                                      True)
     if login_state is True:
-        dismiss_notification_offer(browser, logger)
+        # dismiss_notification_offer(browser, logger)
         return True
 
     # if user is still not logged in, then there is an issue with the cookie
@@ -275,8 +275,8 @@ def login_user(browser,
 
     sleep(1)
 
-    dismiss_get_app_offer(browser, logger)
-    dismiss_notification_offer(browser, logger)
+    # dismiss_get_app_offer(browser, logger)
+    # dismiss_notification_offer(browser, logger)
 
     if bypass_suspicious_attempt is True:
         bypass_suspicious_login(browser, bypass_with_mobile)
@@ -285,7 +285,7 @@ def login_user(browser,
     explicit_wait(browser, "PFL", [], logger, 5)
 
     # Check if user is logged-in (If there's two 'nav' elements)
-    nav = browser.find_elements_by_xpath('//nav')
+    nav = browser.find_elements_by_xpath('//div[@role="navigation"]')
     if len(nav) == 2:
         # create cookie for username
         pickle.dump(browser.get_cookies(), open(
@@ -295,29 +295,29 @@ def login_user(browser,
         return False
 
 
-def dismiss_get_app_offer(browser, logger):
-    """ Dismiss 'Get the Facebook App' page after a fresh login """
-    offer_elem = "//*[contains(text(), 'Get App')]"
-    dismiss_elem = "//*[contains(text(), 'Not Now')]"
+# def dismiss_get_app_offer(browser, logger):
+#     """ Dismiss 'Get the Facebook App' page after a fresh login """
+#     offer_elem = "//*[contains(text(), 'Get App')]"
+#     dismiss_elem = "//*[contains(text(), 'Not Now')]"
 
-    # wait a bit and see if the 'Get App' offer rises up
-    offer_loaded = explicit_wait(
-        browser, "VOEL", [offer_elem, "XPath"], logger, 5, False)
+#     # wait a bit and see if the 'Get App' offer rises up
+#     offer_loaded = explicit_wait(
+#         browser, "VOEL", [offer_elem, "XPath"], logger, 5, False)
 
-    if offer_loaded:
-        dismiss_elem = browser.find_element_by_xpath(dismiss_elem)
-        click_element(browser, dismiss_elem)
+#     if offer_loaded:
+#         dismiss_elem = browser.find_element_by_xpath(dismiss_elem)
+#         click_element(browser, dismiss_elem)
 
 
-def dismiss_notification_offer(browser, logger):
-    """ Dismiss 'Turn on Notifications' offer on session start """
-    offer_elem_loc = "//div/h2[text()='Turn on Notifications']"
-    dismiss_elem_loc = "//button[text()='Not Now']"
+# def dismiss_notification_offer(browser, logger):
+#     """ Dismiss 'Turn on Notifications' offer on session start """
+#     offer_elem_loc = "//div/h2[text()='Turn on Notifications']"
+#     dismiss_elem_loc = "//button[text()='Not Now']"
 
-    # wait a bit and see if the 'Turn on Notifications' offer rises up
-    offer_loaded = explicit_wait(
-        browser, "VOEL", [offer_elem_loc, "XPath"], logger, 4, False)
+#     # wait a bit and see if the 'Turn on Notifications' offer rises up
+#     offer_loaded = explicit_wait(
+#         browser, "VOEL", [offer_elem_loc, "XPath"], logger, 4, False)
 
-    if offer_loaded:
-        dismiss_elem = browser.find_element_by_xpath(dismiss_elem_loc)
-        click_element(browser, dismiss_elem)
+#     if offer_loaded:
+#         dismiss_elem = browser.find_element_by_xpath(dismiss_elem_loc)
+#         click_element(browser, dismiss_elem)

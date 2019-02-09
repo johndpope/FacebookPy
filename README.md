@@ -2496,7 +2496,7 @@ By default, FacebookPy downloads the latest version of the chromedriver.
 Unless you need a specific version of the chromdriver, you're ready to go.
 
 You have two options to install the version you want to have:
-1. You can get the desired version of chromedriver binary by installing the same version of facebookpy-chromedriver package by pip [per their python version].
+1. You can get the desired version of chromedriver binary by installing the same version of instapy-chromedriver package by pip [per their python version].
 1. You can manually download and put the chromedriver binary into the assets folder [at their workspace] and then FacebookPy will always use it. You can find the specific versions of **chromedriver** for your OS [here](https://sites.google.com/a/chromium.org/chromedriver/downloads). Extract the .**zip** file and put it into the **assets** folder [at your **workspace** folder].
 
 ### Using one of the templates

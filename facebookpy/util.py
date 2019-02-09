@@ -1323,52 +1323,54 @@ def check_authorization(browser, username, method, logger, notify=True):
         logger.info("Checking if '{}' is logged in...".format(username))
 
     # different methods can be added in future
-    if method == "activity counts":
+    # if method == "activity counts":
 
-        # navigate to owner's profile page only if it is on an unusual page
-        current_url = get_current_url(browser)
-        if (not current_url or
-                "https://www.facebook.com" not in current_url or
-                "https://www.facebook.com/graphql/" in current_url):
-            profile_link = 'https://www.facebook.com/{}/'.format(username)
-            web_address_navigator(browser, profile_link)
+    # navigate to owner's profile page only if it is on an unusual page
+    current_url = get_current_url(browser)
+    if (not current_url or
+            "https://www.facebook.com" not in current_url or
+            "https://www.facebook.com/graphql/" in current_url):
+        profile_link = 'https://www.facebook.com'.format(username.split('@')[0])
+        web_address_navigator(browser, profile_link)
+        logger.critical("--> '{}' is not logged in!\n".format(username))
+        return False
 
-        # if user is not logged in, `activity_counts` will be `None`- JS `null`
-        try:
-            activity_counts = browser.execute_script(
-                "return window._sharedData.activity_counts")
+        # # if user is not logged in, `activity_counts` will be `None`- JS `null`
+        # try:
+        #     activity_counts = browser.execute_script(
+        #         "return window._sharedData.activity_counts")
 
-        except WebDriverException:
-            try:
-                browser.execute_script("location.reload()")
-                update_activity()
+        # except WebDriverException:
+        #     try:
+        #         browser.execute_script("location.reload()")
+        #         update_activity()
 
-                activity_counts = browser.execute_script(
-                    "return window._sharedData.activity_counts")
+        #         activity_counts = browser.execute_script(
+        #             "return window._sharedData.activity_counts")
 
-            except WebDriverException:
-                activity_counts = None
+        #     except WebDriverException:
+        #         activity_counts = None
 
-        # if user is not logged in, `activity_counts_new` will be `None`- JS
-        # `null`
-        try:
-            activity_counts_new = browser.execute_script(
-                "return window._sharedData.config.viewer")
+        # # if user is not logged in, `activity_counts_new` will be `None`- JS
+        # # `null`
+        # try:
+        #     activity_counts_new = browser.execute_script(
+        #         "return window._sharedData.config.viewer")
 
-        except WebDriverException:
-            try:
-                browser.execute_script("location.reload()")
-                activity_counts_new = browser.execute_script(
-                    "return window._sharedData.config.viewer")
+        # except WebDriverException:
+        #     try:
+        #         browser.execute_script("location.reload()")
+        #         activity_counts_new = browser.execute_script(
+        #             "return window._sharedData.config.viewer")
 
-            except WebDriverException:
-                activity_counts_new = None
+        #     except WebDriverException:
+        #         activity_counts_new = None
 
-        if activity_counts is None and activity_counts_new is None:
-            if notify is True:
-                logger.critical(
-                    "--> '{}' is not logged in!\n".format(username))
-            return False
+        # if activity_counts is None and activity_counts_new is None:
+        #     if notify is True:
+        #         logger.critical(
+        #             "--> '{}' is not logged in!\n".format(username))
+        #     return False
 
     return True
 
