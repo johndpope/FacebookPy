@@ -921,6 +921,7 @@ def get_following_count(browser, username, logger):
 
         except NoSuchElementException as e:
             logger.error(e)
+            return None
     return following_count
 
 
@@ -941,6 +942,7 @@ def get_followers_count(browser, username, logger):
 
         except NoSuchElementException as e:
             logger.error(e)
+            return None
     return followers_count
 
 def get_relationship_counts(browser, username, logger):

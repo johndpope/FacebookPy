@@ -1103,30 +1103,32 @@ class FacebookPy:
 
     def validate_user_call(self, user_name):
         """ Short call of validate_username() function """
-        validation, details = validate_username(self.browser,
-                                                user_name,
-                                                self.username,
-                                                self.ignore_users,
-                                                self.blacklist,
-                                                self.potency_ratio,
-                                                self.delimit_by_numbers,
-                                                self.max_followers,
-                                                self.max_following,
-                                                self.min_followers,
-                                                self.min_following,
-                                                self.min_posts,
-                                                self.max_posts,
-                                                self.skip_private,
-                                                self.skip_private_percentage,
-                                                self.skip_no_profile_pic,
-                                                self.skip_no_profile_pic_percentage,
-                                                self.skip_business,
-                                                self.skip_business_percentage,
-                                                self.skip_business_categories,
-                                                self.dont_skip_business_categories,
-                                                self.logger,
-                                                self.logfolder)
-        return validation, details
+        # TODO:FIX IT:HACED TEMPORARILY
+        return True, "Valid user"
+        # validation, details = validate_username(self.browser,
+        #                                         user_name,
+        #                                         self.username,
+        #                                         self.ignore_users,
+        #                                         self.blacklist,
+        #                                         self.potency_ratio,
+        #                                         self.delimit_by_numbers,
+        #                                         self.max_followers,
+        #                                         self.max_following,
+        #                                         self.min_followers,
+        #                                         self.min_following,
+        #                                         self.min_posts,
+        #                                         self.max_posts,
+        #                                         self.skip_private,
+        #                                         self.skip_private_percentage,
+        #                                         self.skip_no_profile_pic,
+        #                                         self.skip_no_profile_pic_percentage,
+        #                                         self.skip_business,
+        #                                         self.skip_business_percentage,
+        #                                         self.skip_business_categories,
+        #                                         self.dont_skip_business_categories,
+        #                                         self.logger,
+        #                                         self.logfolder)
+        # return validation, details
 
     def fetch_smart_comments(self, is_video, temp_comments):
         if temp_comments:

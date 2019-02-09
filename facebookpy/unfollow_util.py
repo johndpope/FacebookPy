@@ -114,12 +114,7 @@ def get_following_status(browser, track, username, person, person_id, logger,
         ig_homepage = "https://www.facebook.com/"
         web_address_navigator(browser, ig_homepage + person)
 
-    follow_button_XP = ("//button[text()='Following' or \
-                                  text()='Requested' or \
-                                  text()='Follow' or \
-                                  text()='Follow Back' or \
-                                  text()='Unblock']"
-                        )
+    follow_button_XP = ("//div/div/a[@role='button'][text()='Follow']")
     failure_msg = "--> Unable to detect the following status of '{}'!"
     user_inaccessible_msg = (
         "Couldn't access the profile page of '{}'!\t~might have changed the"
@@ -965,7 +960,7 @@ def get_given_user_followers(browser,
     """
     user_name = user_name.strip()
 
-    user_link = "https://www.facebook.com/{}/".format(user_name)
+    user_link = "https://www.facebook.com/{}".format(user_name)
     web_address_navigator(browser, user_link)
 
     if not is_page_available(browser, logger):
@@ -986,12 +981,24 @@ def get_given_user_followers(browser,
                 user_name, allfollowers, amount))
 
     # locate element to user's followers
+    user_followers_link = "https://www.facebook.com/{}/followers".format(user_name)
+    web_address_navigator(browser, user_followers_link)
+
     try:
-        followers_link = browser.find_elements_by_xpath(
-            '//a[@href="/{}/followers/"]'.format(user_name))
-        click_element(browser, followers_link[0])
-        # update server calls
-        update_activity()
+        followers_links = browser.find_elements_by_xpath('//div[2]/ul/li/div/div/div[2]/div/div[2]/div/a')
+        followers_list = []
+        for followers_link in followers_links:
+            splitted = followers_link.get_attribute('href').replace('https://www.facebook.com/','').split('?')
+            if splitted[0]=='profile.php':
+                u = splitted[0]+'?'+splitted[1]
+            else:
+                u = splitted[0]
+            followers_list.append(u)
+        logger.info(followers_list)
+
+        # click_element(browser, followers_link[0])
+        # # update server calls
+        # update_activity()
 
     except NoSuchElementException:
         logger.error(
@@ -1003,16 +1010,20 @@ def get_given_user_followers(browser,
         return [], []
 
     channel = "Follow"
-    person_list, simulated_list = get_users_through_dialog(browser, login,
-                                                           user_name, amount,
-                                                           allfollowers,
-                                                           randomize,
-                                                           dont_include,
-                                                           blacklist,
-                                                           follow_times,
-                                                           simulation,
-                                                           channel, jumps,
-                                                           logger, logfolder)
+
+    #TODO: Fix it: Add simulated, make person_list randomised
+    simulated_list = []
+    person_list = followers_list[10:]
+    # person_list, simulated_list = get_users_through_dialog(browser, login,
+    #                                                        user_name, amount,
+    #                                                        allfollowers,
+    #                                                        randomize,
+    #                                                        dont_include,
+    #                                                        blacklist,
+    #                                                        follow_times,
+    #                                                        simulation,
+    #                                                        channel, jumps,
+    #                                                        logger, logfolder)
 
     return person_list, simulated_list
 
