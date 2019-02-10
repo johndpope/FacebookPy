@@ -26,44 +26,11 @@ pip install -r requirements.txt
 
 <br />
 
-Now all you need is a **quickstart** script to start _FacebookPy_ 🥳
-
-<details>
-  <summary> <b>Choose a <b>quickstart</b> script of your choice from the <a href="https://github.com/FacebookPy/facebookpy-quickstart">facebookpy-quickstart</a> repository to get started 🔎</b></summary>
-
-- Here is the easiest **quickstart** script you can use - [quickstart.py](https://github.com/FacebookPy/facebookpy-quickstart/blob/master/quickstart.py)  
-- And here you can find lots of _sophisticated **quickstart** templates_ shared by the community! - [quickstart templates 📂](https://github.com/FacebookPy/facebookpy-quickstart/tree/master/quickstart_templates)  
-
-<br /> 
-
-You can also copy and paste this basic **quickstart** into a new text file and save it as `.py` file.
-```python		
-""" Quickstart script for FacebookPy usage """		
-# imports		
-from facebookpy import FacebookPy		
-from facebookpy import smart_run		
-	
-# get an FacebookPy session!		
-session = FacebookPy()		
-	
-with smart_run(session):		
-    """ Activity flow """		
-    # general settings		
-    session.set_dont_include(["friend1", "friend2", "friend3"])		
-	
-    # activity		
-    session.like_by_tags(["natgeo"], amount=10)		
-```
-
-</details>
-
-<br />
-
-🛰 As you've downloaded a **quickstart** script into your computer, go ahead and run it in the command prompt as:
+Now all you need is a **quickstart** script into your computer, go ahead and run it in the command prompt as:
 ```elm
-python quickstart.py --username abc --password 123
+python quickstart.py --username abc@gmail.com --userid abc.pqr --password 123
 ```
->**PRO**:  
+>**PRO**:
 Read more about passing arguments from the command line interface in the section - [Pass arguments by CLI](#pass-arguments-by-cli).
 
 <br />
@@ -72,8 +39,8 @@ Read more about passing arguments from the command line interface in the section
 ```python
 # inside quickstart script
 
-session = FacebookPy(username="abc",    
-                  password="123")   
+session = FacebookPy(username="abc",
+                  password="123")
 ```
 
 <br />
@@ -86,7 +53,7 @@ Or do it right inside the **quickstart** script.
 ```python
 # inside quickstart script
 
-session = FacebookPy(username="abc",    
+session = FacebookPy(username="abc",
                   password="123",
                   headless_browser=True)  
 ```
@@ -115,7 +82,7 @@ _Until you enable the **headless** mode, FacebookPy will run in the **graphical*
   <img hspace="14" alt="paypalme" src="http://codeinpython.com/tutorials/wp-content/uploads/2017/09/PayPal-ME-300x300.jpg.png" width=100 />
 </a>
 
-**Help build FacebookPy!**      
+**Help build FacebookPy!**
 Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute to find out how you can help.
 
 ---
@@ -218,7 +185,6 @@ session.set_do_follow(enabled=True, percentage=10, times=2)
 
 ### Following by a list
 
-
 ##### This will follow each account from a list of facebook nicknames
 ```python
 follow_by_list(followlist=['samantha3', 'larry_ok'], times=1, sleep_delay=600, interact=False)
@@ -233,12 +199,11 @@ session.follow_by_list(accs, times=1, sleep_delay=600, interact=False)
 * You can also **interact** with the followed users by enabling `interact=True` which will use the configuration of `set_user_interact` setting:  
 ```python
 session.set_user_interact(amount=4,
-				 percentage=50,
+  				 percentage=50,
                   randomize=True,
                    media='Photo')
 session.follow_by_list(followlist=['samantha3', 'larry_ok'], times=2, sleep_delay=600, interact=True)
 ```
-
 
 ### Follow someone else's followers
 
@@ -258,37 +223,34 @@ session.follow_user_followers(['friend1', 'friend2', 'friend3'], amount=10, rand
 > **Note**: [simulation](#simulation) takes place while running this feature.
 
 
-
 ### Follow the likers of photos of users
 
-##### This will follow the people those liked photos of given list of users   
+##### This will follow the people those liked photos of given list of users
 ```python
 session.follow_likers(['user1' , 'user2'], photos_grab_amount = 2, follow_likers_per_photo = 3, randomize=True, sleep_delay=600, interact=False)
-```   
-_in this case 2 random photos from each given user will be analyzed and 3 people who liked them will be followed, so 6 follows in total_  
-The `usernames` can be any list   
-The `photos_grab_amount` is how many photos will I grat from users profile and analyze who liked it  
-The `follow_likers_per_photo` is how many people to follow per each photo  
-`randomize=False` will take photos from newes, true will take random from first 12  
+```
+_in this case 2 random photos from each given user will be analyzed and 3 people who liked them will be followed, so 6 follows in total_
+The `usernames` can be any list
+The `photos_grab_amount` is how many photos will I grat from users profile and analyze who liked it
+The `follow_likers_per_photo` is how many people to follow per each photo
+`randomize=False` will take photos from newes, true will take random from first 12
 `sleep_delay` is used to define break time after some good following (_averagely ~`10` follows_)
 
 * You can also **interact** with the followed users by enabling `interact=True` which will use the configuration of `set_user_interact` setting:  
 ```python
 session.set_user_interact(amount=2,
-				 percentage=70,
-                  randomize=True,
-                   media='Photo')
+				    percentage=70,
+                    randomize=True,
+                    media='Photo')
 session.follow_likers(['user1' , 'user2'], photos_grab_amount = 2, follow_likers_per_photo = 3, randomize=True, sleep_delay=600, interact=True)
 ```
-
-
 
 ### Follow the commenters of photos of users
 
 ##### This will follow the people those commented on photos of given list of users
 ```python
 session.follow_commenters(['user1', 'user2', 'user3'], amount=100, daysold=365, max_pic = 100, sleep_delay=600, interact=False)
-```   
+```
 _in this case (max 100 newest photos & maximum 365 days old) from each given user will be analyzed and 100 people who commented the most will be followed_  
 The `usernames` can be any list  
 The `amount` is how many people to follow  
@@ -299,9 +261,9 @@ The `max_pic` will limit number of photos to analyze
 * You can also **interact** with the followed users by enabling `interact=True` which will use the configuration of `set_user_interact` setting:  
 ```python
 session.set_user_interact(amount=3,
-				 percentage=32,
+                  percentage=32,
                   randomize=True,
-                   media='Video')
+                  media='Video')
 session.follow_commenters(['user1', 'user2', 'user3'], amount=100, daysold=365, max_pic = 100, sleep_delay=600, interact=True)
 ```
 
@@ -331,7 +293,6 @@ session.set_do_like(True, percentage=70)
 session.interact_by_users_tagged_posts(['user1', 'user2', 'user3'], amount=5, randomize=True, media='Photo')
 ```
 
-
 ### Interact with users that someone else is following
 
 ```python
@@ -347,8 +308,6 @@ session.interact_user_following(['natgeo'], amount=10, randomize=True)
 ```
 > **Note**: [simulation](#simulation) takes place while running this feature.
 
-
-
 ### Interact with someone else's followers
 
 ```python
@@ -363,8 +322,6 @@ session.set_do_comment(enabled=True, percentage=80)
 session.interact_user_followers(['natgeo'], amount=10, randomize=True)
 ```
 > **Note**: [simulation](#simulation) takes place while running this feature.
-
-
 
 ### Interact on posts at given URLs
 ###### Like, comment, follow on the post in the links provided, also can interact the owner of the post
@@ -400,8 +357,6 @@ Shuffles the **order** of the _URLs_ in the given list _before starts to interac
 `interact`:  
 Use it if you like to also _interact the post owner_ **after** doing interactions on the **post itself**.  
 
-
-
 ### Interact by Comments
 ###### Like comments on posts, reply to them and then interact by the users whose comment was liked on the post
 
@@ -435,7 +390,6 @@ session.interact_by_comments(usernames=["somebody", "other buddy"],
 
 `media`
 : Choose the **type of** media to be interacted - _`"Photo"`_ for photos, _`"Video"`_ for videos, `None` for any media;
-
 
 #### Usage
 **To use**, set **replying** and **interaction** configuration(s)
@@ -501,7 +455,7 @@ session.interact_by_comments(usernames=["somebody", "other.buddy"], posts_amount
 + owner's (_logged in user_) comments are also ignored;  
 + if the commenter is in _blacklist_ or `ignored_users` list, that comment will also be ignored;  
 + it will take only one comment from each unique commenter;  
-+ as if there are any usable comments, it will first **like the post itself** before _interacting by comments_ cos liking comments and replying to them without liking the post can look spammy;    
++ as if there are any usable comments, it will first **like the post itself** before _interacting by comments_ cos liking comments and replying to them without liking the post can look spammy;
 + it will reply to a comment only after liking it;  
 + it will not send the same reply again on overall posts per each username in the list provided by you;  
 
@@ -512,8 +466,6 @@ session.interact_by_comments(usernames=["somebody", "other.buddy"], posts_amount
 #### CONs
 + liking a comment doesn't fill up your like quota, but replying to a comment does it to the comment quota. Try to compensate it in your style and do not overuse;  
 + using auto-reply capability of this feature can result in unwanted miscommunication between you and the commenter IN CASE OF you do not make an efficient use of text analytics;  
-
-
 
 ### Unfollowing
 ###### Unfollows the accounts you're following  
@@ -592,8 +544,6 @@ session.unfollow_users(amount=200, allFollowing=True, style="FIFO", unfollow_aft
 ```
 _here the unfollow method- **alFollowing** is used_
 
-
-
 ### Remove outgoing follow requests
 
 ```python
@@ -601,7 +551,6 @@ _here the unfollow method- **alFollowing** is used_
 
 session.remove_follow_requests(amount=200, sleep_delay=600)
 ```
-
 
 ### Don't unfollow active users
 
@@ -616,14 +565,14 @@ session.set_dont_unfollow_active_users(enabled=True, posts=5)
 ##### This is used to check the number of _followers_ and/or _following_ a user has and if these numbers _either_ **exceed** the number set OR **does not pass** the number set OR if **their ratio does not reach** desired potency ratio then no further interaction happens
 ```python
 session.set_relationship_bounds(enabled=True,
-				 potency_ratio=1.34,
-				  delimit_by_numbers=True,
-				   max_followers=8500,
+    				potency_ratio=1.34,
+  				    delimit_by_numbers=True,
+				    max_followers=8500,
 				    max_following=4490,
-				     min_followers=100,
-				      min_following=56,
-				       min_posts=10,
-                max_posts=1000)
+        		    min_followers=100,
+				    min_following=56,
+				    min_posts=10,
+                    max_posts=1000)
 ```
 Use `enabled=True` to **activate** this feature, and `enabled=False` to **deactivate** it, _any time_  
 `delimit_by_numbers` is used to **activate** & **deactivate** the usage of max & min values  
@@ -715,9 +664,9 @@ You can set a percentage of skipping:
 
 ```python
 session.set_skip_users(skip_private=True,
-                       skip_no_profile_pic=True,
-		               skip_business=True,
-		               business_percentage=100)
+                        skip_no_profile_pic=True,
+                        skip_business=True,
+                        business_percentage=100)
 ```
 This will skip all users that have business account activated.
 You can set a percentage of skipping:
@@ -738,9 +687,9 @@ This will skip all business accounts that have category in given list
 ###### Skip all business accounts, except from list given
 ```python
 session.set_skip_users(skip_private=True,
-                       skip_no_profile_pic=True,
-		       skip_business=True,
-		       dont_skip_business_categories=['Creators & Celebrities'])
+                      skip_no_profile_pic=True,
+                      skip_business=True,
+                      dont_skip_business_categories=['Creators & Celebrities'])
 ```
 This will skip all business accounts except the ones that have a category that matches one item in the list of _dont_skip_business_categories_
 **N.B.** If both _dont_skip_business_categories_ and _skip_business_categories_, FacebookPy will skip only business accounts in the list given from _skip_business_categories_.
@@ -904,8 +853,6 @@ session.set_do_follow(enabled=True, percentage=10, times=2)
 ```
 but none of the profiles are being followed - or any such functionality is misbehaving - then one thing you should check is the position/order of such methods in your script. Essentially, all the ```set_*``` methods have to be before ```like_by_tags``` or ```like_by_locations``` or ```unfollow```. This is also implicit in all the exmples and quickstart.py
 
-
-
 ### Bypass Suspicious Login Attempt
 
 If you're having issues with the "we detected an unusual login attempt" message,
@@ -926,17 +873,20 @@ If you want to bypass suspicious login attempt with your phone number, set `bypa
 FacebookPy(username=facebook_username, password=facebook_password, bypass_suspicious_attempt=True, bypass_with_mobile=True)
 ```
 
-
 ### Quota Supervisor
 ###### Take full control of the actions with the most sophisticated approaches
 
 ```python
-session.set_quota_supervisor(enabled=True, sleep_after=["likes", "comments_d", "follows", "unfollows", "server_calls_h"], sleepyhead=True, stochastic_flow=True, notify_me=True,
-                              peak_likes=(57, 585),
-                               peak_comments=(21, 182),
-                                peak_follows=(48, None),
-                                 peak_unfollows=(35, 402),
-                                  peak_server_calls=(None, 4700))
+session.set_quota_supervisor(enabled=True,
+                      sleep_after=["likes", "comments_d", "follows", "unfollows", "server_calls_h"],
+                      sleepyhead=True,
+                      stochastic_flow=True,
+                      notify_me=True,
+                      peak_likes=(57, 585),
+                      peak_comments=(21, 182),
+                      peak_follows=(48, None),
+                      peak_unfollows=(35, 402),
+                      peak_server_calls=(None, 4700))
 ```
 #### Parameters:
 `enabled`: put `True` to **activate** or `False` to **deactivate** supervising any time
@@ -974,11 +924,9 @@ _such as_,
 `sleepyhead`: can help to _sound_ **more humanly** which will **wake up a little bit later** in a randomly chosen time interval around accurate wake up time.
 >_e.g._, if remaining time is `17` minutes, it will sleep `20` minutes instead (_random values each time_)..
 
-
 `stochastic_flow`: can provide _smooth_ peak value generation by your original values.  
 + Every ~**hour**/**day** it will generate peaks **at close range** _around_ your **original peaks** (_but below them_).  
 > _e.g._, your peak likes **hourly** is `45`, next hour that peak will be `39`, the next `43`, etc.
-
 
 `notify_me`: sends **toast notifications** (_directly to your OS_) _about_ the **important states of** _supervisor_- **sleep**, **wake up** and **exit** messages.
 
@@ -1011,9 +959,7 @@ session.set_quota_supervisor(enabled=True, peak_follows=(56, 660), peak_unfollow
 + _OR_ **just** supervise the desired _action_(_s_) in desired _interval_(_s_) [**hourly** and/or **daily**] per your need
 
 
-
 ## Relationship tools
-
 
 ### Grab Followers of a user  
 ###### Gets and returns `followers` of the given user in desired amount, also can save locally  
@@ -1057,7 +1003,6 @@ _If the data is requested at the range **else than** `"full"`, it will write **t
 + `6874` means the **count** of the usernames retrieved.
 + `json` is the **filetype** and the data is stored as a `list` in it.
 
-
 There are **several** `use cases` of this tool for **various purposes**.  
 _E.g._, inside your **quickstart** script, you can **do** _something like this_:
 ```python
@@ -1074,14 +1019,13 @@ popeye_cinderella_followers = [follower for follower in popeye_followers if foll
 You can **use** this tool to take a **backup** of _your_ **or** _any other user's_ **current** followers.
 
 
-
 ### Grab Following of a user  
 ###### Gets and returns `following` of the given user in desired amount, also can save locally  
 ```python
 lazySmurf_following = session.grab_following(username="lazy.smurf", amount="full", live_match=True, store_locally=True)
 ##now, `lazySmurf_following` variable which is a list- holds the `Following` data of "lazy.smurf" at requested time
 ```  
-#### Parameters:  
+#### Parameters:
 `username`:  
 A desired username to grab its following  
 * It can be your `own` username **OR** a _username of some `non-private` account._
@@ -1117,7 +1061,6 @@ _If the data is requested at the range **else than** `"full"`, it will write **t
 + `2409` means the **count** of the usernames retrieved.
 + `json` is the **filetype** and the data is stored as a `list` in it.
 
-
 There are **several** `use cases` of this tool for **various purposes**.  
 _E.g._, inside your **quickstart** script, you can **do** _something like this_:
 ```python
@@ -1136,8 +1079,6 @@ lazySmurf_gargamel_following = [following for following in lazySmurf_following i
 #### `PRO`s:
 You can **use** this tool to take a **backup** of _your_ **or** _any other user's_ **current** following.
 
-
-
 ### Pick Unfollowers of a user
 ###### Compares the `followers` stored in a local storage against current followers and returns absent followers
 ```python
@@ -1145,7 +1086,7 @@ all_unfollowers, active_unfollowers = session.pick_unfollowers(username="Bernard
 ##now, `all_unfollowers` and `all_unfollowers` variables which are lists- hold the `Unfollowers` data of "Bernard_bear" at requested time
 #`all_unfollowers` holds all of the unfollowers WHILST `active_unfollowers` holds the unfollowers WHOM "Bernard_bear" is still following
 ```
-#### Parameters:  
+#### Parameters:
 `username`:  
 A desired username to pick its unfollowers  
 * It can be your `own` username **OR** a _username of some `non-private` account._
@@ -1187,10 +1128,10 @@ Gives the _option_ to `save` the loaded `Unfollowers` data in a **local storage*
 There will be 2 files saved in their own directory:  
 + `all_unfollowers`:  
     + Will store all of the unfollowers in there  
-    + Its files will be saved at **logs folder**, `~/FacebookPy/logs/YourOwnUsername/relationship_data/Bernard_bear/unfollowers/all_unfollowers/` directory.    
-+ `active_unfollowers`:    
+    + Its files will be saved at **logs folder**, `~/FacebookPy/logs/YourOwnUsername/relationship_data/Bernard_bear/unfollowers/all_unfollowers/` directory.
++ `active_unfollowers`:
     + Will store only the unfollowers WHOM you are currently following.  
-    + Its files will be saved at **logs folder**, `~/FacebookPy/logs/YourOwnUsername/relationship_data/Bernard_bear/unfollowers/active_unfollowers/` directory.    
+    + Its files will be saved at **logs folder**, `~/FacebookPy/logs/YourOwnUsername/relationship_data/Bernard_bear/unfollowers/active_unfollowers/` directory.
 
 Sample **filename** `03-06-2018~all~75.json`:  
 + `03-06-2018` means the **time** of the data acquisition.
@@ -1200,7 +1141,7 @@ _*`"active"` unfollowers files will have `"active"` written in there_.
 + `json` is the **filetype** and the data is stored as a `list` in it.
 
 `print_out`:  
-Use this parameter if you would like the `see` those unfollowers **printed** into the **console output** _right after finding them_.    
+Use this parameter if you would like the `see` those unfollowers **printed** into the **console output** _right after finding them_.
 
 There are **several** `use cases` of this tool for **various purposes**.  
 + You can the get the unfollowers you have had from the **start of the** _year_, or from the **middle of the** _year_ or from the start of the **month**, etc.  
@@ -1215,15 +1156,13 @@ sleep(200)
 session.unfollow_users(amount=len(active_unfollowers), customList=(True, active_unfollowers, "all"), style="RANDOM", unfollow_after=None, sleep_delay=600)
 ```
 
-
-
 ### Pick Nonfollowers of a user
 ###### Compares the `Followers` data against `Following` data of a user and returns the `Nonfollowers` data
 ```python
 scoobyDoo_nonfollowers = session.pick_nonfollowers(username="ScoobyDoo", live_match=True, store_locally=True)
 #now, `scoobyDoo_nonfollowers` variable which is a list- holds the `Nonfollowers` data of "ScoobyDoo" at requested time
 ```
-#### Parameters:  
+#### Parameters:
 `username`:  
 A desired username to pick its nonfollowers  
 * It can be your `own` username **OR** a _username of some `non-private` account._
@@ -1263,15 +1202,13 @@ There are **several** `use cases` of this tool for **various purposes**.
     #now Scooby Doo will tell his friend Shaggy about this, who knows, maybe Shaggy will unfollow them all or even add to block :D
     ```  
 
-
-
 ### Pick Fans of a user
 ###### Returns Fans data- all of the accounts who do follow the user WHOM user itself do not follow back
 ```python
 smurfette_fans = session.pick_fans(username="Smurfette", live_match=True, store_locally=True)
 #now, `smurfette_fans` variable which is a list- holds the `Fans` data of "Smurfette" at requested time
 ```
-#### Parameters:  
+#### Parameters:
 `username`:  
 A desired username to pick its fans  
 * It can be your `own` username **OR** a _username of some `non-private` account._
@@ -1310,15 +1247,13 @@ There are **several** `use cases` of this tool for **various purposes**.
     #and now, maybe she will follow back some of the smurfs whom she may know :P
     ```  
 
-
-
 ### Pick Mutual Following of a user
 ###### Returns `Mutual Following` data- all of the accounts who do follow the user WHOM user itself **also** do follow back
 ```python
 Winnie_mutualFollowing = session.pick_mutual_following(username="WinnieThePooh", live_match=True, store_locally=True)
 #now, `Winnie_mutualFollowing` variable which is a list- holds the `Mutual Following` data of "WinnieThePooh" at requested time
 ```
-#### Parameters:  
+#### Parameters:
 `username`:  
 A desired username to pick its mutual following  
 * It can be your `own` username **OR** a _username of some `non-private` account._
@@ -1347,7 +1282,6 @@ Sample **filename** `11-06-2018~[3872-2571]~1120.json`:
 + `1120` means the **count** of the mutual following picked.
 + `json` is the **filetype** and the data is stored as a `list` in it.
 
-
 There are **several** `use cases` of this tool for **various purposes**.  
 + You can get the mutual following of several users and then do analysis.  
     + _e.g., in this example Winnie The Pooh used it like this_:  
@@ -1357,10 +1291,7 @@ There are **several** `use cases` of this tool for **various purposes**.
     ##now, he will write a message to his mutual followers to help him get a new honey pot :>
     ```  
 
-
-
 ## Text Analytics
-
 
 ### Yandex Translate API
 
@@ -1382,7 +1313,6 @@ session.set_use_yandex(enabled=True,
                        language_code="en")
 ```
 
-
 #### Parameters
 `enabled`
 : Put `True` to **activate** or `False` to **deactivate** the service usage;  
@@ -1397,11 +1327,9 @@ session.set_use_yandex(enabled=True,
 : **Set** your desired language's code to **match language** (_if it's enabled_);
 >You can get the list of all supported languages and their codes at [_tech.yandex.com_](https://tech.yandex.com/translate/doc/dg/concepts/api-overview-docpage/#api-overview__languages).
 
-
 #### Rate Limits
 In its _free_ plan, the **daily** request _limit_ is `1,000,000` characters and the **monthly** _limit_ is `10,000,000` characters.
 >To increase the request limit, you can **switch** to the `fee-based` version of the service (_$`15`/million chars_)..
-
 
 #### Examples
 
@@ -1421,11 +1349,8 @@ session.set_use_yandex(enabled=True, API_key='', match_language=False)
 ```
 >And yes, you can enable **Yandex** service to make it be available for **MeaningCloud** and then also _match language_ if you like, in the same setup just by turning the `match_language` parameter on..
 
-
 #### Legal Notice
 [Powered by Yandex.Translate](http://translate.yandex.com/)
-
-
 
 ### MeaningCloud Sentiment Analysis API
 
@@ -1436,7 +1361,6 @@ _This service currently is supported only by the [Interact by Comments](#interac
 
 Determines if text displays _positive_, _negative_, or _neutral_ sentiment - or is _not possible_ to detect.  
 Phrases are identified with the _relationship between_ them evaluated which identifies a _global polarity_ value of the text.
-
 
 #### Usage
 **1**-) Go [**sign up**](https://www.meaningcloud.com/developer/login) (_offers **sign in** with_ 😎 _**Github**_) on [_meaningcloud.com_](https://www.meaningcloud.com) and get a _free_ `license_key`;  
@@ -1456,8 +1380,7 @@ pip install MeaningCloud-python
 **3**-) Turn on **Yandex** _Translate_ service which is a **requirement** for the language _detection_ & _translation_ at request;  
 _To have it configured, read its [documentation](#yandex-translate-api)_.
 
-
-#### Parameters  
+#### Parameters
 `enabled`
 : Put `True` to **activate** or `False` to **deactivate** the service usage;  
 
@@ -1509,7 +1432,6 @@ _It marks the subjectivity of the text_.
 It gives you `20 000` single API calls per each month (_starting from the date you have **signed up**_).  
 It has _no daily limit_ but if you hit the limit set for number of requests can be carried out concurrently (_per second_) it'll return with error code of `104` rather than the result 😉
 
-
 #### Language Support
 **MeaningCloud** currently supports a generic sentiment model (_called general_) in these languages: _english_, _spanish_, _french_, _italian_, _catalan_, and _portuguese_.  
 >You can define your own sentiment models using the user sentiment models console and work with them in the same way as with the sentiment models it provides.  
@@ -1517,7 +1439,6 @@ It has _no daily limit_ but if you hit the limit set for number of requests can 
 But **no need to worry** IF your _language_ or _target audience's language_ is NONE of those **officially** supported.  
 Cos, to **increase the coverage** and support **all other** languages, as well, **Yandex** _Translate_ service comes to rescue!  
 It detects the text's langugage before passing it to **MeaningCloud**, and, if its language is not supported by **MeaningCloud**, it translates it into english and only then passes it to **MeaningCloud** _Sentiment Analysis_..
-
 
 #### Examples
 **a** -) Match **ONLY** per `polarity` and `agreement`
@@ -1550,11 +1471,8 @@ _Sentiment Analysis_ results for the text:
 
 _Now that text is gonna be labeled **inappropriate** COS its polarity is `"P"` which is less positive than `"P+"` and also, `agreement` values also **do NOT** match, and **lastly**, `confidence` is **below** user-defined `98`_..    
 
-
 #### Legal Notice
 This project uses MeaningCloud™ (http://www.meaningcloud.com) for Text Analytics.
-
-
 
 ### Use a proxy
 
@@ -1758,7 +1676,6 @@ session.clarifai_check_img_for(['woman', 'man'], ['nsfw', 'explicit', 'suggestiv
 ```
 If Clarifai's response includes the concepts of either `woman` or `man` but also includes at least `nsfw`, `explicit`, or `suggestive`, FacebookPy will not comment. On the other hand, if Clarifai's response includes the concepts of either `woman` or `man` but does not include any of the concepts `nsfw`, `explicit`, or `suggestive`, FacebookPy will add the comment `Great shot!`
 
-
 ### Querying Multiple Models (Multiple API Calls)
 In the event that you do not want to set up a workflow, you can also query multiple models using multiple API calls.
 
@@ -1923,8 +1840,6 @@ You can use Window's built in Task Scheduler to automate FacebookPy, using a var
 9. "Start in" input Facebookpy install location (Example: C:\Users\USER_NAME\Documents\GitHub\FacebookPy\). Click "Next"
 10. To finish the process, hit "Finish"
 
-
-
 ### `cron`
 
 You can add FacebookPy to your crontab, so that the script will be executed regularly. This is especially useful for servers, but be sure not to break Facebooks follow and like limits.
@@ -1974,8 +1889,6 @@ while True:
     time.sleep(1)
 ```
 
-
-
 ## Workspace folders
 ###### _FacebookPy_ stores user's data files inside the **workspace** folder.
 
@@ -2007,7 +1920,6 @@ Such as,
 - etc.  
 
 </details>
-
 
 ### Migrating your data to the workspace folder
 After installing FacebookPy with pip, you have to run it once by calling `python quickstart.py`. Once the web browser opens, you can abort the session by closing the browser or your terminal. 
@@ -2049,17 +1961,14 @@ then your **workspace** folder will be,
 `"C:\\Other\\Path\\FacebookPy2\\"`
 as you can see, it normalizes name and sets the **workspace** folder.
 
-
 ##### _Why naming is so important?_
  - It will help to easily adapt to the flexible _FacebookPy_ usage with that default formal name.
 
 </details>
 
-
 ### Set a custom **workspace** folder _permanently_ with ease
 If you want to set your custom **workspace** folder permanently and more easily, add a new environmental variable named `FACEBOOKPY_WORKSPACE` with the value of the path of the desired **workspace** folder to your operating system.  
 Then that will be the default **workspace** folder in all sessions [unless you change it using `set_workspace()` or so].
-
 
 ### _Get_ the location of the workspace folder in use
 If you ever want to **get** the _location_ of your **workspace** folder, you can use
@@ -2083,7 +1992,6 @@ with smart_run(session):
 Note that, `get_workspace()` is a function used _internally_ and makes a **workspace** folder [by default at home folder] if not exists.  
 It means, you must use only the `set_workspace()` feature to set a custom **workspace** folder and not try to use `get_workspace()` for that purpose..
 
-
 ### Set a custom _location_ 
 You can set any of the **custom** _locations_ you like, **any time**!  
 E.g. setting the _location_ of the **database** file,  
@@ -2098,7 +2006,6 @@ Settings.db_location = "C:\\New\\Place\\DB\\facebookpy.db"
 session = FacebookPy(...)
 # code code
 ```
-
 
 <details>
   <summary>
@@ -2154,17 +2061,14 @@ In order to use them, just copy the desired file and put it next to the `quickst
 Finally simply adjust the username and any tags or firend lists before executing it.
 That's it.
 
-
 ### How not to be banned
 Built-in delays prevent your account from getting banned. 
 However, excessive use of this tool may result in action blocks or permanent bans.
 Use the Quota Supervisor feature to set some fixed limits for the bot for maximum safety.
 
-
 ### Chrome Browser
 
 64-bit system is a requirement for current versions of chrome browser.
-
 
 ### Simulation  
 ##### During indirect data retrieval, **simulation** happens to provide a _genuine_ activity flow triggered by a wise algorithm.  
@@ -2177,7 +2081,6 @@ session.set_simulation(enabled=False)
 session.set_simulation(enabled=True, percentage=66)
 ```
 
-
 ### Disable Image Loading
 If you want to save some bandwidth, you can simply disable the image/video loading. This will lead to, if you watch FacebookPy running, not downloading and displaying any more images and videos.
 
@@ -2188,10 +2091,9 @@ To do this simply pass the `disable_image_load=True` parameter in the FacebookPy
 session = FacebookPy(username=facebook_username,
                   password=facebook_password,
                   headless_browser=False,
-		              disable_image_load=True,
+                  disable_image_load=True,
                   multi_logs=True)
 ```
-
 
 ### Using Multiple Chromedrivers
 If you need multiple os versions of chromedriver just rename it like:
@@ -2201,7 +2103,6 @@ chromedriver_osx
 chromedriver_windows
 ```
 
-
 ### Changing DB or Chromedriver locations
 If you want to change the location/path of either the DB or the chromedriver, simply head into the `facebookpy/settings.py` file and change the following lines.
 Set these in facebookpy/settings.py if you're locating the library in the /usr/lib/pythonX.X/ directory.
@@ -2209,7 +2110,6 @@ Set these in facebookpy/settings.py if you're locating the library in the /usr/l
 Settings.database_location = '/path/to/facebookpy.db'
 Settings.chromedriver_location = '/path/to/chromedriver'
 ```
-
 
 ### Custom action delays
 ###### _After doing each action- like, comment, follow or unfollow, there is a sleep delay to provide smooth activity flow_.  
@@ -2222,7 +2122,6 @@ session.set_action_delays(enabled=True,
                            unfollow=28)
 ```
 _Now it will sleep `3` seconds **after putting every single like**, `5` seconds for every single comment and similarly for the others.._
-
 
 You can also customize the sleep delay of _e.g._ **only the likes**:
 ```python
@@ -2256,8 +2155,6 @@ session.set_action_delays(enabled=True, like=0.15, safety_match=False)
 ```
 _It has been held due to safety considerations. Cos sleeping a respective time after doing actions- for example ~`10` seconds after an unfollow, is very important to avoid possible temporary blocks and if you might enter e.g. `3` seconds for that without realizing the outcome..._
 
-
-
 ### How to avoid _python_ & **pip** confusion
 
 Sometimes you have **multiple** _python_ installations in your system.  
@@ -2281,10 +2178,7 @@ As you can see, it is,
 rather than,  
 `pip ...`
 
-
 Using this style, you will never have to worry about what is the correct alias of the **pip** for you specific _python_ installation and all you have to know is just the _python_'s alias you use.  
-
-
 
 ### Pass arguments by CLI
 ###### It is recommended to pass your credentials from command line interface rather than storing them inside quickstart scripts.  
@@ -2363,7 +2257,7 @@ python quickstart.py --use-firefox
   <b>
     Advanced 🔎
   </b>
-</summary> 
+</summary>
 
 You can **pass** and then **parse** the **_custom_** CLI arguments you like right inside the **quickstart** script.  
 To do it, open up your **quickstart** script and add these lines,
@@ -2419,7 +2313,6 @@ python quickstart.py -u abc
 
 <br />
 
-
 ---
 ###### Have Fun & Feel Free to report any issues  
 ---
@@ -2443,5 +2336,3 @@ Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/facebookpy#sponsor)]
 
 <a href="https://opencollective.com/facebookpy/sponsor/0/website" target="_blank"><img src="https://opencollective.com/facebookpy/sponsor/0/avatar.svg"></a>
-
-
