@@ -48,6 +48,8 @@ with smart_run(session):
     else:
         random_targets = random.sample(targets, number)
 
+    session.follow_by_list(followlist=random_targets, times=1, sleep_delay=600, interact=False)
+
     """ Interact with the chosen targets...
     """
     session.follow_user_followers(random_targets,

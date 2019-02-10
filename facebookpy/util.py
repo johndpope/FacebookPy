@@ -1213,7 +1213,7 @@ def ping_server(host, logger):
     return True
 
 
-def emergency_exit(browser, username, logger):
+def emergency_exit(browser, username, userid, logger):
     """ Raise emergency if the is no connection to server OR if user is not
     logged in """
     using_proxy = True if Settings.connection_type == "proxy" else False

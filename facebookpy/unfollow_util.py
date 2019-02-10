@@ -632,7 +632,7 @@ def follow_user(browser, track, login, user_name, userid, button, blacklist, log
         if following_status in ["Follow", "Follow Back"]:
             click_visibly(browser, follow_button)  # click to follow
             follow_state, msg = verify_action(browser, "follow", track, login,
-                                              user_name, None, logger,
+                                              user_name, userid, None, logger,
                                               logfolder)
             if follow_state is not True:
                 return False, msg
@@ -661,7 +661,7 @@ def follow_user(browser, track, login, user_name, userid, button, blacklist, log
             return False, following_status
 
         elif following_status is None:
-            sirens_wailing, emergency_state = emergency_exit(browser, login,
+            sirens_wailing, emergency_state = emergency_exit(browser, login, userid,
                                                              logger)
             if sirens_wailing is True:
                 return False, emergency_state
@@ -1309,7 +1309,7 @@ def unfollow_user(browser, track, username, userid, person, person_id, button,
             return False, following_status
 
         elif following_status is None:
-            sirens_wailing, emergency_state = emergency_exit(browser, username,
+            sirens_wailing, emergency_state = emergency_exit(browser, username, userid,
                                                              logger)
             if sirens_wailing is True:
                 return False, emergency_state

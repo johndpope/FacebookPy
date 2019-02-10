@@ -101,10 +101,9 @@ Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute t
 
 ### Table of Contents
 * [FacebookPy Available Features](#facebookpy-available-features)
-  * [Following](#following)
-  * [Following by a list](#following-by-a-list)
-  * [Follow someone else's followers](#follow-someone-elses-followers)
-  * [Follow someone else's followers/following](#follow-someone-elses-followersfollowing)  
+  * [Following](#following)  ✔
+  * [Following by a list](#following-by-a-list)  ✔
+  * [Follow someone else's followers](#follow-someone-elses-followers)  ✔
   * [Follow the likers of photos of users](#follow-the-likers-of-photos-of-users)  
   * [Follow the commenters of photos of users](#follow-the-commenters-of-photos-of-users)  
   * [Interact with specific users](#interact-with-specific-users)
@@ -123,7 +122,7 @@ Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute t
   * [Mandatory Words](#mandatory-words)
   * [Mandatory Language](#mandatory-language)
   * [Restricting Likes](#restricting-likes)
-  * [Ignoring Users](#ignoring-users)
+  * [Ignoring Users](#ignoring-users)  ✔
   * [Ignoring Restrictions](#ignoring-restrictions)
   * [Excluding friends](#excluding-friends)
   * [Blacklist Campaign](#blacklist-campaign)
