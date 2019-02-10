@@ -29,14 +29,12 @@
 - Download and install newest version of GitHub Desktop. 
 > [https://desktop.github.com/]
 
-
 #### 1. Install python:
 - Download and install newest version of python (if you do the custom install don't forget to install the pip tool)
 - recommended path C:\\Program Files (x86)\\
 - Proceed with standard installation.
 - Restart PC (recommended).
 > [https://www.python.org/downloads/release/python-361/]
-
 
 #### 2. Set python evironment:
 - Open Control Panel » System » Advanced » Environment Variables.
@@ -63,12 +61,10 @@
 - copy it in the folder \\assets
 > [https://sites.google.com/a/chromium.org/chromedriver/downloads]
 
-
 #### 4. Edit the facebookpy.py file
 - Open file facebookpy.py an disabling the clarifai import
 - comment the line "from .clarifai_util import check_image"
 > `from .clarifai_util import check_image`
-
 
 #### 5. Starting the script
 - Start the Gui by clicking at the file FacebookPy.exe

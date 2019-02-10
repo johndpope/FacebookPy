@@ -11,7 +11,6 @@ NOTE: _If you add an empty file named ssh to the boot directory, ssh will be ena
 6. open terminal --> ```sudo raspi-config``` -->interfacing options --> SSH -->enable (allows ssh connection from MacBook); then navigate to VNC --> enable (allows GUI access)
 7. ```sudo apt-get update && sudo apt-get upgrade```
 
-
 ## Python 3.7 install guide
 **STEP 1:** _First install the dependencies needed to build._
 
@@ -46,7 +45,6 @@ NOTE: _If you add an empty file named ssh to the boot directory, ssh will be ena
 16. ```sudo rm -r Python-3.7.0```
 17. ```rm Python-3.7.0.tar.xz```
 
-
 ## Install FacebookPy
 
 1. ```sudo apt-get update && sudo apt-get upgrade```
@@ -60,7 +58,6 @@ NOTE: _If you add an empty file named ssh to the boot directory, ssh will be ena
 
 NOTE: _the last step (7.) takes quite a while!_
 
-
 ## For Chrome
 
 _Navigate to the assets folder:_
@@ -70,7 +67,6 @@ _Navigate to the assets folder:_
 11. ```chmod 755 chromedriver```
 12. ```chmod +x chromedriver```
 13. ```sudo apt-get remove chromium```
-
 
 ## For Firefox
 
@@ -92,7 +88,6 @@ Pi2.1. ```wget https://launchpad.net/~ubuntu-mozilla-security/+archive/ubuntu/pp
 
 Pi2.2 ```sudo dpkg -i firefox_49.0+build4-0ubuntu0.14.04.1_armhf.deb```
 
-
 ## Finishing up the Firefox installation
 
 _Encountered some errors when trying to run the quickstart.py and ran the next 3 commands (all may not be necessary)_
@@ -110,7 +105,6 @@ _I installed TMUX to help run this headless, so that I can disconnect from the s
 
 13. ```sudo apt-get install tmux (more info found here: https://github.com/tmux/tmux)```
 14. If using firefox, follow the example seen in `examples\firefoxExample.py` to set the default browser as Firefox
-
 
 ## How to update GeckoDriver on Raspbian
 
