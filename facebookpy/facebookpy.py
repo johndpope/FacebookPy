@@ -83,6 +83,7 @@ class FacebookPy:
 
     def __init__(self,
                  username=None,
+                 userid=None,
                  password=None,
                  nogui=False,
                  selenium_local_session=True,
@@ -101,6 +102,7 @@ class FacebookPy:
 
         cli_args = parse_cli_args()
         username = cli_args.username or username
+        userid = cli_args.userid or userid
         password = cli_args.password or password
         use_firefox = cli_args.use_firefox or use_firefox
         page_delay = cli_args.page_delay or page_delay
@@ -135,6 +137,11 @@ class FacebookPy:
 
         self.username = username or os.environ.get('FACEBOOK_USER')
         self.password = password or os.environ.get('FACEBOOK_PW')
+
+        self.userid = userid
+        if not self.userid:
+            self.userid = self.username.split('@')[0]
+
         Settings.profile["name"] = self.username
 
 
@@ -365,6 +372,7 @@ class FacebookPy:
         """Used to login the user either with the username and password"""
         if not login_user(self.browser,
                           self.username,
+                          self.userid,
                           self.password,
                           self.logger,
                           self.logfolder,
@@ -398,9 +406,11 @@ class FacebookPy:
 
         self.followed_by = log_follower_num(self.browser,
                                             self.username,
+                                            self.userid,
                                             self.logfolder)
         self.following_num = log_following_num(self.browser,
                                                self.username,
+                                               self.userid,
                                                self.logfolder)
 
         return self
@@ -999,6 +1009,7 @@ class FacebookPy:
                 follow_state, msg = follow_user(self.browser,
                                                 "profile",
                                                 self.username,
+                                                self.userid,
                                                 acc_to_follow,
                                                 None,
                                                 self.blacklist,
@@ -1106,6 +1117,7 @@ class FacebookPy:
         validation, details = validate_username(self.browser,
                                                 user_name,
                                                 self.username,
+                                                self.userid,
                                                 self.ignore_users,
                                                 self.blacklist,
                                                 self.potency_ratio,
@@ -2723,6 +2735,7 @@ class FacebookPy:
                 person_list, simulated_list = get_given_user_followers(
                     self.browser,
                     self.username,
+                    self.userid,
                     user,
                     amount,
                     self.dont_include,
@@ -3056,6 +3069,7 @@ class FacebookPy:
                 person_list, simulated_list = get_given_user_followers(
                     self.browser,
                     self.username,
+                    self.userid,
                     user,
                     amount,
                     self.dont_include,
@@ -3389,6 +3403,7 @@ class FacebookPy:
         try:
             unfollowed = unfollow(self.browser,
                                   self.username,
+                                  self.userid,
                                   amount,
                                   customList,
                                   FacebookpyFollowed,
@@ -3811,6 +3826,7 @@ class FacebookPy:
 
     def grab_followers(self,
                        username=None,
+                       userid=None,
                        amount=None,
                        live_match=False,
                        store_locally=True):
@@ -3842,6 +3858,7 @@ class FacebookPy:
         # Get `followers` data
         grabbed_followers = get_followers(self.browser,
                                           username,
+                                          userid,
                                           amount,
                                           self.relationship_data,
                                           live_match,
@@ -3883,6 +3900,7 @@ class FacebookPy:
         # get `following` data
         grabbed_following = get_following(self.browser,
                                           username,
+                                          userid,
                                           amount,
                                           self.relationship_data,
                                           live_match,

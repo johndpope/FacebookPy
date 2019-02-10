@@ -18,6 +18,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 def get_followers(browser,
                   username,
+                  userid,
                   grab,
                   relationship_data,
                   live_match,
@@ -38,12 +39,13 @@ def get_followers(browser,
         "Retrieving {} `Followers` data of {} {}".format(tense, username,
                                                          grab_info))
 
-    user_link = "https://www.facebook.com/{}/".format(username)
+    user_link = "https://www.facebook.com/{}/".format(userid)
     web_address_navigator(browser, user_link)
 
     # Get followers count
     followers_count, following_count = get_relationship_counts(browser,
                                                                username,
+                                                               userid,
                                                                logger)
 
     if grab != "full" and grab > followers_count:
@@ -247,7 +249,7 @@ def get_followers(browser,
     if len(all_followers) > 0:
         if (store_locally is True and
                 relationship_data[username]["all_followers"] != all_followers):
-            store_followers_data(username, grab, all_followers, logger,
+            store_followers_data(username, userid, grab, all_followers, logger,
                                  logfolder)
         elif store_locally is True:
             print('')
@@ -277,6 +279,7 @@ def get_followers(browser,
 
 def get_following(browser,
                   username,
+                  userid,
                   grab,
                   relationship_data,
                   live_match,
@@ -298,12 +301,13 @@ def get_following(browser,
         "Retrieving {} `Following` data of {} {}".format(tense, username,
                                                          grab_info))
 
-    user_link = "https://www.facebook.com/{}/".format(username)
+    user_link = "https://www.facebook.com/{}/".format(userid)
     web_address_navigator(browser, user_link)
 
     # Get following count
     followers_count, following_count = get_relationship_counts(browser,
                                                                username,
+                                                               userid,
                                                                logger)
 
     if grab != "full" and grab > following_count:
@@ -533,6 +537,7 @@ def get_following(browser,
 
 def get_unfollowers(browser,
                     username,
+                    userid,
                     compare_by,
                     compare_track,
                     relationship_data,
@@ -560,6 +565,7 @@ def get_unfollowers(browser,
         return [], []
 
     prior_followers, selected_filename = load_followers_data(username,
+                                                             userid,
                                                              compare_by,
                                                              compare_track,
                                                              logger,
@@ -573,6 +579,7 @@ def get_unfollowers(browser,
 
     current_followers = get_followers(browser,
                                       username,
+                                      userid,
                                       "full",
                                       relationship_data,
                                       live_match,
@@ -586,6 +593,7 @@ def get_unfollowers(browser,
     if len(all_unfollowers) > 0:
         current_following = get_following(browser,
                                           username,
+                                          userid,
                                           "full",
                                           relationship_data,
                                           live_match,
@@ -623,6 +631,7 @@ def get_unfollowers(browser,
 
 def get_nonfollowers(browser,
                      username,
+                     userid,
                      relationship_data,
                      live_match,
                      store_locally,
@@ -639,6 +648,7 @@ def get_nonfollowers(browser,
     # get `Followers` data
     all_followers = get_followers(browser,
                                   username,
+                                  userid,
                                   "full",
                                   relationship_data,
                                   live_match,
@@ -648,6 +658,7 @@ def get_nonfollowers(browser,
     # get `Following` data
     all_following = get_following(browser,
                                   username,
+                                  userid,
                                   "full",
                                   relationship_data,
                                   live_match,
@@ -681,6 +692,7 @@ def get_nonfollowers(browser,
 
 def get_fans(browser,
              username,
+             userid,
              relationship_data,
              live_match,
              store_locally,
@@ -697,6 +709,7 @@ def get_fans(browser,
     # get `Followers` data
     all_followers = get_followers(browser,
                                   username,
+                                  userid,
                                   "full",
                                   relationship_data,
                                   live_match,
@@ -706,6 +719,7 @@ def get_fans(browser,
     # get `Following` data
     all_following = get_following(browser,
                                   username,
+                                  userid,
                                   "full",
                                   relationship_data,
                                   live_match,
@@ -738,6 +752,7 @@ def get_fans(browser,
 
 def get_mutual_following(browser,
                          username,
+                         userid,
                          relationship_data,
                          live_match,
                          store_locally,
@@ -754,6 +769,7 @@ def get_mutual_following(browser,
     # get `Followers` data
     all_followers = get_followers(browser,
                                   username,
+                                  userid,
                                   "full",
                                   relationship_data,
                                   live_match,
@@ -763,6 +779,7 @@ def get_mutual_following(browser,
     # get `Following` data
     all_following = get_following(browser,
                                   username,
+                                  userid,
                                   "full",
                                   relationship_data,
                                   live_match,
@@ -795,13 +812,13 @@ def get_mutual_following(browser,
     return mutual_following
 
 
-def store_followers_data(username, grab, grabbed_followers, logger, logfolder):
+def store_followers_data(username, userid, grab, grabbed_followers, logger, logfolder):
     """ Store grabbed `Followers` data in a local storage at genereated date
     """
     query_date = datetime.today().strftime("%d-%m-%Y")
     grabbed_followers_size = len(grabbed_followers)
     file_directory = "{}/relationship_data/{}/followers/".format(logfolder,
-                                                                 username)
+                                                                 userid)
     file_name = "{}{}~{}~{}".format(file_directory, query_date, grab,
                                     grabbed_followers_size)
     file_index = 0
@@ -1028,13 +1045,13 @@ def store_mutual_following(username, followers_size, following_size,
                 str(exc).encode("utf-8")))
 
 
-def load_followers_data(username, compare_by, compare_track, logger,
+def load_followers_data(username, userid, compare_by, compare_track, logger,
                         logfolder):
     """ Write grabbed `followers` data into local storage """
     # get the list of all existing FULL `Followers` data files in
     # ~/logfolder/username/followers/ location
     files_location = "{}/relationship_data/{}/followers".format(logfolder,
-                                                                username)
+                                                                userid)
     followers_data_files = [os.path.basename(file) for file in glob.glob(
         "{}/*~full*.json".format(files_location))]
 

@@ -16,10 +16,10 @@ def get_log_time():
     return log_time
 
 
-def log_follower_num(browser, username, logfolder):
+def log_follower_num(browser, username, userid, logfolder):
     """Prints and logs the current number of followers to
     a seperate file"""
-    user_link = "https://www.facebook.com/{}".format(username)
+    user_link = "https://www.facebook.com/{}".format(userid)
     web_address_navigator(browser, user_link)
 
     try:
@@ -47,10 +47,10 @@ def log_follower_num(browser, username, logfolder):
     return followed_by
 
 
-def log_following_num(browser, username, logfolder):
+def log_following_num(browser, username, userid, logfolder):
     """Prints and logs the current number of followers to
     a seperate file"""
-    user_link = "https://www.facebook.com/{}".format(username)
+    user_link = "https://www.facebook.com/{}".format(userid)
     web_address_navigator(browser, user_link)
 
     try:

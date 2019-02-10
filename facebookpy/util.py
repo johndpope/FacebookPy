@@ -86,6 +86,7 @@ def is_private_profile(browser, logger, following=True):
 
 def validate_username(browser,
                       username_or_link,
+                      userid,
                       own_username,
                       ignore_users,
                       blacklist,
@@ -179,6 +180,7 @@ def validate_username(browser,
         # get followers & following counts
         followers_count, following_count = get_relationship_counts(browser,
                                                                    username,
+                                                                   userid,
                                                                    logger)
 
         if potency_ratio and potency_ratio < 0:
@@ -264,7 +266,7 @@ def validate_username(browser,
     # ie POST, Profile pic, business related logics have to be rewitten
     # if min_posts or max_posts or skip_private or skip_no_profile_pic or \
     #         skip_business:
-    #     user_link = "https://www.facebook.com/{}/".format(username)
+    #     user_link = "https://www.facebook.com/{}/".format(userid)
     #     web_address_navigator(browser, user_link)
 
     # if min_posts or max_posts:
@@ -897,9 +899,9 @@ def get_number_of_posts(browser):
     return num_of_posts
 
 
-def get_following_count(browser, username, logger):
+def get_following_count(browser, username, userid, logger):
     """ Gets the followers & following counts of a given user """
-    user_link = "https://www.facebook.com/{}/following".format(username.split('@')[0])
+    user_link = "https://www.facebook.com/{}/following".format(userid)
     web_address_navigator(browser, user_link)
 
     try:
@@ -918,9 +920,9 @@ def get_following_count(browser, username, logger):
     return following_count
 
 
-def get_followers_count(browser, username, logger):
+def get_followers_count(browser, username, userid, logger):
     """ Gets the followers & following counts of a given user """
-    user_link = "https://www.facebook.com/{}/followers".format(username.split('@')[0])
+    user_link = "https://www.facebook.com/{}/followers".format(userid)
     web_address_navigator(browser, user_link)
 
     try:
@@ -938,10 +940,10 @@ def get_followers_count(browser, username, logger):
             return None
     return followers_count
 
-def get_relationship_counts(browser, username, logger):
+def get_relationship_counts(browser, username, userid, logger):
     """ Gets the followers & following counts of a given user """
-    followers_count = get_followers_count(browser, username, logger)
-    following_count = get_following_count(browser, username, logger)
+    followers_count = get_followers_count(browser, username, userid, logger)
+    following_count = get_following_count(browser, username, userid, logger)
     logger.info('followers_count = {}'.format(followers_count))
     logger.info('following_count = {}'.format(following_count))
     return followers_count, following_count
@@ -1224,7 +1226,7 @@ def emergency_exit(browser, username, logger):
 
     # check if the user is logged in
     auth_method = "activity counts"
-    login_state = check_authorization(browser, username, auth_method, logger)
+    login_state = check_authorization(browser, username, userid, auth_method, logger)
     if login_state is False:
         return True, "not logged in"
 
@@ -1262,7 +1264,7 @@ def load_user_id(username, person, logger, logfolder):
     return user_id
 
 
-def check_authorization(browser, username, method, logger, notify=True):
+def check_authorization(browser, username, userid, method, logger, notify=True):
     """ Check if user is NOW logged in """
     if notify is True:
         logger.info("Checking if '{}' is logged in...".format(username))
@@ -1275,7 +1277,7 @@ def check_authorization(browser, username, method, logger, notify=True):
     if (not current_url or
             "https://www.facebook.com" not in current_url or
             "https://www.facebook.com/graphql/" in current_url):
-        profile_link = 'https://www.facebook.com'.format(username.split('@')[0])
+        profile_link = 'https://www.facebook.com/{}'.format(userid)
         web_address_navigator(browser, profile_link)
         logger.critical("--> '{}' is not logged in!\n".format(username))
         nav = browser.find_elements_by_xpath('//div[@role="navigation"]')
@@ -1844,7 +1846,7 @@ def save_account_progress(browser, username, logger):
         :logger: library to log actions
     """
     logger.info('Saving account progress...')
-    followers, following = get_relationship_counts(browser, username, logger)
+    followers, following = get_relationship_counts(browser, username, userid, logger)
 
     #TODO:FIX IT
     # save profile total posts
@@ -1974,7 +1976,9 @@ def parse_cli_args():
     ```python quickstart.py --username abc```
     """
     parser.add_argument(
-        "-u", "--username", help="Username", type=str, metavar="abc")
+        "-u", "--username", help="Username is the login id/login email/login phone no", type=str, metavar="abc")
+    parser.add_argument(
+        "-ui", "--userid", help="Userid is the string that shows on your facebook homepage url", type=str, metavar="abc")
     parser.add_argument(
         "-p", "--password", help="Password", type=str, metavar="123")
     parser.add_argument(

@@ -1018,7 +1018,7 @@ session.set_quota_supervisor(enabled=True, peak_follows=(56, 660), peak_unfollow
 ### Grab Followers of a user  
 ###### Gets and returns `followers` of the given user in desired amount, also can save locally  
 ```python
-popeye_followers = session.grab_followers(username="Popeye", amount="full", live_match=True, store_locally=True)
+popeye_followers = session.grab_followers(username="Popeye", userid="Popeye", amount="full", live_match=True, store_locally=True)
 ##now, `popeye_followers` variable which is a list- holds the `Followers` data of "Popeye" at requested time
 ```  
 #### Parameters:  
@@ -1062,9 +1062,9 @@ There are **several** `use cases` of this tool for **various purposes**.
 _E.g._, inside your **quickstart** script, you can **do** _something like this_:
 ```python
 #get followers of "Popeye" and "Cinderella"
-popeye_followers = session.grab_followers(username="Popeye", amount="full", live_match=True, store_locally=True)
+popeye_followers = session.grab_followers(username="Popeye", userid="Popeye", amount="full", live_match=True, store_locally=True)
 sleep(600)
-cinderella_followers = session.grab_followers(username="Cinderella", amount="full", live_match=True, store_locally=True)
+cinderella_followers = session.grab_followers(username="Cinderella", userid="Cinderella", amount="full", live_match=True, store_locally=True)
 
 #find the users following "Popeye" WHO also follow "Cinderella" :D
 popeye_cinderella_followers = [follower for follower in popeye_followers if follower in cinderella_followers]

@@ -147,6 +147,7 @@ def bypass_suspicious_login(browser, bypass_with_mobile):
 
 def login_user(browser,
                username,
+               userid,
                password,
                logger,
                logfolder,
@@ -187,6 +188,7 @@ def login_user(browser,
     # check if the user IS logged in
     login_state = check_authorization(browser,
                                       username,
+                                      userid,
                                       "activity counts",
                                       logger,
                                       True)

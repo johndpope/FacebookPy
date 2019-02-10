@@ -107,7 +107,7 @@ def set_automated_followed_pool(username, unfollow_after, logger, logfolder):
     return automatedFollowedPool
 
 
-def get_following_status(browser, track, username, person, person_id, logger,
+def get_following_status(browser, track, username, userid, person, person_id, logger,
                          logfolder):
     """ Verify if you are following the user in the loaded page """
     if track == "profile":
@@ -164,6 +164,7 @@ def get_following_status(browser, track, username, person, person_id, logger,
 
 def unfollow(browser,
              username,
+             userid,
              amount,
              customList,
              FacebookpyFollowed,
@@ -207,14 +208,14 @@ def unfollow(browser,
 
     unfollowNum = 0
 
-    user_link = "https://www.facebook.com/{}/".format(username)
+    user_link = "https://www.facebook.com/{}/".format(userid)
 
     # check URL of the webpage, if it already is the one to be navigated
     # then do not navigate to it again
     web_address_navigator(browser, user_link)
 
     # check how many poeple we are following
-    allfollowers, allfollowing = get_relationship_counts(browser, username,
+    allfollowers, allfollowing = get_relationship_counts(browser, username, userid,
                                                          logger)
 
     if allfollowing is None:
@@ -263,6 +264,7 @@ def unfollow(browser,
             if unfollow_track == "nonfollowers":
                 all_followers = get_followers(browser,
                                               username,
+                                              userid,
                                               "full",
                                               relationship_data,
                                               False,
@@ -601,7 +603,7 @@ def unfollow(browser,
     return unfollowNum
 
 
-def follow_user(browser, track, login, user_name, button, blacklist, logger,
+def follow_user(browser, track, login, user_name, userid, button, blacklist, logger,
                 logfolder):
     """ Follow a user either from the profile page or post page or dialog
     box """
@@ -623,6 +625,7 @@ def follow_user(browser, track, login, user_name, button, blacklist, logger,
                                                                track,
                                                                login,
                                                                user_name,
+                                                               userid,
                                                                None,
                                                                logger,
                                                                logfolder)
@@ -934,6 +937,7 @@ def follow_through_dialog(browser,
 def get_given_user_followers(browser,
                              login,
                              user_name,
+                             userid,
                              amount,
                              dont_include,
                              randomize,
@@ -967,7 +971,7 @@ def get_given_user_followers(browser,
         return [], []
 
     # check how many people are following this user.
-    allfollowers, allfollowing = get_relationship_counts(browser, user_name,
+    allfollowers, allfollowing = get_relationship_counts(browser, user_name, userid,
                                                          logger)
 
     # skip early for no followers
@@ -981,7 +985,7 @@ def get_given_user_followers(browser,
                 user_name, allfollowers, amount))
 
     # locate element to user's followers
-    user_followers_link = "https://www.facebook.com/{}/followers".format(user_name)
+    user_followers_link = "https://www.facebook.com/{}/followers".format(userid)
     web_address_navigator(browser, user_followers_link)
 
     try:
@@ -1245,7 +1249,7 @@ def follow_restriction(operation, username, limit, logger):
             conn.close()
 
 
-def unfollow_user(browser, track, username, person, person_id, button,
+def unfollow_user(browser, track, username, userid, person, person_id, button,
                   relationship_data, logger, logfolder):
     """ Unfollow a user either from the profile or post page or dialog box """
     # list of available tracks to unfollow in: ["profile", "post" "dialog"]
@@ -1444,7 +1448,7 @@ def verify_username_by_id(browser, username, person, person_id, logger,
     return None
 
 
-def verify_action(browser, action, track, username, person, person_id, logger,
+def verify_action(browser, action, track, username, userid, person, person_id, logger,
                   logfolder):
     """ Verify if the action has succeeded """
     # currently supported actions are follow & unfollow
