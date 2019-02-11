@@ -31,6 +31,8 @@ Now all you need is a **quickstart** script into your computer, go ahead and run
 python quickstart.py --username abc@gmail.com --userid abc.pqr --password 123
 ```
 >**PRO**:
+Read about difference between username and userid for facebook: https://www.facebook.com/help/211813265517027?helpref=faq_content
+
 Read more about passing arguments from the command line interface in the section - [Pass arguments by CLI](#pass-arguments-by-cli).
 
 <br />
