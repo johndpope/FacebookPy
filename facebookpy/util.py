@@ -447,10 +447,10 @@ def add_user_to_blacklist(username, campaign, action, logger, logfolder):
                 .format(username, campaign, action))
 
 
-def get_active_users(browser, username, posts, boundary, logger):
+def get_active_users(browser, username, userid, posts, boundary, logger):
     """Returns a list with usernames who liked the latest n posts"""
 
-    user_link = 'https://www.facebook.com/{}/'.format(username)
+    user_link = 'https://www.facebook.com/{}/'.format(userid)
 
     # check URL of the webpage, if it already is user's profile page,
     # then do not navigate to it again
@@ -1872,17 +1872,23 @@ def save_account_progress(browser, username, logger):
         logger.exception('message')
 
 
-def get_users_from_dialog(old_data, dialog):
+def get_users_from_dialog(old_data, dialog, logger):
     """
     Prepared to work specially with the dynamic data load in the 'Likes'
     dialog box
     """
 
     user_blocks = dialog.find_elements_by_tag_name('a')
-    loaded_users = [
-        extract_text_from_element(u) for u in user_blocks
-        if extract_text_from_element(u)
-    ]
+
+    loaded_users = []
+    for u in user_blocks:
+        try:
+            last_word = extract_text_from_element(u).split(' ')[-1]
+            if last_word not in ['1', 'Close', 'mutual', 'friends', 'Message']:
+                loaded_users.append(u.get_attribute('href').replace('https://www.facebook.com/', '').split('?')[0])
+        except Exception as e:
+            logger.info(e)
+
     new_data = (old_data + loaded_users)
     new_data = remove_duplicates(new_data, True, None)
 
@@ -1956,7 +1962,7 @@ def close_dialog_box(browser):
         click_element(browser, close)
 
     except NoSuchElementException as exc:
-        pass
+        print('Error closing dialog box:', exc)
 
 
 def parse_cli_args():

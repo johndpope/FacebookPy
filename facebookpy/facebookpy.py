@@ -58,7 +58,7 @@ from .unfollow_util import set_automated_followed_pool
 from .unfollow_util import get_follow_requests
 from .commenters_util import extract_information
 from .commenters_util import users_liked
-from .commenters_util import get_photo_urls_from_profile
+from .commenters_util import get_post_urls_from_profile
 from .relationship_tools import get_following
 from .relationship_tools import get_followers
 from .relationship_tools import get_unfollowers
@@ -809,7 +809,7 @@ class FacebookPy:
 
         return self
 
-    def follow_likers(self, usernames, photos_grab_amount=3,
+    def follow_likers(self, userids, photos_grab_amount=3,
                       follow_likers_per_photo=3, randomize=True,
                       sleep_delay=600,
                       interact=False):
@@ -820,8 +820,8 @@ class FacebookPy:
         message = "Starting to follow likers.."
         highlight_print(self.username, message, "feature", "info", self.logger)
 
-        if not isinstance(usernames, list):
-            usernames = [usernames]
+        if not isinstance(userids, list):
+            userids = [userids]
 
         if photos_grab_amount > 12:
             self.logger.info(
@@ -845,22 +845,25 @@ class FacebookPy:
         # `10` instead of this quitely randomized score
         self.quotient_breach = False
 
-        for username in usernames:
+        for userid in userids:
             if self.quotient_breach:
                 break
 
-            photo_urls = get_photo_urls_from_profile(self.browser, username,
+            post_urls = get_post_urls_from_profile(self.browser, userid,
                                                      photos_grab_amount,
                                                      randomize)
             sleep(1)
-            if not isinstance(photo_urls, list):
-                photo_urls = [photo_urls]
+            if not isinstance(post_urls, list):
+                post_urls = [post_urls]
 
-            for photo_url in photo_urls:
+            # self.logger.info('post_urls:')
+            # self.logger.info(post_urls)
+
+            for post_url in post_urls:
                 if self.quotient_breach:
                     break
 
-                likers = users_liked(self.browser, photo_url,
+                likers = users_liked(self.browser, post_url, self.logger,
                                      follow_likers_per_photo)
                 # This way of iterating will prevent sleep interference
                 # between functions
@@ -1009,7 +1012,6 @@ class FacebookPy:
                 follow_state, msg = follow_user(self.browser,
                                                 "profile",
                                                 self.username,
-                                                self.userid,
                                                 acc_to_follow,
                                                 None,
                                                 self.blacklist,

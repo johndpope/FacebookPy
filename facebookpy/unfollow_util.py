@@ -107,7 +107,7 @@ def set_automated_followed_pool(username, unfollow_after, logger, logfolder):
     return automatedFollowedPool
 
 
-def get_following_status(browser, track, username, userid, person, person_id, logger,
+def get_following_status(browser, track, username, person, person_id, logger,
                          logfolder):
     """ Verify if you are following the user in the loaded page """
     if track == "profile":
@@ -603,7 +603,7 @@ def unfollow(browser,
     return unfollowNum
 
 
-def follow_user(browser, track, login, user_name, userid, button, blacklist, logger,
+def follow_user(browser, track, login, userid_to_follow, button, blacklist, logger,
                 logfolder):
     """ Follow a user either from the profile page or post page or dialog
     box """
@@ -617,33 +617,32 @@ def follow_user(browser, track, login, user_name, userid, button, blacklist, log
         if track == "profile":
             # check URL of the webpage, if it already is user's profile
             # page, then do not navigate to it again
-            user_link = "https://www.facebook.com/{}/".format(user_name)
+            user_link = "https://www.facebook.com/{}/".format(userid_to_follow)
             web_address_navigator(browser, user_link)
 
         # find out CURRENT following status
         following_status, follow_button = get_following_status(browser,
                                                                track,
                                                                login,
-                                                               user_name,
-                                                               userid,
+                                                               userid_to_follow,
                                                                None,
                                                                logger,
                                                                logfolder)
         if following_status in ["Follow", "Follow Back"]:
             click_visibly(browser, follow_button)  # click to follow
             follow_state, msg = verify_action(browser, "follow", track, login,
-                                              user_name, userid, None, logger,
+                                              userid_to_follow, userid, None, logger,
                                               logfolder)
             if follow_state is not True:
                 return False, msg
 
         elif following_status in ["Following", "Requested"]:
             if following_status == "Following":
-                logger.info("--> Already following '{}'!\n".format(user_name))
+                logger.info("--> Already following '{}'!\n".format(userid_to_follow))
 
             elif following_status == "Requested":
                 logger.info("--> Already requested '{}' to follow!\n".format(
-                    user_name))
+                    userid_to_follow))
 
             sleep(1)
             return False, "already followed"
@@ -656,12 +655,13 @@ def follow_user(browser, track, login, user_name, userid, button, blacklist, log
                 failure_msg = "user is inaccessible"
 
             logger.warning(
-                "--> Couldn't follow '{}'!\t~{}".format(user_name,
+                "--> Couldn't follow '{}'!\t~{}".format(userid_to_follow,
                                                         failure_msg))
             return False, following_status
 
         elif following_status is None:
-            sirens_wailing, emergency_state = emergency_exit(browser, login, userid,
+            #TODO:BUG:2nd login has to be fixed with userid of loggedin user
+            sirens_wailing, emergency_state = emergency_exit(browser, login, login,
                                                              logger)
             if sirens_wailing is True:
                 return False, emergency_state
@@ -669,27 +669,27 @@ def follow_user(browser, track, login, user_name, userid, button, blacklist, log
             else:
                 logger.warning(
                     "--> Couldn't unfollow '{}'!\t~unexpected failure".format(
-                        user_name))
+                        userid_to_follow))
                 return False, "unexpected failure"
     elif track == "dialog":
         click_element(browser, button)
         sleep(3)
 
     # general tasks after a successful follow
-    logger.info("--> Followed '{}'!".format(user_name.encode("utf-8")))
+    logger.info("--> Followed '{}'!".format(userid_to_follow.encode("utf-8")))
     update_activity('follows')
 
     # get user ID to record alongside username
-    user_id = get_user_id(browser, track, user_name, logger)
+    user_id = get_user_id(browser, track, userid_to_follow, logger)
 
     logtime = datetime.now().strftime('%Y-%m-%d %H:%M')
-    log_followed_pool(login, user_name, logger, logfolder, logtime, user_id)
+    log_followed_pool(login, userid_to_follow, logger, logfolder, logtime, user_id)
 
-    follow_restriction("write", user_name, None, logger)
+    follow_restriction("write", userid_to_follow, None, logger)
 
     if blacklist['enabled'] is True:
         action = 'followed'
-        add_user_to_blacklist(user_name,
+        add_user_to_blacklist(userid_to_follow,
                               blacklist['campaign'],
                               action,
                               logger,
@@ -964,7 +964,7 @@ def get_given_user_followers(browser,
     """
     user_name = user_name.strip()
 
-    user_link = "https://www.facebook.com/{}".format(user_name)
+    user_link = "https://www.facebook.com/{}".format(userid)
     web_address_navigator(browser, user_link)
 
     if not is_page_available(browser, logger):
@@ -1050,7 +1050,7 @@ def get_given_user_following(browser,
                              logfolder):
     user_name = user_name.strip()
 
-    user_link = "https://www.facebook.com/{}/".format(user_name)
+    user_link = "https://www.facebook.com/{}/".format(userid)
     web_address_navigator(browser, user_link)
 
     if not is_page_available(browser, logger):
@@ -1448,7 +1448,7 @@ def verify_username_by_id(browser, username, person, person_id, logger,
     return None
 
 
-def verify_action(browser, action, track, username, userid, person, person_id, logger,
+def verify_action(browser, action, track, username, person, person_id, logger,
                   logfolder):
     """ Verify if the action has succeeded """
     # currently supported actions are follow & unfollow

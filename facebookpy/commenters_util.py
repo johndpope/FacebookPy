@@ -97,9 +97,9 @@ def extract_post_info(browser):
     return user_commented_list, date_time
 
 
-def extract_information(browser, username, daysold, max_pic):
+def extract_information(browser, username, userid, daysold, max_pic):
     """Get all the information for the given username"""
-    web_address_navigator(browser, 'https://www.facebook.com/' + username)
+    web_address_navigator(browser, 'https://www.facebook.com/' + userid)
 
     try:
         num_of_posts = get_number_of_posts(browser)
@@ -280,49 +280,50 @@ def extract_information(browser, username, daysold, max_pic):
     return user_commented_list
 
 
-def users_liked(browser, photo_url, amount=100):
-    photo_likers = []
+def users_liked(browser, post_url, logger, amount=100):
+    post_likers = []
     try:
-        web_address_navigator(browser, photo_url)
-        photo_likers = likers_from_photo(browser, amount)
+        web_address_navigator(browser, post_url)
+        post_likers = likers_from_post(browser, logger, amount)
         sleep(2)
     except NoSuchElementException:
-        print('Could not get information from post: ' + photo_url,
-              ' nothing to return')
+        print('Could not get information from post: ' + post_url, ' nothing to return')
 
-    return photo_likers
+    return post_likers
 
 
-def likers_from_photo(browser, amount=20):
+def likers_from_post(browser, logger, amount=20):
     """ Get the list of users from the 'Likes' dialog of a photo """
 
-    liked_counter_button = "//div/article/div[2]/section[2]/div/div/a"
+    liked_counter_button = '//form/div/div/div/div/div/span/span/a[@role="button"]'
 
     try:
         liked_this = browser.find_elements_by_xpath(liked_counter_button)
-        likers = []
+        element_to_click = liked_this[0]
+        # print('element_to_click:', element_to_click)
+        # likers = []
 
-        for liker in liked_this:
-            if " like this" not in liker.text:
-                likers.append(liker.text)
+        # for liker in liked_this:
+        #     if " like this" not in liker.text:
+        #         likers.append(liker.text)
 
-        if check_exists_by_xpath(browser, liked_counter_button):
-            if " others" in liked_this[-1].text:
-                element_to_click = liked_this[-1]
+        # if check_exists_by_xpath(browser, liked_counter_button):
+        #     if " others" in liked_this[-1].text:
+        #         element_to_click = liked_this[-1]
 
-            elif " likes" in liked_this[0].text:
-                element_to_click = liked_this[0]
+        #     elif " likes" in liked_this[0].text:
+        #         element_to_click = liked_this[0]
 
-            else:
-                print("Few likes, not guaranteed you don't follow these"
-                      " likers already.\nGot photo likers: {}\n"
-                      .format(likers))
-                return likers
+        #     else:
+        #         print("Few likes, not guaranteed you don't follow these"
+        #               " likers already.\nGot photo likers: {}\n"
+        #               .format(likers))
+        #         return likers
 
-        else:
-            print("Couldn't find liked counter button. May be a video.")
-            print("Moving on..")
-            return []
+        # else:
+        #     print("Couldn't find liked counter button. May be a video.")
+        #     print("Moving on..")
+        #     return []
 
         sleep(1)
         click_element(browser, element_to_click)
@@ -350,20 +351,24 @@ def likers_from_photo(browser, amount=20):
                or (len(user_list) != previous_len)
                and (len(user_list) < amount)):
 
+            previous_len = len(user_list)
+            scroll_bottom(browser, dialog, 2)
+
+            user_list = get_users_from_dialog(user_list, dialog, logger)
+            # print('user_list (loop):')
+            # print(user_list)
+
+            # write & update records at Progress Tracker
+            progress_tracker(len(user_list), amount, start_time, None)
+
             if previous_len + 10 >= amount:
                 print("\nScrolling finished")
                 sleep(1)
                 break
 
-            previous_len = len(user_list)
-            scroll_bottom(browser, dialog, 2)
-
-            user_list = get_users_from_dialog(user_list, dialog)
-
-            # write & update records at Progress Tracker
-            progress_tracker(len(user_list), amount, start_time, None)
-
         print('\n')
+        # print('user_list:')
+        # print(user_list)
         random.shuffle(user_list)
         sleep(1)
 
@@ -380,35 +385,38 @@ def likers_from_photo(browser, amount=20):
         return []
 
 
-def get_photo_urls_from_profile(browser, username, links_to_return_amount=1,
+def get_post_urls_from_profile(browser, userid, links_to_return_amount=1,
                                 randomize=True):
-    # try:
-    # input can be both username or user profile url
-    username = username_url_to_username(username)
-    print("\nGetting likers from user: ", username, "\n")
-    web_address_navigator(browser,
-                          'https://www.facebook.com/' + username + '/')
-    sleep(1)
+    try:
+        print("\nGetting likers from user: ", userid, "\n")
+        web_address_navigator(browser, 'https://www.facebook.com/' + userid + '/')
+        sleep(1)
 
-    photos_a_elems = browser.find_elements_by_xpath("//div/a")
+        posts_a_elems = browser.find_elements_by_xpath("//div/div/div/div/div/div/div/div/div/div/span/span/a")
 
-    links = []
-    for photo_element in photos_a_elems:
-        photo_url = photo_element.get_attribute("href")
-        # print ("photo url: ", photo_url)
-        if ("/p/" in photo_url):
-            links.append(photo_url)
+        links = []
+        for post_element in posts_a_elems:
+            try:
+                post_url = post_element.get_attribute("href")
+                # TODO: "/posts/" doesnt cover all types of posts "/videos/", "/photos/" to be implemented later
+                if "/posts/" in post_url:
+                    links.append(post_url)
+            except Exception as es:
+                print(es)
 
-    if randomize is True:
-        print("shuffling links")
-        random.shuffle(links)
-    print("Got ", len(links), ", returning ",
-          min(links_to_return_amount, len(links)), " links: ",
-          links[:links_to_return_amount])
-    sleep(1)
-    return links[:links_to_return_amount]
-    # except:
-    # Code below is unreachable - perhaps get rid of?
-    print("Error: Couldnt get pictures links.")
-    return []
+        if randomize is True:
+            print("shuffling links")
+            random.shuffle(links)
+
+        # print(links)
+
+        print("Got ", len(links), ", returning ",
+            min(links_to_return_amount, len(links)), " links: ",
+            links[:links_to_return_amount])
+        sleep(1)
+        return links[:links_to_return_amount]
+    except Exception as e:
+        print("Error: Couldnt get pictures links.", e)
+        return []
+
 

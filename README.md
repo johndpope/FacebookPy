@@ -96,15 +96,15 @@ Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute t
 
 **[How to Windows](./docs/How_to_Windows.md)**
 
-
 # Documentation
 
 ### Table of Contents
+#### NOTE: Checked are the ones that have been migrated and tested for Facedbook, while the rest are yet to be migrated or investigated the scope of.
 * [FacebookPy Available Features](#facebookpy-available-features)
   * [Following](#following)  ✔
   * [Following by a list](#following-by-a-list)  ✔
   * [Follow someone else's followers](#follow-someone-elses-followers)  ✔
-  * [Follow the likers of photos of users](#follow-the-likers-of-photos-of-users)  
+  * [Follow the likers of posts of users](#follow-the-likers-of-photos-of-users)   ✔
   * [Follow the commenters of photos of users](#follow-the-commenters-of-photos-of-users)  
   * [Interact with specific users](#interact-with-specific-users)
   * [Interact with someone else's followers](#interact-with-someone-elses-followers)
@@ -222,7 +222,7 @@ session.follow_user_followers(['friend1', 'friend2', 'friend3'], amount=10, rand
 > **Note**: [simulation](#simulation) takes place while running this feature.
 
 
-### Follow the likers of photos of users
+### Follow the likers of posts(only non video/non-photo) of users
 
 ##### This will follow the people those liked photos of given list of users
 ```python
