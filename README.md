@@ -133,7 +133,7 @@ Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute t
   * [Smart Hashtags](#smart-hashtags)
   * [Follow/Unfollow/exclude not working?](#followunfollowexclude-not-working)
   * [Bypass Suspicious Login Attempt](#bypass-suspicious-login-attempt)
-  * [Quota Supervisor](#quota-supervisor)
+  * [Quota Supervisor](#quota-supervisor)  ✔
 * [Relationship tools](#relationship-tools)
   * [Grab Followers of a user](#grab-followers-of-a-user)
   * [Grab Following of a user](#grab-following-of-a-user)
