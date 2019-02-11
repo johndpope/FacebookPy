@@ -1,13 +1,10 @@
 > **Disclaimer**: Please Note that this is a research project. I am by no means responsible for any usage of this tool. Use on your own behalf. I'm also not responsible if your accounts get banned due to extensive use of this tool.
 
-<img src="https://i.imgur.com/sJzfZsL.jpg" width="150" align="right">
-
 # FacebookPy
 [![MIT license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://github.com/socialbotspy/FacebookPy/blob/master/LICENSE)
 [![built with Selenium](https://img.shields.io/badge/built%20with-Selenium-yellow.svg)](https://github.com/SeleniumHQ/selenium)
 [![built with Python3](https://img.shields.io/badge/built%20with-Python3-red.svg)](https://www.python.org/)
 [![Travis](https://img.shields.io/travis/rust-lang/rust.svg)](https://travis-ci.org/socialbotspy/FacebookPy)
-[![Backers on Open Collective](https://opencollective.com/facebookpy/backers/badge.svg)](#backers)
 
 ### Tooling that automates your social media interactions to “farm” Likes, Comments, and Followers on Facebook
 Implemented in Python using the Selenium module.
@@ -2324,18 +2321,12 @@ python quickstart.py -u abc
 
 ### Contributors
 
-This project exists thanks to all the people who contribute. [[Contribute](https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute)].
-
-<a href="https://github.com/socialbotspy/FacebookPy/graphs/contributors"><img src="https://opencollective.com/facebookpy/contributors.svg?width=890&button=false" /></a>
+This project exists thanks to all the people who contribute.
 
 ### Backers
 
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/facebookpy#backer)]
-
-<a href="https://opencollective.com/facebookpy#backers" target="_blank"><img src="https://opencollective.com/facebookpy/backers.svg?width=890"></a>
+Thank you to all our backers! 🙏
 
 ### Sponsors
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/facebookpy#sponsor)]
-
-<a href="https://opencollective.com/facebookpy/sponsor/0/website" target="_blank"><img src="https://opencollective.com/facebookpy/sponsor/0/avatar.svg"></a>
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
