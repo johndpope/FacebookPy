@@ -121,11 +121,11 @@ Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute t
   * [Commenting based on mandatory words in the description or first comment](#commenting-based-on-mandatory-words-in-the-description-or-first-comment)
   * [Mandatory Words](#mandatory-words)
   * [Mandatory Language](#mandatory-language)
-  * [Restricting Likes](#restricting-likes)
+  * [Restricting Likes](#restricting-likes)  ✔
   * [Ignoring Users](#ignoring-users)  ✔
   * [Ignoring Restrictions](#ignoring-restrictions)
-  * [Excluding friends](#excluding-friends)
-  * [Blacklist Campaign](#blacklist-campaign)
+  * [Excluding friends](#excluding-friends)  ✔
+  * [Blacklist Campaign](#blacklist-campaign)  ✔
   * [Smart Hashtags](#smart-hashtags)
   * [Follow/Unfollow/exclude not working?](#followunfollowexclude-not-working)
   * [Bypass Suspicious Login Attempt](#bypass-suspicious-login-attempt)
