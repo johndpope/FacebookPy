@@ -17,7 +17,7 @@
 - Download and install Microsoft Visual C++ 2015 Build Tools.
 - Proceed with standard installation.
 - Restart PC (recommended).
-> [http://landinghub.visualstudio.com/visual-cpp-build-tools]
+> [https://visualstudio.microsoft.com/vs/older-downloads/]
 
 ##### 0.4 Microsoft .NET Framework V.3.5 (Including: .NET Framework 2.0 and 3.0, and includes .NET Framework 2.0 service pack 1 and .NET Framework 3.0 service pack 1)
 - Download and install Microsoft .NET Framework V.3.5.
