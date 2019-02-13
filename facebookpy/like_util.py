@@ -119,7 +119,7 @@ def get_links_for_location(browser,
     if possible_posts is not None:
         possible_posts = possible_posts if not skip_top_posts else \
             possible_posts - len(
-            top_posts)
+                top_posts)
         amount = possible_posts if amount > possible_posts else amount
         # sometimes pages do not have the correct amount of posts as it is
         # written there, it may be cos of some posts is deleted but still
@@ -185,10 +185,10 @@ def get_links_for_location(browser,
 
                         main_elem = (browser.find_element_by_xpath(
                             '//main/article/div[1]') if not link_elems else
-                                     browser.find_element_by_xpath(
-                                         '//main/article/div[2]') if
-                                     skip_top_posts else
-                                     browser.find_element_by_tag_name('main'))
+                            browser.find_element_by_xpath(
+                            '//main/article/div[2]') if
+                            skip_top_posts else
+                            browser.find_element_by_tag_name('main'))
                     else:
                         logger.info(
                             "'{}' location POSSIBLY has less images than "
@@ -283,7 +283,7 @@ def get_links_for_tag(browser,
     if possible_posts is not None:
         possible_posts = possible_posts if not skip_top_posts else \
             possible_posts - len(
-            top_posts)
+                top_posts)
         amount = possible_posts if amount > possible_posts else amount
     # sometimes pages do not have the correct amount of posts as it is
     # written there, it may be cos of some posts is deleted but still keeps
@@ -348,10 +348,10 @@ def get_links_for_tag(browser,
 
                         main_elem = (browser.find_element_by_xpath(
                             '//main/article/div[1]') if not link_elems else
-                                     browser.find_element_by_xpath(
-                                         '//main/article/div[2]') if
-                                     skip_top_posts else
-                                     browser.find_element_by_tag_name('main'))
+                            browser.find_element_by_xpath(
+                            '//main/article/div[2]') if
+                            skip_top_posts else
+                            browser.find_element_by_tag_name('main'))
                     else:
                         logger.info(
                             "'{}' tag POSSIBLY has less images than "
@@ -466,7 +466,9 @@ def get_links_for_username(browser,
 
 
 def get_media_edge_comment_string(media):
-    """AB test (Issue 3712) alters the string for media edge, this resoves it"""
+    """
+    AB test (Issue 3712) alters the string for media edge, this resoves it
+    """
     options = ['edge_media_to_comment', 'edge_media_preview_comment']
     for option in options:
         try:
@@ -638,19 +640,19 @@ def check_link(browser, post_link, dont_like, mandatory_words,
         quash = re.search(dont_likes_regex, image_text, re.IGNORECASE)
         if quash:
             quashed = \
-            (((quash.group(0)).split('#')[1]).split(' ')[0]).split('\n')[
-                0].encode(
-                'utf-8')  # dismiss possible space and newlines
+                (((quash.group(0)).split('#')[1]).split(' ')[0]).split('\n')[
+                    0].encode(
+                    'utf-8')  # dismiss possible space and newlines
             iffy = ((re.split(r'\W+', dont_likes_regex))[
-                        3] if dont_likes_regex.endswith(
+                3] if dont_likes_regex.endswith(
                 '*([^\\d\\w]|$)') else  # 'word' without format
-                    (re.split(r'\W+', dont_likes_regex))[
-                        1] if dont_likes_regex.endswith(
-                        '+([^\\d\\w]|$)') else  # '[word'
-                    (re.split(r'\W+', dont_likes_regex))[
-                        3] if dont_likes_regex.startswith(
-                        '#[\\d\\w]+') else  # ']word'
-                    (re.split(r'\W+', dont_likes_regex))[1])  # '#word'
+                (re.split(r'\W+', dont_likes_regex))[
+                1] if dont_likes_regex.endswith(
+                '+([^\\d\\w]|$)') else  # '[word'
+                (re.split(r'\W+', dont_likes_regex))[
+                3] if dont_likes_regex.startswith(
+                '#[\\d\\w]+') else  # ']word'
+                (re.split(r'\W+', dont_likes_regex))[1])  # '#word'
             inapp_unit = 'Inappropriate! ~ contains "{}"'.format(
                 quashed if iffy == quashed else
                 '" in "'.join([str(iffy), str(quashed)]))
