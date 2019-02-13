@@ -215,8 +215,8 @@ def unfollow(browser,
     web_address_navigator(browser, user_link)
 
     # check how many poeple we are following
-    allfollowers, allfollowing = get_relationship_counts(browser, username, userid,
-                                                         logger)
+    allfollowers, allfollowing = get_relationship_counts(browser, username,
+                                                         userid, logger)
 
     if allfollowing is None:
         logger.warning(
@@ -304,7 +304,8 @@ def unfollow(browser,
             logger.info("Total {} users available to unfollow"
                         "  ~not found in 'followedPool.csv': {}  |  didn't "
                         "pass `unfollow_after`: {}\n".format(
-                len(unfollow_list), len(not_found), len(non_eligible)))
+                            len(unfollow_list), len(not_found),
+                            len(non_eligible)))
 
         elif FacebookpyFollowed is True:
             non_eligible = [user for user in
@@ -314,7 +315,7 @@ def unfollow(browser,
             logger.info(
                 "Total {} users available to unfollow  ~didn't pass "
                 "`unfollow_after`: {}\n"
-                    .format(len(unfollow_list), len(non_eligible)))
+                .format(len(unfollow_list), len(non_eligible)))
 
         if len(unfollow_list) < 1:
             logger.info("There are no any users available to unfollow")
@@ -343,11 +344,11 @@ def unfollow(browser,
                 if unfollowNum >= amount:
                     logger.warning(
                         "--> Total unfollows reached it's amount given {}\n"
-                            .format(unfollowNum))
+                        .format(unfollowNum))
                     break
 
                 if jumps["consequent"]["unfollows"] >= jumps["limit"][
-                    "unfollows"]:
+                        "unfollows"]:
                     logger.warning(
                         "--> Unfollow quotient reached its peak!\t~leaving "
                         "Unfollow-Users activity\n")
@@ -373,9 +374,9 @@ def unfollow(browser,
                 if person not in dont_include:
                     logger.info(
                         "Ongoing Unfollow [{}/{}]: now unfollowing '{}'..."
-                            .format(unfollowNum + 1,
-                                    amount,
-                                    person.encode('utf-8')))
+                        .format(unfollowNum + 1,
+                                amount,
+                                person.encode('utf-8')))
 
                     person_id = (automatedFollowedPool["all"][person]["id"] if
                                  person in automatedFollowedPool[
@@ -492,7 +493,7 @@ def unfollow(browser,
         logger.info("Total {} users available to unfollow"
                     "  ~not found in 'followedPool.csv': {}  |  didn't pass "
                     "`unfollow_after`: {}".format(
-            len(user_info), len(not_found), len(non_eligible)))
+                        len(user_info), len(not_found), len(non_eligible)))
 
         if len(user_info) < 1:
             logger.info("There are no any users to unfollow")
@@ -517,11 +518,11 @@ def unfollow(browser,
                 if unfollowNum >= amount:
                     logger.info(
                         "--> Total unfollowNum reached it's amount given: {}"
-                            .format(unfollowNum))
+                        .format(unfollowNum))
                     break
 
                 if jumps["consequent"]["unfollows"] >= jumps["limit"][
-                    "unfollows"]:
+                        "unfollows"]:
                     logger.warning(
                         "--> Unfollow quotient reached its peak!\t~leaving "
                         "Unfollow-Users activity\n")
@@ -540,9 +541,9 @@ def unfollow(browser,
                 if person not in dont_include:
                     logger.info(
                         "Ongoing Unfollow [{}/{}]: now unfollowing '{}'..."
-                            .format(unfollowNum + 1,
-                                    amount,
-                                    person.encode('utf-8')))
+                        .format(unfollowNum + 1,
+                                amount,
+                                person.encode('utf-8')))
 
                     person_id = (automatedFollowedPool["all"][person]["id"] if
                                  person in automatedFollowedPool[
@@ -603,8 +604,8 @@ def unfollow(browser,
     return unfollowNum
 
 
-def follow_user(browser, track, login, userid_to_follow, button, blacklist, logger,
-                logfolder):
+def follow_user(browser, track, login, userid_to_follow, button, blacklist,
+                logger, logfolder):
     """ Follow a user either from the profile page or post page or dialog
     box """
     # list of available tracks to follow in: ["profile", "post" "dialog"]
@@ -621,13 +622,14 @@ def follow_user(browser, track, login, userid_to_follow, button, blacklist, logg
             web_address_navigator(browser, user_link)
 
         # find out CURRENT following status
-        following_status, follow_button = get_following_status(browser,
-                                                               track,
-                                                               login,
-                                                               userid_to_follow,
-                                                               None,
-                                                               logger,
-                                                               logfolder)
+        following_status, follow_button = \
+            get_following_status(browser,
+                                 track,
+                                 login,
+                                 userid_to_follow,
+                                 None,
+                                 logger,
+                                 logfolder)
         if following_status in ["Follow", "Follow Back"]:
             click_visibly(browser, follow_button)  # click to follow
             follow_state, msg = verify_action(browser, "follow", track, login,
@@ -638,7 +640,8 @@ def follow_user(browser, track, login, userid_to_follow, button, blacklist, logg
 
         elif following_status in ["Following", "Requested"]:
             if following_status == "Following":
-                logger.info("--> Already following '{}'!\n".format(userid_to_follow))
+                logger.info(
+                    "--> Already following '{}'!\n".format(userid_to_follow))
 
             elif following_status == "Requested":
                 logger.info("--> Already requested '{}' to follow!\n".format(
@@ -660,9 +663,9 @@ def follow_user(browser, track, login, userid_to_follow, button, blacklist, logg
             return False, following_status
 
         elif following_status is None:
-            #TODO:BUG:2nd login has to be fixed with userid of loggedin user
-            sirens_wailing, emergency_state = emergency_exit(browser, login, login,
-                                                             logger)
+            # TODO:BUG:2nd login has to be fixed with userid of loggedin user
+            sirens_wailing, emergency_state = emergency_exit(browser, login,
+                                                             login, logger)
             if sirens_wailing is True:
                 return False, emergency_state
 
@@ -683,7 +686,8 @@ def follow_user(browser, track, login, userid_to_follow, button, blacklist, logg
     user_id = get_user_id(browser, track, userid_to_follow, logger)
 
     logtime = datetime.now().strftime('%Y-%m-%d %H:%M')
-    log_followed_pool(login, userid_to_follow, logger, logfolder, logtime, user_id)
+    log_followed_pool(login, userid_to_follow, logger,
+                      logfolder, logtime, user_id)
 
     follow_restriction("write", userid_to_follow, None, logger)
 
@@ -822,7 +826,7 @@ def get_users_through_dialog(browser,
                                                          logger,
                                                          logfolder)
                     if ((quick_amount == 1
-                        or i != (quick_amount - 1))
+                         or i != (quick_amount - 1))
                         and (not pts_printed
                              or not abort)):
                         print('')
@@ -971,8 +975,8 @@ def get_given_user_followers(browser,
         return [], []
 
     # check how many people are following this user.
-    allfollowers, allfollowing = get_relationship_counts(browser, user_name, userid,
-                                                         logger)
+    allfollowers, allfollowing = get_relationship_counts(browser, user_name,
+                                                         userid, logger)
 
     # skip early for no followers
     if not allfollowers:
@@ -985,15 +989,18 @@ def get_given_user_followers(browser,
                 user_name, allfollowers, amount))
 
     # locate element to user's followers
-    user_followers_link = "https://www.facebook.com/{}/followers".format(userid)
+    user_followers_link = "https://www.facebook.com/{}/followers".format(
+        userid)
     web_address_navigator(browser, user_followers_link)
 
     try:
-        followers_links = browser.find_elements_by_xpath('//div[2]/ul/li/div/div/div[2]/div/div[2]/div/a')
+        followers_links = browser.find_elements_by_xpath(
+            '//div[2]/ul/li/div/div/div[2]/div/div[2]/div/a')
         followers_list = []
         for followers_link in followers_links:
-            splitted = followers_link.get_attribute('href').replace('https://www.facebook.com/','').split('?')
-            if splitted[0]=='profile.php':
+            splitted = followers_link.get_attribute('href').replace(
+                'https://www.facebook.com/', '').split('?')
+            if splitted[0] == 'profile.php':
                 u = splitted[0]+'?'+splitted[1]
             else:
                 u = splitted[0]
@@ -1015,7 +1022,7 @@ def get_given_user_followers(browser,
 
     channel = "Follow"
 
-    #TODO: Fix it: Add simulated
+    # TODO: Fix it: Add simulated
     simulated_list = []
     if amount < len(followers_list):
         person_list = random.sample(followers_list, amount)
@@ -1233,7 +1240,7 @@ def follow_restriction(operation, username, limit, logger):
 
                 else:
                     exceed_msg = "" if follow_data[
-                                           "times"] == limit else "more than "
+                        "times"] == limit else "more than "
                     logger.info("---> {} has already been followed {}{} times"
                                 .format(username, exceed_msg, str(limit)))
                     return True
@@ -1309,8 +1316,8 @@ def unfollow_user(browser, track, username, userid, person, person_id, button,
             return False, following_status
 
         elif following_status is None:
-            sirens_wailing, emergency_state = emergency_exit(browser, username, userid,
-                                                             logger)
+            sirens_wailing, emergency_state = emergency_exit(browser, username,
+                                                             userid, logger)
             if sirens_wailing is True:
                 return False, emergency_state
 
@@ -1433,7 +1440,7 @@ def verify_username_by_id(browser, username, person, person_id, logger,
             if person_new != person:
                 logger.info(
                     "User '{}' has changed username and now is called '{}' :S"
-                        .format(person, person_new))
+                    .format(person, person_new))
             return person_new
 
         else:

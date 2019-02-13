@@ -9,14 +9,12 @@ from .time_util import sleep
 from .util import update_activity
 from .util import web_address_navigator
 from .util import reload_webpage
-from .util import explicit_wait
 from .util import click_element
 from .util import check_authorization
 
 # import exceptions
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
-from selenium.common.exceptions import MoveTargetOutOfBoundsException
 
 
 def bypass_suspicious_login(browser, bypass_with_mobile):

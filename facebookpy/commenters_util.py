@@ -14,7 +14,6 @@ from .util import get_number_of_posts
 from .util import click_element
 from .util import update_activity
 from .util import web_address_navigator
-from .util import username_url_to_username
 from .util import scroll_bottom
 from .util import get_users_from_dialog
 from .util import progress_tracker
@@ -240,7 +239,7 @@ def extract_information(browser, username, userid, daysold, max_pic):
             web_address_navigator(browser, link)
             user_commented_list, pic_date_time = extract_post_info(browser)
             user_commented_total_list = user_commented_total_list + \
-                                        user_commented_list
+                user_commented_list
 
             # stop if date older than daysago
             pastdate = datetime.now() - timedelta(days=daysold)
@@ -287,7 +286,8 @@ def users_liked(browser, post_url, logger, amount=100):
         post_likers = likers_from_post(browser, logger, amount)
         sleep(2)
     except NoSuchElementException:
-        print('Could not get information from post: ' + post_url, ' nothing to return')
+        print('Could not get information from post: ' +
+              post_url, ' nothing to return')
 
     return post_likers
 
@@ -295,7 +295,8 @@ def users_liked(browser, post_url, logger, amount=100):
 def likers_from_post(browser, logger, amount=20):
     """ Get the list of users from the 'Likes' dialog of a photo """
 
-    liked_counter_button = '//form/div/div/div/div/div/span/span/a[@role="button"]'
+    liked_counter_button = \
+        '//form/div/div/div/div/div/span/span/a[@role="button"]'
 
     try:
         liked_this = browser.find_elements_by_xpath(liked_counter_button)
@@ -386,19 +387,22 @@ def likers_from_post(browser, logger, amount=20):
 
 
 def get_post_urls_from_profile(browser, userid, links_to_return_amount=1,
-                                randomize=True):
+                               randomize=True):
     try:
         print("\nGetting likers from user: ", userid, "\n")
-        web_address_navigator(browser, 'https://www.facebook.com/' + userid + '/')
+        web_address_navigator(
+            browser, 'https://www.facebook.com/' + userid + '/')
         sleep(1)
 
-        posts_a_elems = browser.find_elements_by_xpath("//div/div/div/div/div/div/div/div/div/div/span/span/a")
+        posts_a_elems = browser.find_elements_by_xpath(
+            "//div/div/div/div/div/div/div/div/div/div/span/span/a")
 
         links = []
         for post_element in posts_a_elems:
             try:
                 post_url = post_element.get_attribute("href")
-                # TODO: "/posts/" doesnt cover all types of posts "/videos/", "/photos/" to be implemented later
+                # TODO: "/posts/" doesnt cover all types
+                # "/videos/", "/photos/" to be implemented later
                 if "/posts/" in post_url:
                     links.append(post_url)
             except Exception as es:
@@ -411,12 +415,10 @@ def get_post_urls_from_profile(browser, userid, links_to_return_amount=1,
         # print(links)
 
         print("Got ", len(links), ", returning ",
-            min(links_to_return_amount, len(links)), " links: ",
-            links[:links_to_return_amount])
+              min(links_to_return_amount, len(links)), " links: ",
+              links[:links_to_return_amount])
         sleep(1)
         return links[:links_to_return_amount]
     except Exception as e:
         print("Error: Couldnt get pictures links.", e)
         return []
-
-

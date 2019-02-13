@@ -73,9 +73,10 @@ def text_analysis(text, text_type, logger):
         text_is_printed = True
 
         if language_of_text and YANDEX_CONFIG[
-            "language_code"] != language_of_text:
-            logger.info("{}\t~language of the text is '{}'".format(inap_msg,
-                                                                   language_of_text))
+                "language_code"] != language_of_text:
+            logger.info("{}\t~language of the text is '{}'"
+                        .format(inap_msg,
+                                language_of_text))
             return False
 
         elif not language_of_text:
@@ -136,9 +137,9 @@ def text_analysis(text, text_type, logger):
                 des_pol = MEANINGCLOUD_CONFIG["score_tag"]
 
                 polarity_level = (3 if pol == "P+" else 2 if pol == 'P' else
-                1 if pol == "NEU" else
-                -2 if pol == "N+" else -1 if pol == 'N' else
-                0 if pol == "NONE" else None)
+                                  1 if pol == "NEU" else
+                                  -2 if pol == "N+" else -1 if pol == 'N' else
+                                  0 if pol == "NONE" else None)
 
                 desired_polarity_level = (
                     3 if des_pol == "P+" else 2 if des_pol == 'P' else
@@ -177,7 +178,7 @@ def text_analysis(text, text_type, logger):
                 return False
 
             elif MEANINGCLOUD_CONFIG["subjectivity"] != sentiment[
-                "subjectivity"]:
+                    "subjectivity"]:
                 logger.info("{}\t~text is {}"
                             .format(inap_msg,
                                     sentiment["subjectivity"].lower()))
@@ -221,7 +222,7 @@ def sentiment_analysis(text, language_of_text, logger):
                 lang=language_of_text,
                 txt=text,
                 txtf='plain')
-                .sendReq()
+            .sendReq()
         )
         # check if there are any errors in the request
         request_state = lift_meaningcloud_request(sentiment_response)
@@ -231,7 +232,7 @@ def sentiment_analysis(text, language_of_text, logger):
         # get results
         sentiment = sentiment_response.getResults()
         if sentiment and "score_tag" in sentiment.keys() and sentiment[
-            "score_tag"]:
+                "score_tag"]:
             # if text has a question mark & its polarity is neither negative
             # nor none, then label it neutral
             # @todo: polarity is assigned but never used

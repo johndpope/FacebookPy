@@ -144,7 +144,6 @@ class FacebookPy:
 
         Settings.profile["name"] = self.username
 
-
         self.page_delay = page_delay
         self.switch_language = True
         self.use_firefox = use_firefox
@@ -318,19 +317,20 @@ class FacebookPy:
             return logger
 
     def set_selenium_local_session(self):
-        self.browser, err_msg = set_selenium_local_session(self.proxy_address,
-                                                           self.proxy_port,
-                                                           self.proxy_chrome_extension,
-                                                           self.headless_browser,
-                                                           self.use_firefox,
-                                                           self.browser_profile_path,
-                                                           # Replaces
-                                                           # browser User
-                                                           # Agent from
-                                                           # "HeadlessChrome".
-                                                           self.disable_image_load,
-                                                           self.page_delay,
-                                                           self.logger)
+        self.browser, err_msg = \
+            set_selenium_local_session(self.proxy_address,
+                                       self.proxy_port,
+                                       self.proxy_chrome_extension,
+                                       self.headless_browser,
+                                       self.use_firefox,
+                                       self.browser_profile_path,
+                                       # Replaces
+                                       # browser User
+                                       # Agent from
+                                       # "HeadlessChrome".
+                                       self.disable_image_load,
+                                       self.page_delay,
+                                       self.logger)
         if len(err_msg) > 0:
             raise FacebookPyError(err_msg)
 
@@ -487,7 +487,7 @@ class FacebookPy:
             return self
 
         self.do_like = enabled
-        self.like_percentage = min(percentage,100)
+        self.like_percentage = min(percentage, 100)
 
         return self
 
@@ -850,8 +850,8 @@ class FacebookPy:
                 break
 
             post_urls = get_post_urls_from_profile(self.browser, userid,
-                                                     photos_grab_amount,
-                                                     randomize)
+                                                   photos_grab_amount,
+                                                   randomize)
             sleep(1)
             if not isinstance(post_urls, list):
                 post_urls = [post_urls]
@@ -944,7 +944,7 @@ class FacebookPy:
                              self.internal_usage.keys() else False
         # skip validation in case of it is already accomplished
         users_validated = True if not standalone and not \
-        self.internal_usage["follow_by_list"]["validate"] else False
+            self.internal_usage["follow_by_list"]["validate"] else False
 
         self.follow_times = times or 0
 
@@ -966,7 +966,7 @@ class FacebookPy:
 
         for acc_to_follow in followlist:
             if self.jumps["consequent"]["follows"] >= self.jumps["limit"][
-                "follows"]:
+                    "follows"]:
                 self.logger.warning(
                     "--> Follow quotient reached its peak!\t~leaving "
                     "Follow-By-Tags activity\n")
@@ -1034,7 +1034,7 @@ class FacebookPy:
                     if interact and self.do_like:
                         do_interact = random.randint(0,
                                                      100) <= \
-                                      self.user_interact_percentage
+                            self.user_interact_percentage
                         # Do interactions if any
                         if do_interact and self.user_interact_amount > 0:
                             original_do_follow = self.do_follow  # store the
@@ -1116,30 +1116,31 @@ class FacebookPy:
 
     def validate_user_call(self, user_name):
         """ Short call of validate_username() function """
-        validation, details = validate_username(self.browser,
-                                                user_name,
-                                                self.username,
-                                                self.userid,
-                                                self.ignore_users,
-                                                self.blacklist,
-                                                self.potency_ratio,
-                                                self.delimit_by_numbers,
-                                                self.max_followers,
-                                                self.max_following,
-                                                self.min_followers,
-                                                self.min_following,
-                                                self.min_posts,
-                                                self.max_posts,
-                                                self.skip_private,
-                                                self.skip_private_percentage,
-                                                self.skip_no_profile_pic,
-                                                self.skip_no_profile_pic_percentage,
-                                                self.skip_business,
-                                                self.skip_business_percentage,
-                                                self.skip_business_categories,
-                                                self.dont_skip_business_categories,
-                                                self.logger,
-                                                self.logfolder)
+        validation, details = \
+            validate_username(self.browser,
+                              user_name,
+                              self.username,
+                              self.userid,
+                              self.ignore_users,
+                              self.blacklist,
+                              self.potency_ratio,
+                              self.delimit_by_numbers,
+                              self.max_followers,
+                              self.max_following,
+                              self.min_followers,
+                              self.min_following,
+                              self.min_posts,
+                              self.max_posts,
+                              self.skip_private,
+                              self.skip_private_percentage,
+                              self.skip_no_profile_pic,
+                              self.skip_no_profile_pic_percentage,
+                              self.skip_business,
+                              self.skip_business_percentage,
+                              self.skip_business_categories,
+                              self.dont_skip_business_categories,
+                              self.logger,
+                              self.logfolder)
         return validation, details
 
     def fetch_smart_comments(self, is_video, temp_comments):
@@ -1267,7 +1268,7 @@ class FacebookPy:
 
             for i, link in enumerate(links):
                 if self.jumps["consequent"]["likes"] >= self.jumps["limit"][
-                    "likes"]:
+                        "likes"]:
                     self.logger.warning(
                         "--> Like quotient reached its peak!\t~leaving "
                         "Like-By-Locations activity\n")
@@ -1334,8 +1335,8 @@ class FacebookPy:
                             if self.use_clarifai and (following or commenting):
                                 try:
                                     checked_img, temp_comments, \
-                                    clarifai_tags = (
-                                        self.query_clarifai())
+                                        clarifai_tags = (
+                                            self.query_clarifai())
 
                                 except Exception as err:
                                     self.logger.error(
@@ -1474,7 +1475,7 @@ class FacebookPy:
 
             for i, link in enumerate(links):
                 if self.jumps["consequent"]["comments"] >= self.jumps["limit"][
-                    "comments"]:
+                        "comments"]:
                     self.logger.warning(
                         "--> Comment quotient reached its peak!\t~leaving "
                         "Comment-By-Locations activity\n")
@@ -1550,8 +1551,9 @@ class FacebookPy:
                                     self.logger)
                             if self.commenting_approved:
                                 # smart commenting
-                                comments = self.fetch_smart_comments(is_video,
-                                                                     temp_comments)
+                                comments = \
+                                    self.fetch_smart_comments(is_video,
+                                                              temp_comments)
                                 if comments:
                                     comment_state, msg = comment_image(
                                         self.browser,
@@ -1573,10 +1575,11 @@ class FacebookPy:
                                                 self.dont_include and
                                                 checked_img and
                                                 following and
-                                                not follow_restriction("read",
-                                                                       user_name,
-                                                                       self.follow_times,
-                                                                       self.logger)):
+                                                not follow_restriction(
+                                                    "read",
+                                                    user_name,
+                                                    self.follow_times,
+                                                    self.logger)):
 
                                             follow_state, msg = follow_user(
                                                 self.browser,
@@ -1677,7 +1680,7 @@ class FacebookPy:
 
             for i, link in enumerate(links):
                 if self.jumps["consequent"]["likes"] >= self.jumps["limit"][
-                    "likes"]:
+                        "likes"]:
                     self.logger.warning(
                         "--> Like quotient reached its peak!\t~leaving "
                         "Like-By-Tags activity\n")
@@ -1743,8 +1746,8 @@ class FacebookPy:
                             if self.use_clarifai and (following or commenting):
                                 try:
                                     checked_img, temp_comments, \
-                                    clarifai_tags = (
-                                        self.query_clarifai())
+                                        clarifai_tags = (
+                                            self.query_clarifai())
 
                                 except Exception as err:
                                     self.logger.error(
@@ -1942,7 +1945,7 @@ class FacebookPy:
                     break
 
                 if self.jumps["consequent"]["likes"] >= self.jumps["limit"][
-                    "likes"]:
+                        "likes"]:
                     self.logger.warning(
                         "--> Like quotient reached its peak!\t~leaving "
                         "Like-By-Users activity\n")
@@ -1994,8 +1997,8 @@ class FacebookPy:
                             if self.use_clarifai and (following or commenting):
                                 try:
                                     checked_img, temp_comments, \
-                                    clarifai_tags = (
-                                        self.query_clarifai())
+                                        clarifai_tags = (
+                                            self.query_clarifai())
 
                                 except Exception as err:
                                     self.logger.error(
@@ -2094,7 +2097,7 @@ class FacebookPy:
                              self.internal_usage.keys() else False
         # skip validation in case of it is already accomplished
         users_validated = True if not standalone and not \
-        self.internal_usage["interact_by_users"]["validate"] else False
+            self.internal_usage["interact_by_users"]["validate"] else False
 
         total_liked_img = 0
         already_liked = 0
@@ -2187,7 +2190,7 @@ class FacebookPy:
 
             for i, link in enumerate(links[:amount]):
                 if self.jumps["consequent"]["likes"] >= self.jumps["limit"][
-                    "likes"]:
+                        "likes"]:
                     self.logger.warning(
                         "--> Like quotient reached its peak!\t~leaving "
                         "Interact-By-Users activity\n")
@@ -2235,10 +2238,11 @@ class FacebookPy:
 
                         # like
                         if self.do_like and liking and self.delimit_liking:
-                            self.liking_approved = verify_liking(self.browser,
-                                                                 self.max_likes,
-                                                                 self.min_likes,
-                                                                 self.logger)
+                            self.liking_approved = \
+                                verify_liking(self.browser,
+                                              self.max_likes,
+                                              self.min_likes,
+                                              self.logger)
 
                         if self.do_like and liking and self.liking_approved:
                             like_state, msg = like_image(self.browser,
@@ -2259,8 +2263,8 @@ class FacebookPy:
                                 if self.use_clarifai and commenting:
                                     try:
                                         checked_img, temp_comments, \
-                                        clarifai_tags = (
-                                            self.query_clarifai())
+                                            clarifai_tags = (
+                                                self.query_clarifai())
 
                                     except Exception as err:
                                         self.logger.error(
@@ -2349,7 +2353,8 @@ class FacebookPy:
             # final words
             interacted_media_size = (len(usernames) * amount - inap_img)
             self.logger.info(
-                "Finished interacting on total of {} images from {} users! xD\n"
+                "Finished interacting on total of {} "
+                "images from {} users! xD\n"
                 .format(interacted_media_size, len(usernames)))
 
             # print results
@@ -2388,7 +2393,7 @@ class FacebookPy:
                              self.internal_usage.keys() else False
         # skip validation in case of it is already accomplished
         users_validated = True if not standalone and not \
-        self.internal_usage["interact_by_users"]["validate"] else False
+            self.internal_usage["interact_by_users"]["validate"] else False
 
         total_liked_img = 0
         already_liked = 0
@@ -2479,7 +2484,7 @@ class FacebookPy:
 
             for i, link in enumerate(links[:amount]):
                 if self.jumps["consequent"]["likes"] >= self.jumps["limit"][
-                    "likes"]:
+                        "likes"]:
                     self.logger.warning(
                         "--> Like quotient reached its peak!\t~leaving "
                         "Interact-By-Users activity\n")
@@ -2516,15 +2521,15 @@ class FacebookPy:
                         # after first image we roll again
                         if i > 0:
                             liking = (
-                                    random.randint(0,
-                                                   100) <=
-                                    self.like_percentage)
+                                random.randint(0,
+                                               100) <=
+                                self.like_percentage)
                             commenting = (
-                                    random.randint(0,
-                                                   100) <=
-                                    self.comment_percentage and
-                                    self.do_comment and
-                                    not_dont_include)
+                                random.randint(0,
+                                               100) <=
+                                self.comment_percentage and
+                                self.do_comment and
+                                not_dont_include)
 
                         # like
                         if self.do_like and liking and self.delimit_liking:
@@ -2791,15 +2796,16 @@ class FacebookPy:
                             " unfollowing '{}' due to mismatching "
                             "validation..."
                             .format(simulated_unfollow + 1, person))
-                        unfollow_state, msg = unfollow_user(self.browser,
-                                                            "profile",
-                                                            self.username,
-                                                            person,
-                                                            None,
-                                                            None,
-                                                            self.relationship_data,
-                                                            self.logger,
-                                                            self.logfolder)
+                        unfollow_state, msg = \
+                            unfollow_user(self.browser,
+                                          "profile",
+                                          self.username,
+                                          person,
+                                          None,
+                                          None,
+                                          self.relationship_data,
+                                          self.logger,
+                                          self.logfolder)
                         if unfollow_state is True:
                             simulated_unfollow += 1
 
@@ -2808,7 +2814,7 @@ class FacebookPy:
                 # Do interactions if any
                 do_interact = random.randint(0,
                                              100) <= \
-                              self.user_interact_percentage
+                    self.user_interact_percentage
 
                 if do_interact is False:
                     self.logger.info(
@@ -2975,7 +2981,7 @@ class FacebookPy:
                 # Do interactions if any
                 do_interact = random.randint(0,
                                              100) <= \
-                              self.user_interact_percentage
+                    self.user_interact_percentage
 
                 if do_interact is False:
                     self.logger.info("Skipping user '{}' due to"
@@ -3098,7 +3104,7 @@ class FacebookPy:
             print('')
             self.logger.info(
                 "Grabbed {} usernames from '{}'s `Followers` to do following\n"
-                    .format(len(person_list), user))
+                .format(len(person_list), user))
 
             followed_personal = 0
             simulated_unfollow = 0
@@ -3665,13 +3671,13 @@ class FacebookPy:
                                                     temp_comments)
                                             if comments:
                                                 comment_state, \
-                                                msg = comment_image(
-                                                    self.browser,
-                                                    user_name,
-                                                    comments,
-                                                    self.blacklist,
-                                                    self.logger,
-                                                    self.logfolder)
+                                                    msg = comment_image(
+                                                        self.browser,
+                                                        user_name,
+                                                        comments,
+                                                        self.blacklist,
+                                                        self.logger,
+                                                        self.logfolder)
                                             if comment_state is True:
                                                 commented += 1
 
@@ -4272,8 +4278,9 @@ class FacebookPy:
                                     self.logger)
                             if self.commenting_approved:
                                 # smart commenting
-                                comments = self.fetch_smart_comments(is_video,
-                                                                     temp_comments)
+                                comments = \
+                                    self.fetch_smart_comments(is_video,
+                                                              temp_comments)
                                 if comments:
                                     comment_state, msg = comment_image(
                                         self.browser,
@@ -4479,8 +4486,8 @@ class FacebookPy:
             owner_relationship_info = (
                 "On session start was FOLLOWING {} users"
                 " & had {} FOLLOWERS"
-                    .format(self.following_num,
-                            self.followed_by))
+                .format(self.following_num,
+                        self.followed_by))
         else:
             owner_relationship_info = ''
 
@@ -4848,14 +4855,14 @@ class FacebookPy:
                         if (self.do_reply_to_comments and reply and
                                 text_analysis_state is True):
                             do_reply_to_comment = (
-                                    self.reply_to_comments_percent
-                                    >= random.randint(0, 100))
+                                self.reply_to_comments_percent
+                                >= random.randint(0, 100))
 
                             comment_replies_base = (
-                                    self.comment_replies
-                                    + (self.video_comment_replies
-                                       if is_video else
-                                       self.photo_comment_replies))
+                                self.comment_replies
+                                + (self.video_comment_replies
+                                   if is_video else
+                                   self.photo_comment_replies))
                             # dismiss the already used replies per each user
                             comment_replies_base = [
                                 reply for reply in comment_replies_base if
@@ -4935,7 +4942,7 @@ class FacebookPy:
         already_liked = (self.already_liked - already_liked_init)
         liked_comments = (self.liked_comments - liked_comments_init)
         replied_to_comments = (
-                self.replied_to_comments - replied_to_comments_init)
+            self.replied_to_comments - replied_to_comments_init)
         commented = ((self.commented - commented_init) - replied_to_comments)
         followed = (self.followed - followed_init)
         already_followed = (self.already_followed - already_followed_init)

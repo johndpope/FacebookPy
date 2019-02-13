@@ -393,4 +393,3 @@ def update_record(job):
 
     # update records
     records[today][this_hour].update({job: live_rec})
-
