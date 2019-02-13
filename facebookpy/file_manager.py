@@ -117,7 +117,7 @@ def update_locations():
         if (not Settings.chromedriver_location
                 or not path_exists(Settings.chromedriver_location)):
             Settings.chromedriver_location = localize_path("assets",
-                                                            "chromedriver")
+                                                           "chromedriver")
 
 
 def get_home_path():
@@ -223,8 +223,10 @@ def get_chromedriver_location():
         validate_path(assets_path)
 
         CD = binary_path
-        chrome_version = pkg_resources.get_distribution("instapy_chromedriver").version
-        message = "Using built in instapy-chromedriver executable (version {})".format(chrome_version)
+        chrome_version = pkg_resources.get_distribution(
+            "instapy_chromedriver").version
+        message = "Using built in instapy-chromedriver" \
+                  "executable (version {})".format(chrome_version)
         highlight_print(Settings.profile["name"],
                         message,
                         "workspace",
@@ -246,4 +248,3 @@ def get_logfolder(username, multi_logs):
 
     validate_path(logfolder)
     return logfolder
-
