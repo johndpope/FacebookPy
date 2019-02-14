@@ -1115,9 +1115,9 @@ class FacebookPy:
         self.max_posts = max_posts if enabled is True else None
 
     def validate_user_call(self, user_name):
-        """ Short call of validate_username() function """
+        """ Short call of validate_userid() function """
         validation, details = \
-            validate_username(self.browser,
+            validate_userid(self.browser,
                               user_name,
                               self.username,
                               self.userid,

@@ -633,7 +633,7 @@ def follow_user(browser, track, login, userid_to_follow, button, blacklist,
         if following_status in ["Follow", "Follow Back"]:
             click_visibly(browser, follow_button)  # click to follow
             follow_state, msg = verify_action(browser, "follow", track, login,
-                                              userid_to_follow, userid, None, logger,
+                                              userid_to_follow, None, logger,
                                               logfolder)
             if follow_state is not True:
                 return False, msg

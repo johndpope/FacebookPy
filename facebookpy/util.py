@@ -84,9 +84,9 @@ def is_private_profile(browser, logger, following=True):
     return is_private
 
 
-def validate_username(browser,
-                      username_or_link,
+def validate_userid(browser,
                       userid,
+                      own_userid,
                       own_username,
                       ignore_users,
                       blacklist,
@@ -109,51 +109,14 @@ def validate_username(browser,
                       logger,
                       logfolder):
     """Check if we can interact with the user"""
-
-    # some features may not provide `username` and in those cases we will
-    # get it from post's page.
-    if '/' in username_or_link:
-        link = username_or_link  # if there is a `/` in `username_or_link`,
-        # then it is a `link`
-
-        # check URL of the webpage, if it already is user's profile page,
-        # then do not navigate to it again
-        web_address_navigator(browser, link)
-
-        try:
-            username = browser.execute_script(
-                "return window._sharedData.entry_data."
-                "PostPage[0].graphql.shortcode_media.owner.username")
-
-        except WebDriverException:
-            try:
-                browser.execute_script("location.reload()")
-                update_activity()
-
-                username = browser.execute_script(
-                    "return window._sharedData.entry_data."
-                    "PostPage[0].graphql.shortcode_media.owner.username")
-
-            except WebDriverException:
-                logger.error(
-                    "Username validation failed!\t~cannot get the post "
-                    "owner's username")
-                inap_msg = "---> Sorry, this page isn't available!\t~either " \
-                           "link is broken or page is removed\n"
-                return False, inap_msg
-
-    else:
-        username = username_or_link  # if there is no `/` in
-        # `username_or_link`, then it is a `username`
-
-    if username == own_username:
+    if userid == own_userid:
         inap_msg = "---> Username '{}' is yours!\t~skipping user\n".format(
-            own_username)
+            own_userid)
         return False, inap_msg
 
-    if username in ignore_users:
+    if userid in ignore_users:
         inap_msg = "---> '{}' is in the `ignore_users` list\t~skipping " \
-                   "user\n".format(username)
+                   "user\n".format(userid)
         return False, inap_msg
 
     blacklist_file = "{}blacklist.csv".format(logfolder)
@@ -163,11 +126,11 @@ def validate_username(browser,
             reader = csv.reader(f, delimiter=',')
             for row in reader:
                 for field in row:
-                    if field == username:
+                    if field == userid:
                         logger.info(
-                            'Username in BlackList: {} '.format(username))
+                            'Username in BlackList: {} '.format(userid))
                         return False, "---> {} is in blacklist  ~skipping " \
-                                      "user\n".format(username)
+                                      "user\n".format(userid)
 
     """Checks the potential of target user by relationship status in order
     to delimit actions within the desired boundary"""
@@ -179,7 +142,7 @@ def validate_username(browser,
 
         # get followers & following counts
         followers_count, following_count = get_relationship_counts(browser,
-                                                                   username,
+                                                                   userid,
                                                                    userid,
                                                                    logger)
 
@@ -196,7 +159,7 @@ def validate_username(browser,
         logger.info(
             "User: '{}'  |> followers: {}  |> following: {}  |> relationship "
             "ratio: {}"
-            .format(username,
+            .format(userid,
                     followers_count if followers_count else 'unknown',
                     following_count if following_count else 'unknown',
                     truncate_float(relationship_ratio,
@@ -208,7 +171,7 @@ def validate_username(browser,
                     inap_msg = (
                         "'{}' is not a {} with the relationship ratio of {}  "
                         "~skipping user\n"
-                        .format(username,
+                        .format(userid,
                                 "potential user" if not reverse_relationship
                                 else "massive follower",
                                 truncate_float(relationship_ratio, 2)))
@@ -221,7 +184,7 @@ def validate_username(browser,
                             inap_msg = (
                                 "User '{}'s followers count exceeds maximum "
                                 "limit  ~skipping user\n"
-                                .format(username))
+                                .format(userid))
                             return False, inap_msg
 
                     if min_followers:
@@ -229,7 +192,7 @@ def validate_username(browser,
                             inap_msg = (
                                 "User '{}'s followers count is less than "
                                 "minimum limit  ~skipping user\n"
-                                .format(username))
+                                .format(userid))
                             return False, inap_msg
 
                 if following_count:
@@ -238,7 +201,7 @@ def validate_username(browser,
                             inap_msg = (
                                 "User '{}'s following count exceeds maximum "
                                 "limit  ~skipping user\n"
-                                .format(username))
+                                .format(userid))
                             return False, inap_msg
 
                     if min_following:
@@ -246,7 +209,7 @@ def validate_username(browser,
                             inap_msg = (
                                 "User '{}'s following count is less than "
                                 "minimum limit  ~skipping user\n"
-                                .format(username))
+                                .format(userid))
                             return False, inap_msg
 
                 if potency_ratio:
@@ -255,7 +218,7 @@ def validate_username(browser,
                         inap_msg = (
                             "'{}' is not a {} with the relationship ratio of "
                             "{}  ~skipping user\n"
-                            .format(username,
+                            .format(userid,
                                     "potential user" if not
                                     reverse_relationship else "massive "
                                                               "follower",
@@ -275,23 +238,23 @@ def validate_username(browser,
     #         number_of_posts = getUserData(
     #             "graphql.user.edge_owner_to_timeline_media.count", browser)
     #     except WebDriverException:
-    #         logger.error("~cannot get number of posts for username")
+    #         logger.error("~cannot get number of posts for userid")
     #         inap_msg = "---> Sorry, couldn't check for number of posts of " \
-    #                    "username\n"
+    #                    "userid\n"
     #         return False, inap_msg
     #     if max_posts:
     #         if number_of_posts > max_posts:
     #             inap_msg = (
     #                 "Number of posts ({}) of '{}' exceeds the maximum limit "
     #                 "given {}\n"
-    #                 .format(number_of_posts, username, max_posts))
+    #                 .format(number_of_posts, userid, max_posts))
     #             return False, inap_msg
     #     if min_posts:
     #         if number_of_posts < min_posts:
     #             inap_msg = (
     #                 "Number of posts ({}) of '{}' is less than the minimum "
     #                 "limit given {}\n"
-    #                 .format(number_of_posts, username, min_posts))
+    #                 .format(number_of_posts, userid, min_posts))
     #             return False, inap_msg
 
     """Skip users"""
@@ -307,7 +270,7 @@ def validate_username(browser,
     #             "11906329_960233084022564_1448528159_a.jpg") > 0) and (
     #             random.randint(0, 100) <= skip_no_profile_pic_percentage):
     #         return False, "{} has default facebook profile picture\n".format(
-    #             username)
+    #             userid)
 
     # skip business
     # if skip_business:
@@ -336,16 +299,16 @@ def validate_username(browser,
     #                         random.randint(0,
     #                                        100) <= skip_business_percentage):
     #                     return False, "'{}' has a business account\n".format(
-    #                         username)
+    #                         userid)
     #                 else:
     #                     return False, ("'{}' has a business account in the "
     #                                    "undesired category of '{}'\n"
-    #                                    .format(username, category))
+    #                                    .format(userid, category))
     #         else:
     #             if category in skip_business_categories:
     #                 return False, ("'{}' has a business account in the "
     #                                "undesired category of '{}'\n"
-    #                                .format(username, category))
+    #                                .format(userid, category))
 
     # if everything is ok
     return True, "Valid user"
