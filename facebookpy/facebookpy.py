@@ -16,6 +16,7 @@ import logging
 from contextlib import contextmanager
 from copy import deepcopy
 import unicodedata
+from sys import exit as clean_exit
 
 # import FacebookPy modules
 from .social_commons.clarifai_util import check_image
@@ -5038,7 +5039,6 @@ def smart_run(session):
         # provide full stacktrace (else than external interrupt)
         if isinstance(exc, KeyboardInterrupt):
             clean_exit("You have exited successfully.")
-
         else:
             raise
 
