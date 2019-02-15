@@ -56,6 +56,7 @@ from .unfollow_util import follow_restriction
 from .unfollow_util import dump_follow_restriction
 from .unfollow_util import set_automated_followed_pool
 from .unfollow_util import get_follow_requests
+from .unfriend_util import friend_user
 from .commenters_util import extract_information
 from .commenters_util import users_liked
 from .commenters_util import get_post_urls_from_profile
@@ -928,6 +929,18 @@ class FacebookPy:
             self.logger.info("Inappropriate: {}".format(inap_img))
 
         return self
+
+    def friend_by_list(self, friendlist, times=1, sleep_delay=600,
+                       interact=False):
+        for acc_to_friend in friendlist:
+            friend_state, msg = friend_user(self.browser,
+                                            "profile",
+                                            self.username,
+                                            acc_to_friend,
+                                            None,
+                                            self.blacklist,
+                                            self.logger,
+                                            self.logfolder)
 
     def follow_by_list(self, followlist, times=1, sleep_delay=600,
                        interact=False):

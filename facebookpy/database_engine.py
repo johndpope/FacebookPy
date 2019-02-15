@@ -19,6 +19,8 @@ SQL_CREATE_RECORD_ACTIVITY_TABLE = """
         `comments` SMALLINT UNSIGNED NOT NULL,
         `follows` SMALLINT UNSIGNED NOT NULL,
         `unfollows` SMALLINT UNSIGNED NOT NULL,
+        `friendeds` SMALLINT UNSIGNED NOT NULL,
+        `unfriendeds` SMALLINT UNSIGNED NOT NULL,
         `server_calls` INT UNSIGNED NOT NULL,
         `created` DATETIME NOT NULL);"""
 

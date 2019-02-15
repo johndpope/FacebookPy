@@ -97,6 +97,24 @@ def log_followed_pool(login, followed, logger, logfolder, logtime, user_id):
                             user_id)
 
 
+def log_friended_pool(login, friended, logger, logfolder, logtime, user_id):
+    """Prints and logs the friended to
+    a seperate file"""
+    try:
+        with open('{0}{1}_friendedPool.csv'.format(logfolder, login),
+                  'a+') as friendPool:
+            with interruption_handler():
+                friendPool.write(
+                    '{} ~ {} ~ {},\n'.format(logtime, friended, user_id))
+
+    except BaseException as e:
+        logger.error("log_friended_pool error {}".format(str(e)))
+
+    # We save all friended to a pool that will never be erase
+    log_record_all_friended(login, friended, logger, logfolder, logtime,
+                            user_id)
+
+
 def log_uncertain_unfollowed_pool(login, person, logger, logfolder, logtime,
                                   user_id):
     """Prints and logs the uncertain unfollowed to
@@ -135,3 +153,16 @@ def log_record_all_followed(login, followed, logger, logfolder, logtime,
                     '{} ~ {} ~ {},\n'.format(logtime, followed, user_id))
     except BaseException as e:
         logger.error("log_record_all_followed_pool error {}".format(str(e)))
+
+
+def log_record_all_friended(login, followed, logger, logfolder, logtime,
+                            user_id):
+    """logs all friended ever to a pool that will never be erase"""
+    try:
+        with open('{0}{1}_record_all_friended.csv'.format(logfolder, login),
+                  'a+') as friendPool:
+            with interruption_handler():
+                friendPool.write(
+                    '{} ~ {} ~ {},\n'.format(logtime, friended, user_id))
+    except BaseException as e:
+        logger.error("log_record_all_friended_pool error {}".format(str(e)))

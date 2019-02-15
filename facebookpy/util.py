@@ -354,7 +354,7 @@ def update_activity(action="server_calls"):
         if data is None:
             # create a new record for the new day
             cur.execute("INSERT INTO recordActivity VALUES "
-                        "(?, 0, 0, 0, 0, 1, STRFTIME('%Y-%m-%d %H:%M:%S', "
+                        "(?, 0, 0, 0, 0, 0, 0, 1, STRFTIME('%Y-%m-%d %H:%M:%S', "
                         "'now', 'localtime'))",
                         (id,))
 
@@ -373,7 +373,7 @@ def update_activity(action="server_calls"):
                 quota_supervisor("server_calls", update=True)
 
             sql = ("UPDATE recordActivity set likes = ?, comments = ?, "
-                   "follows = ?, unfollows = ?, server_calls = ?, "
+                   "follows = ?, unfollows = ?, friendeds = ?, unfriendeds = ?, server_calls = ?, "
                    "created = STRFTIME('%Y-%m-%d %H:%M:%S', 'now', "
                    "'localtime') "
                    "WHERE  profile_id=? AND STRFTIME('%Y-%m-%d %H', created) "
@@ -381,7 +381,8 @@ def update_activity(action="server_calls"):
                    "STRFTIME('%Y-%m-%d %H', 'now', 'localtime')")
 
             cur.execute(sql, (data['likes'], data['comments'], data['follows'],
-                              data['unfollows'], data['server_calls'], id))
+                              data['unfollows'], data['friendeds'],
+                              data['unfriendeds'], data['server_calls'], id))
 
         # commit the latest changes
         conn.commit()

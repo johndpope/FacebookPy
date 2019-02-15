@@ -39,7 +39,7 @@ with smart_run(session):
     """ Select users form a list of a predefined targets...
     """
 
-    targets = ['ananya.mallik', 'Sushant.on']
+    targets = ['ananya.mallik', 'Sushant.on', 'trina.roy.94064', 'supondev.nath']
     number = random.randint(3, 5)
     random_targets = targets
 
@@ -49,6 +49,7 @@ with smart_run(session):
         random_targets = random.sample(targets, number)
 
     session.follow_by_list(followlist=random_targets, times=1, sleep_delay=600, interact=False)
+    session.friend_by_list(friendlist=random_targets, times=1, sleep_delay=600, interact=False)
 
     session.follow_user_followers(random_targets,
                                   amount=random.randint(30, 60),
