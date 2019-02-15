@@ -39,7 +39,7 @@ from .print_log_writer import log_following_num
 from .time_util import sleep
 from .time_util import set_sleep_percentage
 from .util import get_active_users
-from .util import validate_username
+from .util import validate_userid
 from .util import web_address_navigator
 from .util import interruption_handler
 from .util import highlight_print

@@ -882,31 +882,39 @@ def get_following_count(browser, username, userid, logger):
             return None
     return following_count
 
+def get_followers_count_nonfriend_public_case(browser, username, userid, logger):
+    try:
+        followers_text = browser.find_element_by_xpath('//*[@id="pagelet_collections_followers"]/div/div[1]/div/a[@role="button"]/span').text.strip()
+        followers_count = [format_number(s) for s in followers_text.split() if s.isdigit()][0]
+    except NoSuchElementException as e2:
+        logger.error(e2)
+        return None
+    return followers_count
 
 def get_followers_count(browser, username, userid, logger):
     """ Gets the followers & following counts of a given user """
     user_link = "https://www.facebook.com/{}/followers".format(userid)
     web_address_navigator(browser, user_link)
 
+    # try:
+    #     followers_count = browser.execute_script(
+    #         "return window._sharedData.entry_data."
+    #         "ProfilePage[0].graphql.user.edge_follow.count")
+    # except WebDriverException:
     try:
-        followers_count = browser.execute_script(
-            "return window._sharedData.entry_data."
-            "ProfilePage[0].graphql.user.edge_follow.count")
-
-    except WebDriverException:
-        try:
-            followers_count = format_number(
-                browser.find_element_by_xpath('//a[@name="Followers"]/span[2]').text)
-
-        except NoSuchElementException as e:
-            logger.error(e)
-            return None
+        followers_count = format_number(
+            browser.find_element_by_xpath('//a[@name="Followers"]/span[2]').text)
+        if followers_count == 0:
+            followers_count = get_followers_count_nonfriend_public_case(browser, username, userid, logger)
+    except NoSuchElementException as e:
+        logger.error(e)
+        followers_count = get_followers_count_nonfriend_public_case(browser, username, userid, logger)
     return followers_count
 
 def get_relationship_counts(browser, username, userid, logger):
     """ Gets the followers & following counts of a given user """
     followers_count = get_followers_count(browser, username, userid, logger)
-    following_count = get_following_count(browser, username, userid, logger)
+    following_count = 0#get_following_count(browser, username, userid, logger)
     logger.info('followers_count = {}'.format(followers_count))
     logger.info('following_count = {}'.format(following_count))
     return followers_count, following_count
