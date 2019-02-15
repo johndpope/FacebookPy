@@ -40,13 +40,13 @@ SQL_CREATE_ACCOUNTS_PROGRESS_TABLE = """
         FOREIGN KEY(`profile_id`) REFERENCES `profiles`(`id`));"""
 
 
-def get_database(platform_name, Settings, make=False):
+def get_database(Settings, make=False):
     address = Settings.DATABASE_LOCATION
     logger = Settings.logger
     credentials = Settings.profile
 
     id, name = credentials["id"], credentials['name']
-    address = validate_database_address(platform_name, Settings)
+    address = validate_database_address(Settings)
 
     if not os.path.isfile(address) or make:
         create_database(address, logger, name)
@@ -101,12 +101,12 @@ def verify_database_directories(address):
         os.makedirs(db_dir)
 
 
-def validate_database_address(platform_name, Settings):
+def validate_database_address(Settings):
     address = Settings.DATABASE_LOCATION
     if not address.endswith(".db"):
         slash = "\\" if "\\" in address else "/"
         address = address if address.endswith(slash) else address + slash
-        address = address + platform_name + "py.db"
+        address = address + Settings.platform_name + "py.db"
         DATABASE_LOCATION = address
     verify_database_directories(address)
     return address

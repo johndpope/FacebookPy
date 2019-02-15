@@ -330,7 +330,7 @@ def likers_from_post(browser, logger, Selectors, amount=20):
         click_element(browser, Settings, element_to_click)
         print("opening likes")
         # update server calls
-        # update_activity("facebook", Settings)
+        # update_activity(Settings)
 
         sleep(1)
 
@@ -342,7 +342,7 @@ def likers_from_post(browser, logger, Selectors, amount=20):
         previous_len = -1
         browser.execute_script(
             "arguments[0].scrollTop = arguments[0].scrollHeight", dialog)
-        update_activity("facebook", Settings)
+        update_activity(Settings)
         sleep(1)
 
         start_time = time.time()

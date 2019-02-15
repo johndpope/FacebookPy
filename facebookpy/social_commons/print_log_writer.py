@@ -15,8 +15,7 @@ def get_log_time():
 
     return log_time
 
-
-def log_follower_num(browser, platform_name, base_url, username, userid, logfolder, Settings):
+def log_follower_num(browser, Settings, base_url, username, userid, logfolder):
     """Prints and logs the current number of followers to
     a seperate file"""
     if base_url[-1] != '/':
@@ -32,7 +31,7 @@ def log_follower_num(browser, platform_name, base_url, username, userid, logfold
     except WebDriverException:  # handle the possible `entry_data` error
         try:
             browser.execute_script("location.reload()")
-            update_activity(platform_name, Settings)
+            update_activity(Settings)
 
             sleep(1)
             followed_by = browser.execute_script(
@@ -49,7 +48,7 @@ def log_follower_num(browser, platform_name, base_url, username, userid, logfold
     return followed_by
 
 
-def log_following_num(browser, platform_name, base_url, username, userid, logfolder, Settings):
+def log_following_num(browser, Settings, base_url, username, userid, logfolder):
     """Prints and logs the current number of followers to
     a seperate file"""
     if base_url[-1] != '/':
@@ -65,7 +64,7 @@ def log_following_num(browser, platform_name, base_url, username, userid, logfol
     except WebDriverException:
         try:
             browser.execute_script("location.reload()")
-            update_activity(platform_name, Settings)
+            update_activity(Settings)
 
             sleep(10)
             following_num = browser.execute_script(

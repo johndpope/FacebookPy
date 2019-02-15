@@ -34,7 +34,7 @@ def bypass_suspicious_login(browser, bypass_with_mobile):
          .perform())
 
         # update server calls
-        update_activity("facebook", Settings)
+        update_activity(Settings)
 
     except NoSuchElementException:
         pass
@@ -50,7 +50,7 @@ def bypass_suspicious_login(browser, bypass_with_mobile):
          .perform())
 
         # update server calls
-        update_activity("facebook", Settings)
+        update_activity(Settings)
 
     except NoSuchElementException:
         # no verification needed
@@ -98,7 +98,7 @@ def bypass_suspicious_login(browser, bypass_with_mobile):
      .perform())
 
     # update server calls
-    update_activity("facebook", Settings)
+    update_activity(Settings)
 
     print('Facebook detected an unusual login attempt')
     print('A security code was sent to your {}'.format(choice))
@@ -115,7 +115,7 @@ def bypass_suspicious_login(browser, bypass_with_mobile):
 
     # update server calls for both 'click' and 'send_keys' actions
     for i in range(2):
-        update_activity("facebook", Settings)
+        update_activity(Settings)
 
     submit_security_code_button = browser.find_element_by_xpath(
         "//button[text()='Submit']")
@@ -126,7 +126,7 @@ def bypass_suspicious_login(browser, bypass_with_mobile):
      .perform())
 
     # update server calls
-    update_activity("facebook", Settings)
+    update_activity(Settings)
 
     try:
         sleep(5)
@@ -181,7 +181,7 @@ def login_user(browser,
                 click_element(browser, Settings, link)
 
     web_address_navigator( browser, ig_homepage, Settings)
-    reload_webpage(browser, "facebook", Settings)
+    reload_webpage(browser, Settings)
 
     # cookie has been LOADED, so the user SHOULD be logged in
     # check if the user IS logged in
@@ -219,7 +219,7 @@ def login_user(browser,
     #         login_elem.click()
 
     #     # update server calls
-    #     update_activity("facebook", Settings)
+    #     update_activity(Settings)
 
     # Enter username and password and logs the user in
     # Sometimes the element name isn't 'Username' and 'Password'
@@ -245,7 +245,7 @@ def login_user(browser,
 
     # update server calls for both 'click' and 'send_keys' actions
     for i in range(2):
-        update_activity("facebook", Settings)
+        update_activity(Settings)
 
     sleep(1)
 
@@ -264,7 +264,7 @@ def login_user(browser,
 
     # update server calls for both 'click' and 'send_keys' actions
     for i in range(2):
-        update_activity("facebook", Settings)
+        update_activity(Settings)
 
     sleep(1)
 
@@ -277,7 +277,7 @@ def login_user(browser,
      .perform())
 
     # update server calls
-    update_activity("facebook", Settings)
+    update_activity(Settings)
 
     sleep(1)
 

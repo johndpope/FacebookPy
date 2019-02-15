@@ -119,7 +119,7 @@ class FacebookPy:
 
         FACEBOOKPY_IS_RUNNING = True
         # workspace must be ready before anything
-        if not get_workspace("facebook", Settings):
+        if not get_workspace(Settings):
             raise FacebookPyError(
                 "Oh no! I don't have a workspace to work at :'(")
 
@@ -279,7 +279,7 @@ class FacebookPy:
         self.logfolder = get_logfolder(self.username, self.multi_logs, Settings)
         self.logger = self.get_facebookpy_logger(self.show_logs)
 
-        get_database("facebook", Settings, make=True)  # IMPORTANT: think twice before relocating
+        get_database(Settings, make=True)  # IMPORTANT: think twice before relocating
 
         if self.selenium_local_session is True:
             self.set_selenium_local_session(Settings)
@@ -410,20 +410,18 @@ class FacebookPy:
                     'Unable to save account progress, skipping data update')
 
         self.followed_by = log_follower_num(self.browser,
-                                            "facebook",
+                                            Settings,
                                             "https://www.facebook.com/",
                                             self.username,
                                             self.userid,
-                                            self.logfolder,
-                                            Settings)
+                                            self.logfolder)
 
         self.following_num = log_following_num(self.browser,
-                                            "facebook",
+                                            Settings,
                                             "https://www.facebook.com/",
                                             self.username,
                                             self.userid,
-                                            self.logfolder,
-                                            Settings)
+                                            self.logfolder)
 
         return self
 
@@ -4394,7 +4392,7 @@ class FacebookPy:
         return self
 
     def set_quota_supervisor(self,
-                             platform_name,
+                             Settings,
                              enabled=False,
                              sleep_after=[],
                              sleepyhead=False,
@@ -4408,7 +4406,6 @@ class FacebookPy:
         """
          Sets aside QS configuration ANY time in a session
         """
-
         # take a reference of the global configuration
         configuration = Settings.QS_config
 

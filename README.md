@@ -989,7 +989,7 @@ FacebookPy(username=facebook_username, password=facebook_password, bypass_suspic
 ###### Take full control of the actions with the most sophisticated approaches
 
 ```python
-  session.set_quota_supervisor("facebook",
+  session.set_quota_supervisor(
                       Settings, enabled=True,
                       sleep_after=["likes", "comments_d", "follows", "unfollows", "server_calls_h"],
                       sleepyhead=True,
@@ -1054,7 +1054,7 @@ _such as_,
 * Claudio has written **a new 😊 quickstart** script where it **mostly** _put likes and comments_. He wants the program to **comment safely** cos he is _afraid of exceeding_ **hourly** & **daily** comment limits,
 
 ```python
-session.set_quota_supervisor("facebook", Settings, enabled=True, peak_comments=(21, 240))
+session.set_quota_supervisor(Settings, enabled=True, peak_comments=(21, 240))
 ```
 
 >_That's it! When it reaches the comments peak, it will just jump all of the comments and will again continue to put comments when is available [in the next  hour/day]_.
@@ -1064,7 +1064,7 @@ session.set_quota_supervisor("facebook", Settings, enabled=True, peak_comments=(
   * **wants** the program to **wake up** _a little bit later_ than real sleep time [once reaches the peaks]: **uses** `sleepyhead=True` parameter
 
 ```python
-session.set_quota_supervisor("facebook", Settings, enabled=True, peak_server_calls=(490, None), sleep_after=["server_calls_h"], sleepyhead=True)
+session.set_quota_supervisor(Settings, enabled=True, peak_server_calls=(490, None), sleep_after=["server_calls_h"], sleepyhead=True)
 ```
 
 >_It will sleep after **hourly** server calls reaches its peak given - `490` and **never allow** one more extra request to the server out of the peak and **wake up** when **new hour** comes in WHILST **daily** server calls **will not be** supervised at all- as Alicia wishes_.
@@ -1075,7 +1075,7 @@ session.set_quota_supervisor("facebook", Settings, enabled=True, peak_server_cal
   * **wants** the program to sleep after reaching **hourly** _follow_ peak and **daily** _unfollow_ peak: **adds** `"follows_h"` and `"unfollows_d"`into `sleep_after` parameter
 
 ```python
-session.set_quota_supervisor("facebook", Settings, enabled=True, peak_follows=(56, 660), peak_unfollows=(49, 550), sleep_after=["follows_h", "unfollows_d"], stochastic_flow=True, notify_me=True)
+session.set_quota_supervisor(Settings, enabled=True, peak_follows=(56, 660), peak_unfollows=(49, 550), sleep_after=["follows_h", "unfollows_d"], stochastic_flow=True, notify_me=True)
 ```
 
 ---
@@ -2152,7 +2152,7 @@ Simply copy and paste the content of your logs folder into that workspace folder
 
 ### Set a _custom_ workspace folder
 
-You can use `set_workspace("facebook")` function to set a custom **workspace** folder,
+You can use `set_workspace(Settings)` function to set a custom **workspace** folder,
 
 ```python
 from facebookpy import FacebookPy
@@ -2194,12 +2194,12 @@ as you can see, it normalizes name and sets the **workspace** folder.
 ### Set a custom **workspace** folder _permanently_ with ease
 
 If you want to set your custom **workspace** folder permanently and more easily, add a new environmental variable named `FACEBOOKPY_WORKSPACE` with the value of the path of the desired **workspace** folder to your operating system.  
-Then that will be the default **workspace** folder in all sessions [unless you change it using `set_workspace("facebook")` or so].
+Then that will be the default **workspace** folder in all sessions [unless you change it using `set_workspace(Settings)` or so].
 
 ### _Get_ the location of the workspace folder in use
 
 If you ever want to **get** the _location_ of your **workspace** folder, you can use
-the `get_workspace("facebook", Settings)` function,
+the `get_workspace(Settings)` function,
 
 ```python
 from facebookpy import FacebookPy
@@ -2211,15 +2211,15 @@ set_workspace(path="C:\\Custom\\Path\\FacebookPy_super\\")
 
 session = FacebookPy(username="abc", password="123")
 
-with smart_run(session, platform_name):
+with smart_run(session, Settings):
     # lots of code
-    workspace_in_use = get_workspace(platform_name, Settings)
+    workspace_in_use = get_workspace(Settings)
     print(workspace_in_use["path"])
     # code code
 ```
 
-Note that, `get_workspace("facebook", Settings)` is a function used _internally_ and makes a **workspace** folder [by default at home folder] if not exists.  
-It means, you must use only the `set_workspace("facebook")` feature to set a custom **workspace** folder and not try to use `get_workspace("facebook", Settings)` for that purpose..
+Note that, `get_workspace(Settings)` is a function used _internally_ and makes a **workspace** folder [by default at home folder] if not exists.  
+It means, you must use only the `set_workspace(Settings")` feature to set a custom **workspace** folder and not try to use `get_workspace(Settings)` for that purpose..
 
 ### Set a custom _location_
 
@@ -2266,7 +2266,7 @@ DATABASE_LOCATION = "C:\\Users\\MMega\\Documents\\My_FacebookPy\\db\\facebookpy.
 Settings.chromedriver_location = "C:\\Users\\MMega\\Documents\\My_FacebookPy\\logs\\chromedriver.exe"
 ```
 
-As you can see, you have to use `set_workspace("facebook")` only once.  
+As you can see, you have to use `set_workspace(Settings)` only once.
 Why it is so difficult in those 👆🏼 regards?
 
 * It's to preserve custom location assignments alive (`Settings.*`) cos otherwise setting another **workspace** would override any previously _manually_ assigned location(s).

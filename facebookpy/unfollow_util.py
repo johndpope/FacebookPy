@@ -122,7 +122,7 @@ def get_following_status(browser, track, username, person, person_id, logger,
         " username".format(person))
 
     # check if the page is available
-    valid_page = is_page_available(browser, logger, "facebook", Settings)
+    valid_page = is_page_available(browser, logger, Settings)
     if not valid_page:
         logger.warning(user_inaccessible_msg)
         person_new = verify_username_by_id(browser,
@@ -133,7 +133,7 @@ def get_following_status(browser, track, username, person, person_id, logger,
                                            logfolder)
         if person_new:
             web_address_navigator( browser, ig_homepage + person_new, Settings)
-            valid_page = is_page_available(browser, logger, "facebook", Settings)
+            valid_page = is_page_available(browser, logger, Settings)
             if not valid_page:
                 logger.error(failure_msg.format(person_new.encode("utf-8")))
                 return "UNAVAILABLE", None
@@ -147,7 +147,7 @@ def get_following_status(browser, track, username, person, person_id, logger,
                                   logger, 7, False)
     if not follow_button:
         browser.execute_script("location.reload()")
-        update_activity("facebook", Settings)
+        update_activity(Settings)
 
         follow_button = explicit_wait(browser, "VOEL",
                                       [follow_button_XP, "XPath"], logger, 14,
@@ -449,7 +449,7 @@ def unfollow(browser,
 
             click_element(browser, Settings, following_link[0])
             # update server calls
-            update_activity("facebook", Settings)
+            update_activity(Settings)
         except BaseException as e:
             logger.error("following_link error {}".format(str(e)))
             return 0
@@ -612,7 +612,7 @@ def follow_user(browser, track, login, userid_to_follow, button, blacklist,
     # list of available tracks to follow in: ["profile", "post" "dialog"]
 
     # check action availability
-    if quota_supervisor("facebook", Settings, "follows") == "jump":
+    if quota_supervisor(Settings, "follows") == "jump":
         return False, "jumped"
 
     if track in ["profile", "post"]:
@@ -972,7 +972,7 @@ def get_given_user_followers(browser,
     user_link = "https://www.facebook.com/{}".format(userid)
     web_address_navigator( browser, user_link, Settings)
 
-    if not is_page_available(browser, logger, "facebook", Settings):
+    if not is_page_available(browser, logger, Settings):
         return [], []
 
     # check how many people are following this user.
@@ -1010,7 +1010,7 @@ def get_given_user_followers(browser,
 
         # click_element(browser, Settings, followers_link[0])
         # # update server calls
-        # update_activity("facebook", Settings)
+        # update_activity(Settings)
 
     except NoSuchElementException:
         logger.error(
@@ -1061,7 +1061,7 @@ def get_given_user_following(browser,
     user_link = "https://www.facebook.com/{}/".format(userid)
     web_address_navigator( browser, user_link, Settings)
 
-    if not is_page_available(browser, logger, "facebook", Settings):
+    if not is_page_available(browser, logger, Settings):
         return [], []
 
     #  check how many poeple are following this user.
@@ -1080,7 +1080,7 @@ def get_given_user_following(browser,
         except WebDriverException:
             try:
                 browser.execute_script("location.reload()")
-                update_activity("facebook", Settings)
+                update_activity(Settings)
 
                 allfollowing = browser.execute_script(
                     "return window._sharedData.entry_data."
@@ -1122,7 +1122,7 @@ def get_given_user_following(browser,
             '//a[@href="/{}/following/"]'.format(user_name))
         click_element(browser, Settings, following_link[0])
         # update server calls
-        update_activity("facebook", Settings)
+        update_activity(Settings)
 
     except NoSuchElementException:
         logger.error(
@@ -1153,7 +1153,7 @@ def dump_follow_restriction(profile_name, logger, logfolder):
 
     try:
         # get a DB and start a connection
-        db, id = get_database("facebook", Settings)
+        db, id = get_database(Settings)
         conn = sqlite3.connect(db)
 
         with conn:
@@ -1201,7 +1201,7 @@ def follow_restriction(operation, username, limit, logger):
 
     try:
         # get a DB and start a connection
-        db, id = get_database("facebook", Settings)
+        db, id = get_database(Settings)
         conn = sqlite3.connect(db)
 
         with conn:
@@ -1263,7 +1263,7 @@ def unfollow_user(browser, track, username, userid, person, person_id, button,
     # list of available tracks to unfollow in: ["profile", "post" "dialog"]
 
     # check action availability
-    if quota_supervisor("facebook", Settings, "unfollows") == "jump":
+    if quota_supervisor(Settings, "unfollows") == "jump":
         return False, "jumped"
 
     if track in ["profile", "post"]:
@@ -1335,7 +1335,7 @@ def unfollow_user(browser, track, username, userid, person, person_id, button,
 
     # general tasks after a successful unfollow
     logger.info("--> Unfollowed '{}'!".format(person))
-    update_activity('facebook', Settings, 'unfollows')
+    update_activity(Settings, 'unfollows')
     post_unfollow_cleanup("successful", username, person, relationship_data,
                           person_id, logger, logfolder)
 
@@ -1421,7 +1421,7 @@ def get_user_id(browser, track, username, logger):
 
     if track != "dialog":  # currently do not get the user ID for follows
         # from 'dialog'
-        user_id = find_user_id("facebook", Settings, browser, track, username, logger)
+        user_id = find_user_id(Settings, browser, track, username, logger)
 
     return user_id
 
@@ -1474,7 +1474,7 @@ def verify_action(browser, action, track, username, person, person_id, logger,
                                       [post_action_text, "XPath"], logger, 7,
                                       False)
         if not button_change:
-            reload_webpage(browser, "facebook", Settings)
+            reload_webpage(browser, Settings)
             following_status, follow_button = get_following_status(browser,
                                                                    track,
                                                                    username,

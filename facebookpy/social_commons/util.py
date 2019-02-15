@@ -35,7 +35,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
 
-def is_private_profile(platform_name, Settings, browser, logger, following=True):
+def is_private_profile(Settings, browser, logger, following=True):
     is_private = None
     try:
         is_private = browser.execute_script(
@@ -45,7 +45,7 @@ def is_private_profile(platform_name, Settings, browser, logger, following=True)
     except WebDriverException:
         try:
             browser.execute_script("location.reload()")
-            update_activity(platform_name, Settings)
+            update_activity(Settings)
 
             is_private = browser.execute_script(
                 "return window._sharedData.entry_data."
@@ -297,7 +297,7 @@ def validate_userid(browser,
     return True, "Valid user"
 
 
-# def getUserData(platform_name,
+# def getUserData(Settings,
 #                 query,
 #                 browser,
 #                 basequery="return window._sharedData.entry_data.ProfilePage["
@@ -308,21 +308,21 @@ def validate_userid(browser,
 #         return data
 #     except WebDriverException:
 #         browser.execute_script("location.reload()")
-#         update_activity(platform_name)
+#         update_activity(Settings)
 
 #         data = browser.execute_script(
 #             basequery + query)
 #         return data
 
 
-def update_activity(platform_name, Settings, action="server_calls"):
+def update_activity(Settings, action="server_calls"):
     """ Record every Facebook server call (page load, content load, likes,
         comments, follows, unfollow). """
     # check action availability
-    quota_supervisor(platform_name, Settings, "server_calls")
+    quota_supervisor(Settings, "server_calls")
 
     # get a DB and start a connection
-    db, id = get_database(platform_name, Settings)
+    db, id = get_database(Settings)
     conn = sqlite3.connect(db)
 
     with conn:
@@ -349,12 +349,12 @@ def update_activity(platform_name, Settings, action="server_calls"):
 
             # update
             data[action] += 1
-            quota_supervisor(platform_name, Settings, action, update=True)
+            quota_supervisor(Settings, action, update=True)
 
             if action != "server_calls":
                 # always update server calls
                 data["server_calls"] += 1
-                quota_supervisor(platform_name, Settings, "server_calls", update=True)
+                quota_supervisor(Settings, "server_calls", update=True)
 
             sql = ("UPDATE recordActivity set likes = ?, comments = ?, "
                    "follows = ?, unfollows = ?, friendeds = ?, unfriendeds = ?, server_calls = ?, "
@@ -531,7 +531,7 @@ def add_user_to_blacklist(username, campaign, action, logger, logfolder):
 #                     ''', dialog)
 
 #                 if scroll_it is True:
-#                     update_activity(platform_name)
+#                     update_activity(Settings)
 
 #                 if sc_rolled > 91 or too_many_requests > 1:  # old value 100
 #                     print('\n')
@@ -715,7 +715,7 @@ def scroll_bottom(browser, element, range_int):
         browser.execute_script(
             "arguments[0].scrollTop = arguments[0].scrollHeight", element)
         # update server calls
-        update_activity(platform_name, Settings)
+        update_activity(Settings)
         sleep(1)
 
     return
@@ -748,7 +748,7 @@ def click_element(browser, Settings, element, tryNum=0):
         element.click()
 
         # update server calls after a successful click by selenium
-        update_activity(Settings.platform_name, Settings)
+        update_activity(Settings)
 
     except Exception:
         # click attempt failed
@@ -778,12 +778,12 @@ def click_element(browser, Settings, element, tryNum=0):
                 "document.getElementsByClassName('" + element.get_attribute(
                     "class") + "')[0].click()")
             # update server calls after last click attempt by JS
-            update_activity(platform_name, Settings)
+            update_activity(Settings)
             # end condition for the recursive function
             return
 
         # update server calls after the scroll(s) in 0, 1 and 2 attempts
-        update_activity(platform_name, Settings)
+        update_activity(Settings)
 
         # sleep for 1 second to allow window to adjust (may or may not be
         # needed)
@@ -930,13 +930,11 @@ def web_address_navigator(browser, link, Settings):
     if current_url is None or new_navigation:
         link = link + '/' if page_type == "dir" else link  # directory links
         # navigate faster
-        print("Link:", link)
-
         while True:
             try:
                 browser.get(link)
                 # update server calls
-                update_activity(Settings.platform_name, Settings)
+                update_activity(Settings)
                 sleep(2)
                 break
 
@@ -1079,7 +1077,7 @@ def remove_duplicates(container, keep_order, logger):
 
 #     try:
 #         # get a DB and start a connection
-#         db, id = get_database(platform_name, Settings)
+#         db, id = get_database(Settings)
 #         conn = sqlite3.connect(db)
 
 #         with conn:
@@ -1244,7 +1242,6 @@ def check_authorization(browser, Settings, base_url, username, userid, method, l
     web_address_navigator(browser, profile_link, Settings)
     logger.critical("--> '{}' is not logged in!\n".format(username))
     nav = browser.find_elements_by_xpath('//div[@role="navigation"]')
-    print('nav', nav)
     if len(nav) >= 1:
         # create cookie for username
         pickle.dump(browser.get_cookies(), open(
@@ -1268,7 +1265,7 @@ def get_username(browser, track, logger):
     except WebDriverException:
         try:
             browser.execute_script("location.reload()")
-            update_activity(platform_name, Settings)
+            update_activity(Settings)
 
             username = browser.execute_script(query)
 
@@ -1284,7 +1281,7 @@ def get_username(browser, track, logger):
     return username
 
 
-def find_user_id(platform_name, Settings, browser, track, username, logger):
+def find_user_id(Settings, browser, track, username, logger):
     """  Find the user ID from the loaded page """
     if track in ["dialog", "profile"]:
         query = "return window._sharedData.entry_data.ProfilePage[" \
@@ -1304,7 +1301,7 @@ def find_user_id(platform_name, Settings, browser, track, username, logger):
     except WebDriverException:
         try:
             browser.execute_script("location.reload()")
-            update_activity(platform_name, Settings)
+            update_activity(Settings)
 
             user_id = browser.execute_script(query)
 
@@ -1510,13 +1507,13 @@ def get_username_from_id(browser, base_url, user_id, logger):
     return None
 
 
-def is_page_available(browser, logger, platform_name, Settings):
+def is_page_available(browser, logger, Settings):
     """ Check if the page is available and valid """
     expected_keywords = ["Page Not Found", "Content Unavailable"]
     page_title = get_page_title(browser, logger)
 
     if any(keyword in page_title for keyword in expected_keywords):
-        reload_webpage(browser, platform_name, Settings)
+        reload_webpage(browser, Settings)
         page_title = get_page_title(browser, logger)
 
         if any(keyword in page_title for keyword in expected_keywords):
@@ -1535,10 +1532,10 @@ def is_page_available(browser, logger, platform_name, Settings):
     return True
 
 
-def reload_webpage(browser, platform_name, Settings):
+def reload_webpage(browser, Settings):
     """ Reload the current webpage """
     browser.execute_script("location.reload()")
-    update_activity(platform_name, Settings)
+    update_activity(Settings)
     sleep(2)
 
     return True
@@ -1580,7 +1577,7 @@ def click_visibly(browser, Settings, element):
                                "arguments[0].style.opacity = 1",
                                element)
         # update server calls
-        update_activity(platform_name, Settings)
+        update_activity(Settings)
 
         click_element(browser, Settings, element)
 
@@ -1752,7 +1749,7 @@ def save_account_progress(browser, base_url, username, logger, Settings):
 
     try:
         # DB instance
-        db, id = get_database(platform_name, Settings)
+        db, id = get_database(Settings)
         conn = sqlite3.connect(db)
         logger.info('INSERTING Data INTO accountsProgress: {}, {}, {}, {}'.format(id, followers, following, posts))
         with conn:

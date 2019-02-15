@@ -9,7 +9,7 @@ from facebookpy import settings
 import random
 
 # set workspace folder at desired location (default is at your home folder)
-set_workspace("facebook", settings.Settings, path=None)
+set_workspace(settings.Settings, path=None)
 
 # get an FacebookPy session!
 session = FacebookPy()

@@ -14,9 +14,8 @@ from .util import highlight_print
 from .exceptions import FacebookPyError
 
 
-def get_workspace(platform_name, Settings):
+def get_workspace(Settings):
     """ Make a workspace ready for user """
-
     if Settings.WORKSPACE["path"]:
         workspace = verify_workspace_name(Settings.WORKSPACE["path"])
 
@@ -31,20 +30,19 @@ def get_workspace(platform_name, Settings):
                     "info",
                     Settings.logger)
     update_workspace(workspace, Settings)
-    update_locations(platform_name, Settings)
+    update_locations(Settings)
     return Settings.WORKSPACE
 
 
-def set_workspace(platform_name, Settings, path=None):
+def set_workspace(Settings, path=None):
     """ Set a custom workspace for use """
-
     if not Settings.FACEBOOKPY_IS_RUNNING:
         if path:
             path = verify_workspace_name(path)
             workspace_is_new = differ_paths(WORKSPACE["path"], path)
             if workspace_is_new:
                 update_workspace(path, Settings)
-                update_locations(platform_name, Settings)
+                update_locations(Settings)
                 message = "Custom workspace set: \"{}\" :]".format(path)
                 highlight_print(Settings, Settings.profile["name"],
                                 message,
@@ -91,7 +89,7 @@ def move_workspace(old_path, new_path):
     # write in future
 
 
-def update_locations(platform_name, Settings):
+def update_locations(Settings):
     """
     As workspace has changed, locations also should be updated
 
@@ -104,7 +102,7 @@ def update_locations(platform_name, Settings):
 
     # update database location
     if not Settings.DATABASE_LOCATION:
-        Settings.DATABASE_LOCATION = Settings.localize_path("db", platform_name+"py.db")
+        Settings.DATABASE_LOCATION = Settings.localize_path("db", Settings.platform_name+"py.db")
 
     # update chromedriver location
     if not Settings.chromedriver_location:

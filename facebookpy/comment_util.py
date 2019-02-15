@@ -53,7 +53,7 @@ def open_comment_section(browser, logger):
 def comment_image(browser, username, comments, blacklist, logger, logfolder):
     """Checks if it should comment on the image"""
     # check action availability
-    if quota_supervisor("facebook", Settings, 'comments') == 'jump':
+    if quota_supervisor(Settings, 'comments') == 'jump':
         return False, "jumped"
 
     rand_comment = (random.choice(comments).format(username))
@@ -79,7 +79,7 @@ def comment_image(browser, username, comments, blacklist, logger, logfolder):
             comment_input[0].send_keys('\b')
             comment_input = get_comment_input(browser)
             comment_input[0].submit()
-            update_activity("facebook", Settings, 'comments')
+            update_activity(Settings, 'comments')
 
             if blacklist['enabled'] is True:
                 action = 'commented'
@@ -279,7 +279,7 @@ def is_commenting_enabled(browser, logger):
     except WebDriverException:
         try:
             browser.execute_script("location.reload()")
-            update_activity("facebook", Settings)
+            update_activity(Settings)
 
             comments_disabled = browser.execute_script(
                 "return window._sharedData.entry_data."
