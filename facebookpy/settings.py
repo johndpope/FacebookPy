@@ -35,6 +35,8 @@ class Settings:
     # minimum supported version of chromedriver
     chromedriver_min_version = 2.36
 
+    platform_name = "facebook"
+
     # set a logger cache outside the FacebookPy object to avoid
     # re-instantiation issues
     loggers = {}

@@ -748,7 +748,7 @@ def click_element(browser, Settings, element, tryNum=0):
         element.click()
 
         # update server calls after a successful click by selenium
-        update_activity("facebook", Settings)
+        update_activity(Settings.platform_name, Settings)
 
     except Exception:
         # click attempt failed
@@ -847,9 +847,11 @@ def get_number_of_posts(browser):
     return num_of_posts
 
 
-def get_following_count(browser, username, userid, logger):
+def get_following_count(browser, base_url, username, userid, logger, Settings):
     """ Gets the followers & following counts of a given user """
-    user_link = "https://www.facebook.com/{}/following".format(userid)
+    if base_url[-1] != '/':
+        base_url = base_url + '/'
+    user_link = base_url + "{}/following".format(userid)
     web_address_navigator( browser, user_link, Settings)
 
     try:
@@ -901,7 +903,7 @@ def get_followers_count(browser, base_url, username, userid, logger, Settings):
 def get_relationship_counts(browser, base_url, username, userid, logger, Settings):
     """ Gets the followers & following counts of a given user """
     followers_count = get_followers_count(browser, base_url, username, userid, logger, Settings)
-    following_count = 0#get_following_count(browser, username, userid, logger)
+    following_count = get_following_count(browser, base_url, username, userid, logger, Settings)
     logger.info('followers_count = {}'.format(followers_count))
     logger.info('following_count = {}'.format(following_count))
     return followers_count, following_count
@@ -934,7 +936,7 @@ def web_address_navigator(browser, link, Settings):
             try:
                 browser.get(link)
                 # update server calls
-                update_activity("facebook", Settings)
+                update_activity(Settings.platform_name, Settings)
                 sleep(2)
                 break
 
@@ -1878,7 +1880,7 @@ def parse_cli_args():
     parser.add_argument(
         "-u", "--username", help="Username is the login id/login email/login phone no", type=str, metavar="abc")
     parser.add_argument(
-        "-ui", "--userid", help="Userid is the string that shows on your facebook homepage url", type=str, metavar="abc")
+        "-ui", "--userid", help="Userid is the string that shows on your facebook homepage url(ONLY APPLICABLE FOR FB)", type=str, metavar="abc")
     parser.add_argument(
         "-p", "--password", help="Password", type=str, metavar="123")
     parser.add_argument(
