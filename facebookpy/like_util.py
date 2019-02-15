@@ -3,19 +3,20 @@ import random
 import re
 from re import findall
 
-from .time_util import sleep
-from .util import format_number
-from .util import add_user_to_blacklist
-from .util import click_element
-from .util import is_private_profile
-from .util import update_activity
-from .util import web_address_navigator
-from .util import get_number_of_posts
-from .util import get_action_delay
-from .util import explicit_wait
-from .util import extract_text_from_element
-from .quota_supervisor import quota_supervisor
+from .social_commons.time_util import sleep
+from .social_commons.util import format_number
+from .social_commons.util import add_user_to_blacklist
+from .social_commons.util import click_element
+from .social_commons.util import is_private_profile
+from .social_commons.util import update_activity
+from .social_commons.util import web_address_navigator
+from .social_commons.util import get_number_of_posts
+from .social_commons.util import get_action_delay
+from .social_commons.util import explicit_wait
+from .social_commons.util import extract_text_from_element
+from .social_commons.quota_supervisor import quota_supervisor
 from .unfollow_util import get_following_status
+from .settings import Settings
 
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoSuchElementException
@@ -29,12 +30,12 @@ def get_links_from_feed(browser, amount, num_of_search, logger):
 
     # Check URL of the webpage, if it already is in Feeds page, then do not
     # navigate to it again
-    web_address_navigator(browser, feeds_link)
+    web_address_navigator( browser, feeds_link, Settings)
 
     for i in range(num_of_search + 1):
         browser.execute_script(
             "window.scrollTo(0, document.body.scrollHeight);")
-        update_activity()
+        update_activity("facebook", Settings)
         sleep(2)
 
     # get links
@@ -79,7 +80,7 @@ def get_links_for_location(browser,
 
     location_link = "https://www.facebook.com/explore/locations/{}".format(
         location)
-    web_address_navigator(browser, location_link)
+    web_address_navigator( browser, location_link, Settings)
 
     top_elements = browser.find_element_by_xpath('//main/article/div[1]')
     top_posts = top_elements.find_elements_by_tag_name('a')
@@ -142,7 +143,7 @@ def get_links_for_location(browser,
             for i in range(3):
                 browser.execute_script(
                     "window.scrollTo(0, document.body.scrollHeight);")
-                update_activity()
+                update_activity("facebook", Settings)
                 sc_rolled += 1
                 sleep(
                     nap)  # if not slept, and internet speed is low,
@@ -179,7 +180,7 @@ def get_links_for_location(browser,
                         put_sleep += 1
 
                         browser.execute_script("location.reload()")
-                        update_activity()
+                        update_activity("facebook", Settings)
                         try_again = 0
                         sleep(10)
 
@@ -230,7 +231,7 @@ def get_links_for_tag(browser,
     tag = (tag[1:] if tag[:1] == '#' else tag)
 
     tag_link = "https://www.facebook.com/explore/tags/{}".format(tag)
-    web_address_navigator(browser, tag_link)
+    web_address_navigator( browser, tag_link, Settings)
 
     top_elements = browser.find_element_by_xpath('//main/article/div[1]')
     top_posts = top_elements.find_elements_by_tag_name('a')
@@ -306,7 +307,7 @@ def get_links_for_tag(browser,
             for i in range(3):
                 browser.execute_script(
                     "window.scrollTo(0, document.body.scrollHeight);")
-                update_activity()
+                update_activity("facebook", Settings)
                 sc_rolled += 1
                 sleep(
                     nap)  # if not slept, and internet speed is low,
@@ -342,7 +343,7 @@ def get_links_for_tag(browser,
                         put_sleep += 1
 
                         browser.execute_script("location.reload()")
-                        update_activity()
+                        update_activity("facebook", Settings)
                         try_again = 0
                         sleep(10)
 
@@ -402,7 +403,7 @@ def get_links_for_username(browser,
 
     # Check URL of the webpage, if it already is user's profile page,
     # then do not navigate to it again
-    web_address_navigator(browser, user_link)
+    web_address_navigator( browser, user_link, Settings)
 
     if "Page Not Found" in browser.title:
         logger.error(
@@ -416,7 +417,7 @@ def get_links_for_username(browser,
                                                     logger, logfolder)
     if following == 'Following':
         following = True
-    is_private = is_private_profile(browser, logger, following)
+    is_private = is_private_profile("facebook", browser, logger, following)
     if (is_private is None) or (is_private is True and not following) or (
             following == 'Blocked'):
         return False
@@ -439,7 +440,7 @@ def get_links_for_username(browser,
         browser.execute_script(
             "window.scrollTo(0, document.body.scrollHeight);")
         # update server calls after a scroll request
-        update_activity()
+        update_activity("facebook", Settings)
         sleep(0.66)
 
         # using `extend`  or `+=` results reference stay alive which affects
@@ -501,7 +502,7 @@ def check_link(browser, post_link, dont_like, mandatory_words,
 
     # Check URL of the webpage, if it already is post's page, then do not
     # navigate to it again
-    web_address_navigator(browser, post_link)
+    web_address_navigator( browser, post_link, Settings)
 
     """Check if the Post is Valid/Exists"""
     try:
@@ -511,7 +512,7 @@ def check_link(browser, post_link, dont_like, mandatory_words,
     except WebDriverException:  # handle the possible `entry_data` error
         try:
             browser.execute_script("location.reload()")
-            update_activity()
+            update_activity("facebook", Settings)
 
             post_page = browser.execute_script(
                 "return window._sharedData.entry_data.PostPage")
@@ -664,7 +665,7 @@ def check_link(browser, post_link, dont_like, mandatory_words,
 def like_image(browser, username, blacklist, logger, logfolder):
     """Likes the browser opened image"""
     # check action availability
-    if quota_supervisor("likes") == "jump":
+    if quota_supervisor("facebook", Settings, "likes") == "jump":
         return False, "jumped"
 
     like_xpath = "//section/span/button/span[@aria-label='Like']"
@@ -676,13 +677,13 @@ def like_image(browser, username, blacklist, logger, logfolder):
     if len(like_elem) == 1:
         # sleep real quick right before clicking the element
         sleep(2)
-        click_element(browser, like_elem[0])
+        click_element(browser, Settings, like_elem[0])
         # check now we have unlike instead of like
         liked_elem = browser.find_elements_by_xpath(unlike_xpath)
 
         if len(liked_elem) == 1:
             logger.info('--> Image Liked!')
-            update_activity('likes')
+            update_activity("facebook", Settings, 'likes')
 
             if blacklist['enabled'] is True:
                 action = 'liked'
@@ -715,7 +716,7 @@ def get_tags(browser, url):
 
     # Check URL of the webpage, if it already is the one to be navigated,
     # then do not navigate to it again
-    web_address_navigator(browser, url)
+    web_address_navigator( browser, url, Settings)
 
     graphql = browser.execute_script(
         "return ('graphql' in window._sharedData.entry_data.PostPage[0])")
@@ -765,7 +766,7 @@ def verify_liking(browser, max, min, logger):
     except WebDriverException:
         try:
             browser.execute_script("location.reload()")
-            update_activity()
+            update_activity("facebook", Settings)
 
             likes_count = browser.execute_script(
                 "return window._sharedData.entry_data."
@@ -818,7 +819,7 @@ def like_comment(browser, original_comment_text, logger):
                 # like the given comment
                 comment_like_button = comment_line.find_element_by_tag_name(
                     "button")
-                click_element(browser, comment_like_button)
+                click_element(browser, Settings, comment_like_button)
 
                 # verify if like succeeded by waiting until the like button
                 # element goes stale..

@@ -10,15 +10,15 @@ import collections
 from operator import itemgetter
 from selenium.webdriver.common.keys import Keys
 
-from .util import get_number_of_posts
-from .util import click_element
-from .util import update_activity
-from .util import web_address_navigator
-from .util import scroll_bottom
-from .util import get_users_from_dialog
-from .util import progress_tracker
-from .util import close_dialog_box
-from .settings import Selectors
+from .social_commons.util import get_number_of_posts
+from .social_commons.util import click_element
+from .social_commons.util import update_activity
+from .social_commons.util import web_address_navigator
+from .social_commons.util import scroll_bottom
+from .social_commons.util import get_users_from_dialog
+from .social_commons.util import progress_tracker
+from .social_commons.util import close_dialog_box
+from .settings import Settings
 
 from selenium.common.exceptions import NoSuchElementException
 
@@ -55,7 +55,7 @@ def extract_post_info(browser):
                 print("loading more comments.")
                 load_more_comments_element = browser.find_element_by_xpath(
                     "//div/ul/li[2]/button")
-                click_element(browser, load_more_comments_element)
+                click_element(browser, Settings, load_more_comments_element)
                 # comment_list = post.find_element_by_tag_name('ul')
                 comments = comment_list.find_elements_by_tag_name('li')
 
@@ -71,7 +71,7 @@ def extract_post_info(browser):
                     print("loading more comments.")
                     load_more_comments_element = browser.find_element_by_xpath(
                         "//div/ul/li[1]/button")
-                    click_element(browser, load_more_comments_element)
+                    click_element(browser, Settings, load_more_comments_element)
                     # comment_list = post.find_element_by_tag_name('ul')
                     comments = comment_list.find_elements_by_tag_name('li')
 
@@ -98,7 +98,7 @@ def extract_post_info(browser):
 
 def extract_information(browser, username, userid, daysold, max_pic):
     """Get all the information for the given username"""
-    web_address_navigator(browser, 'https://www.facebook.com/' + userid)
+    web_address_navigator( browser, 'https://www.facebook.com/' + userid, Settings)
 
     try:
         num_of_posts = get_number_of_posts(browser)
@@ -169,7 +169,7 @@ def extract_information(browser, username, userid, daysold, max_pic):
                         one_pic_elem = browser.find_element_by_xpath(
                             "//section/main/article/div[1]/div/div[10]/div["
                             "3]/a/div")
-                        click_element(browser, one_pic_elem)
+                        click_element(browser, Settings, one_pic_elem)
                     except Exception:
                         print("Error: cant click on the photo..")
                         pass
@@ -181,7 +181,7 @@ def extract_information(browser, username, userid, daysold, max_pic):
                     try:
                         like_element = browser.find_elements_by_xpath(
                             "//a[@role='button']/span[text()='Like']/..")
-                        click_element(browser, like_element[0])
+                        click_element(browser, Settings, like_element[0])
                         print("clicking like..")
                     except Exception:
                         pass
@@ -196,7 +196,7 @@ def extract_information(browser, username, userid, daysold, max_pic):
                     print("closing overlay")
                     close_overlay = browser.find_element_by_xpath(
                         "//div/div[@role='dialog']")
-                    click_element(browser, close_overlay)
+                    click_element(browser, Settings, close_overlay)
 
                     print("date of this picture was:", date_of_pic)
 
@@ -236,7 +236,7 @@ def extract_information(browser, username, userid, daysold, max_pic):
         print("\nScrapping link: ", link)
 
         try:
-            web_address_navigator(browser, link)
+            web_address_navigator( browser, link, Settings)
             user_commented_list, pic_date_time = extract_post_info(browser)
             user_commented_total_list = user_commented_total_list + \
                 user_commented_list
@@ -282,7 +282,7 @@ def extract_information(browser, username, userid, daysold, max_pic):
 def users_liked(browser, post_url, logger, amount=100):
     post_likers = []
     try:
-        web_address_navigator(browser, post_url)
+        web_address_navigator( browser, post_url, Settings)
         post_likers = likers_from_post(browser, logger, amount)
         sleep(2)
     except NoSuchElementException:
@@ -292,7 +292,7 @@ def users_liked(browser, post_url, logger, amount=100):
     return post_likers
 
 
-def likers_from_post(browser, logger, amount=20):
+def likers_from_post(browser, logger, Selectors, amount=20):
     """ Get the list of users from the 'Likes' dialog of a photo """
 
     liked_counter_button = \
@@ -327,10 +327,10 @@ def likers_from_post(browser, logger, amount=20):
         #     return []
 
         sleep(1)
-        click_element(browser, element_to_click)
+        click_element(browser, Settings, element_to_click)
         print("opening likes")
         # update server calls
-        # update_activity()
+        # update_activity("facebook", Settings)
 
         sleep(1)
 
@@ -342,7 +342,7 @@ def likers_from_post(browser, logger, amount=20):
         previous_len = -1
         browser.execute_script(
             "arguments[0].scrollTop = arguments[0].scrollHeight", dialog)
-        update_activity()
+        update_activity("facebook", Settings)
         sleep(1)
 
         start_time = time.time()
@@ -390,8 +390,7 @@ def get_post_urls_from_profile(browser, userid, links_to_return_amount=1,
                                randomize=True):
     try:
         print("\nGetting likers from user: ", userid, "\n")
-        web_address_navigator(
-            browser, 'https://www.facebook.com/' + userid + '/')
+        web_address_navigator( browser, 'https://www.facebook.com/' + userid + '/', Settings)
         sleep(1)
 
         posts_a_elems = browser.find_elements_by_xpath(

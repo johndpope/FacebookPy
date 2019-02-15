@@ -18,7 +18,7 @@ from copy import deepcopy
 import unicodedata
 
 # import FacebookPy modules
-from .clarifai_util import check_image
+from .social_commons.clarifai_util import check_image
 from .comment_util import comment_image
 from .comment_util import verify_commenting
 from .comment_util import get_comments_on_post
@@ -33,20 +33,20 @@ from .like_util import get_links_for_username
 from .like_util import like_comment
 from .login_util import login_user
 from .settings import Settings
-from .print_log_writer import log_follower_num
-from .print_log_writer import log_following_num
+from .social_commons.print_log_writer import log_follower_num
+from .social_commons.print_log_writer import log_following_num
 
-from .time_util import sleep
-from .time_util import set_sleep_percentage
-from .util import get_active_users
-from .util import validate_userid
-from .util import web_address_navigator
-from .util import interruption_handler
-from .util import highlight_print
-from .util import dump_record_activity
-from .util import truncate_float
-from .util import save_account_progress
-from .util import parse_cli_args
+from .social_commons.time_util import sleep
+from .social_commons.time_util import set_sleep_percentage
+# from .social_commons.util import get_active_users
+from .social_commons.util import validate_userid
+from .social_commons.util import web_address_navigator
+from .social_commons.util import interruption_handler
+from .social_commons.util import highlight_print
+# from .social_commons.util import dump_record_activity
+from .social_commons.util import truncate_float
+from .social_commons.util import save_account_progress
+from .social_commons.util import parse_cli_args
 from .unfollow_util import get_given_user_followers
 from .unfollow_util import get_given_user_following
 from .unfollow_util import unfollow
@@ -66,22 +66,23 @@ from .relationship_tools import get_unfollowers
 from .relationship_tools import get_nonfollowers
 from .relationship_tools import get_fans
 from .relationship_tools import get_mutual_following
-from .database_engine import get_database
-from .text_analytics import text_analysis
-from .text_analytics import yandex_supported_languages
-from .browser import set_selenium_local_session
-from .browser import close_browser
-from .file_manager import get_workspace
-from .file_manager import get_logfolder
+from .social_commons.database_engine import get_database
+from .social_commons.text_analytics import text_analysis
+from .social_commons.text_analytics import yandex_supported_languages
+from .social_commons.browser import set_selenium_local_session
+from .social_commons.browser import close_browser
+from .social_commons.file_manager import get_workspace
+from .social_commons.file_manager import get_logfolder
+from .selectors import Selectors
 
 # import exceptions
 from selenium.common.exceptions import NoSuchElementException
-from .exceptions import FacebookPyError
+from .social_commons.exceptions import FacebookPyError
+from .settings import Settings
 
 
 class FacebookPy:
     """Class to be instantiated to use the script"""
-
     def __init__(self,
                  username=None,
                  userid=None,
@@ -115,9 +116,9 @@ class FacebookPy:
             cli_args.bypass_suspicious_attempt or bypass_suspicious_attempt)
         bypass_with_mobile = cli_args.bypass_with_mobile or bypass_with_mobile
 
-        Settings.FacebookPy_is_running = True
+        FACEBOOKPY_IS_RUNNING = True
         # workspace must be ready before anything
-        if not get_workspace():
+        if not get_workspace("facebook", Settings):
             raise FacebookPyError(
                 "Oh no! I don't have a workspace to work at :'(")
 
@@ -274,13 +275,13 @@ class FacebookPy:
         self.show_logs = show_logs
         Settings.show_logs = show_logs or None
         self.multi_logs = multi_logs
-        self.logfolder = get_logfolder(self.username, self.multi_logs)
+        self.logfolder = get_logfolder(self.username, self.multi_logs, Settings)
         self.logger = self.get_facebookpy_logger(self.show_logs)
 
-        get_database(make=True)  # IMPORTANT: think twice before relocating
+        get_database("facebook", Settings, make=True)  # IMPORTANT: think twice before relocating
 
         if self.selenium_local_session is True:
-            self.set_selenium_local_session()
+            self.set_selenium_local_session(Settings)
 
     def get_facebookpy_logger(self, show_logs):
         """
@@ -317,7 +318,7 @@ class FacebookPy:
             Settings.logger = logger
             return logger
 
-    def set_selenium_local_session(self):
+    def set_selenium_local_session(self, Settings):
         self.browser, err_msg = \
             set_selenium_local_session(self.proxy_address,
                                        self.proxy_port,
@@ -331,7 +332,8 @@ class FacebookPy:
                                        # "HeadlessChrome".
                                        self.disable_image_load,
                                        self.page_delay,
-                                       self.logger)
+                                       self.logger,
+                                       Settings)
         if len(err_msg) > 0:
             raise FacebookPyError(err_msg)
 
@@ -363,7 +365,7 @@ class FacebookPy:
                     desired_capabilities=DesiredCapabilities.CHROME)
 
         message = "Session started!"
-        highlight_print(self.username, message, "initialization", "info",
+        highlight_print(Settings, self.username, message, "initialization", "info",
                         self.logger)
         print('')
 
@@ -381,7 +383,7 @@ class FacebookPy:
                           self.bypass_suspicious_attempt,
                           self.bypass_with_mobile):
             message = "Wrong login data!"
-            highlight_print(self.username,
+            highlight_print(Settings, self.username,
                             message,
                             "login",
                             "critical",
@@ -391,7 +393,7 @@ class FacebookPy:
 
         else:
             message = "Logged in successfully!"
-            highlight_print(self.username,
+            highlight_print(Settings, self.username,
                             message,
                             "login",
                             "info",
@@ -399,20 +401,28 @@ class FacebookPy:
             # try to save account progress
             try:
                 save_account_progress(self.browser,
-                                      self.username,
-                                      self.logger)
+                                    "https://www.facebook.com/",
+                                    self.username,
+                                    self.logger)
             except Exception:
                 self.logger.warning(
                     'Unable to save account progress, skipping data update')
 
         self.followed_by = log_follower_num(self.browser,
+                                            "facebook",
+                                            "https://www.facebook.com/",
                                             self.username,
                                             self.userid,
-                                            self.logfolder)
+                                            self.logfolder,
+                                            Settings)
+
         self.following_num = log_following_num(self.browser,
-                                               self.username,
-                                               self.userid,
-                                               self.logfolder)
+                                            "facebook",
+                                            "https://www.facebook.com/",
+                                            self.username,
+                                            self.userid,
+                                            self.logfolder,
+                                            Settings)
 
         return self
 
@@ -704,7 +714,7 @@ class FacebookPy:
             return self
 
         message = "Starting to follow commenters.."
-        highlight_print(self.username, message, "feature", "info", self.logger)
+        highlight_print(Settings, self.username, message, "feature", "info", self.logger)
 
         if not isinstance(usernames, list):
             usernames = [usernames]
@@ -819,7 +829,7 @@ class FacebookPy:
             return self
 
         message = "Starting to follow likers.."
-        highlight_print(self.username, message, "feature", "info", self.logger)
+        highlight_print(Settings, self.username, message, "feature", "info", self.logger)
 
         if not isinstance(userids, list):
             userids = [userids]
@@ -1029,7 +1039,7 @@ class FacebookPy:
                                                 None,
                                                 self.blacklist,
                                                 self.logger,
-                                                self.logfolder)
+                                                self.logfolder, Settings)
                 sleep(random.randint(1, 3))
 
                 if follow_state is True:
@@ -1131,29 +1141,30 @@ class FacebookPy:
         """ Short call of validate_userid() function """
         validation, details = \
             validate_userid(self.browser,
-                              user_name,
-                              self.username,
-                              self.userid,
-                              self.ignore_users,
-                              self.blacklist,
-                              self.potency_ratio,
-                              self.delimit_by_numbers,
-                              self.max_followers,
-                              self.max_following,
-                              self.min_followers,
-                              self.min_following,
-                              self.min_posts,
-                              self.max_posts,
-                              self.skip_private,
-                              self.skip_private_percentage,
-                              self.skip_no_profile_pic,
-                              self.skip_no_profile_pic_percentage,
-                              self.skip_business,
-                              self.skip_business_percentage,
-                              self.skip_business_categories,
-                              self.dont_skip_business_categories,
-                              self.logger,
-                              self.logfolder)
+                            "https://facebook.com/",
+                            user_name,
+                            self.username,
+                            self.userid,
+                            self.ignore_users,
+                            self.blacklist,
+                            self.potency_ratio,
+                            self.delimit_by_numbers,
+                            self.max_followers,
+                            self.max_following,
+                            self.min_followers,
+                            self.min_following,
+                            self.min_posts,
+                            self.max_posts,
+                            self.skip_private,
+                            self.skip_private_percentage,
+                            self.skip_no_profile_pic,
+                            self.skip_no_profile_pic_percentage,
+                            self.skip_business,
+                            self.skip_business_percentage,
+                            self.skip_business_categories,
+                            self.dont_skip_business_categories,
+                            self.logger,
+                            self.logfolder, Settings)
         return validation, details
 
     def fetch_smart_comments(self, is_video, temp_comments):
@@ -1323,7 +1334,7 @@ class FacebookPy:
                             not_valid_users += 1
                             continue
                         else:
-                            web_address_navigator(self.browser, link)
+                            web_address_navigator( self.browser, link, Settings)
 
                         # try to like
                         like_state, msg = like_image(self.browser,
@@ -1521,7 +1532,7 @@ class FacebookPy:
                             not_valid_users += 1
                             continue
                         else:
-                            web_address_navigator(self.browser, link)
+                            web_address_navigator( self.browser, link, Settings)
 
                         # try to comment
                         self.logger.info(
@@ -1734,7 +1745,7 @@ class FacebookPy:
                             not_valid_users += 1
                             continue
                         else:
-                            web_address_navigator(self.browser, link)
+                            web_address_navigator( self.browser, link, Settings)
 
                         # try to like
                         like_state, msg = like_image(self.browser,
@@ -2100,7 +2111,7 @@ class FacebookPy:
             return self
 
         message = "Starting to interact by users.."
-        highlight_print(self.username, message, "feature", "info", self.logger)
+        highlight_print(Settings, self.username, message, "feature", "info", self.logger)
 
         if not isinstance(usernames, list):
             usernames = [usernames]
@@ -3058,7 +3069,7 @@ class FacebookPy:
             return self
 
         message = "Starting to follow user `Followers`.."
-        highlight_print(self.username, message, "feature", "info", self.logger)
+        highlight_print(Settings, self.username, message, "feature", "info", self.logger)
 
         if not isinstance(usernames, list):
             usernames = [usernames]
@@ -3229,7 +3240,7 @@ class FacebookPy:
             return self
 
         message = "Starting to follow user `Following`.."
-        highlight_print(self.username, message, "feature", "info", self.logger)
+        highlight_print(Settings, self.username, message, "feature", "info", self.logger)
 
         if not isinstance(usernames, list):
             usernames = [usernames]
@@ -3405,7 +3416,7 @@ class FacebookPy:
             return self
 
         message = "Starting to unfollow users.."
-        highlight_print(self.username, message,
+        highlight_print(Settings, self.username, message,
                         "feature", "info", self.logger)
 
         if unfollow_after is not None:
@@ -3465,7 +3476,7 @@ class FacebookPy:
             return self
 
         message = "Starting to get follow requests.."
-        highlight_print(self.username,
+        highlight_print(Settings, self.username,
                         message,
                         "feature",
                         "info",
@@ -3624,7 +3635,7 @@ class FacebookPy:
                                     not_valid_users += 1
                                     continue
                                 else:
-                                    web_address_navigator(self.browser, link)
+                                    web_address_navigator( self.browser, link, Settings)
 
                                 # try to like
                                 like_state, msg = like_image(self.browser,
@@ -3797,29 +3808,30 @@ class FacebookPy:
 
         return
 
-    def set_dont_unfollow_active_users(self,
-                                       enabled=False,
-                                       posts=4,
-                                       boundary=500):
-        """Prevents unfollow followers who have liked one of
-        your latest X posts"""
+    # def set_dont_unfollow_active_users(self,
+    #                                    enabled=False,
+    #                                    posts=4,
+    #                                    boundary=500):
+    #     """Prevents unfollow followers who have liked one of
+    #     your latest X posts"""
 
-        if self.aborting:
-            return
+    #     if self.aborting:
+    #         return
 
-        # do nothing
-        if not enabled:
-            return
+    #     # do nothing
+    #     if not enabled:
+    #         return
 
-        # list of users who liked our media
-        active_users = get_active_users(self.browser,
-                                        self.username,
-                                        posts,
-                                        boundary,
-                                        self.logger)
+    #     # list of users who liked our media
+    #     active_users = get_active_users(self.browser,
+    #                                     self.username,
+    #                                     posts,
+    #                                     boundary,
+    #                                     self.logger,
+    #                                     Selectors)
 
-        # include active user to not unfollow list
-        self.dont_include.update(active_users)
+    #     # include active user to not unfollow list
+    #     self.dont_include.update(active_users)
 
     def set_blacklist(self, enabled, campaign):
         """
@@ -3857,7 +3869,7 @@ class FacebookPy:
         """
 
         message = "Starting to get the `Followers` data.."
-        highlight_print(self.username, message, "feature", "info", self.logger)
+        highlight_print(Settings, self.username, message, "feature", "info", self.logger)
 
         if username is None:
             self.logger.warning(
@@ -3899,7 +3911,7 @@ class FacebookPy:
         """
 
         message = "Starting to get the `Following` data.."
-        highlight_print(self.username, message, "feature", "info", self.logger)
+        highlight_print(Settings, self.username, message, "feature", "info", self.logger)
 
         if username is None:
             self.logger.warning(
@@ -3944,7 +3956,7 @@ class FacebookPy:
         """
 
         message = "Starting to pick Unfollowers of {}..".format(username)
-        highlight_print(self.username, message, "feature", "info", self.logger)
+        highlight_print(Settings, self.username, message, "feature", "info", self.logger)
 
         # get all and active Unfollowers
         all_unfollowers, active_unfollowers = get_unfollowers(
@@ -3968,7 +3980,7 @@ class FacebookPy:
         """ Returns Nonfollowers data of a given user """
 
         message = "Starting to pick Nonfollowers of {}..".format(username)
-        highlight_print(self.username, message, "feature", "info", self.logger)
+        highlight_print(Settings, self.username, message, "feature", "info", self.logger)
 
         # get Nonfollowers
         nonfollowers = get_nonfollowers(self.browser,
@@ -3991,7 +4003,7 @@ class FacebookPy:
         """
 
         message = "Starting to pick Fans of {}..".format(username)
-        highlight_print(self.username, message, "feature", "info", self.logger)
+        highlight_print(Settings, self.username, message, "feature", "info", self.logger)
 
         # get Fans
         fans = get_fans(self.browser,
@@ -4014,7 +4026,7 @@ class FacebookPy:
         """
 
         message = "Starting to pick Mutual Following of {}..".format(username)
-        highlight_print(self.username, message, "feature", "info", self.logger)
+        highlight_print(Settings, self.username, message, "feature", "info", self.logger)
 
         # get Mutual Following
         mutual_following = get_mutual_following(self.browser,
@@ -4030,7 +4042,7 @@ class FacebookPy:
     def end(self):
         """Closes the current session"""
 
-        Settings.FacebookPy_is_running = False
+        FACEBOOKPY_IS_RUNNING = False
         close_browser(self.browser, False, self.logger)
 
         with interruption_handler():
@@ -4042,9 +4054,10 @@ class FacebookPy:
             dump_follow_restriction(self.username,
                                     self.logger,
                                     self.logfolder)
-            dump_record_activity(self.username,
-                                 self.logger,
-                                 self.logfolder)
+            # dump_record_activity(self.username,
+            #                      self.logger,
+            #                      self.logfolder,
+            #                      Settings)
 
             with open('{}followed.txt'.format(self.logfolder), 'w') \
                     as followFile:
@@ -4054,7 +4067,7 @@ class FacebookPy:
             self.live_report()
 
             message = "Session ended!"
-            highlight_print(self.username, message, "end", "info", self.logger)
+            highlight_print(Settings, self.username, message, "end", "info", self.logger)
             print("\n\n")
 
     def follow_by_tags(self,
@@ -4136,7 +4149,7 @@ class FacebookPy:
                             not_valid_users += 1
                             continue
                         else:
-                            web_address_navigator(self.browser, link)
+                            web_address_navigator( self.browser, link, Settings)
 
                         # try to follow
                         follow_state, msg = follow_user(self.browser,
@@ -4185,7 +4198,7 @@ class FacebookPy:
             return self
 
         message = "Starting to interact by given URLs.."
-        highlight_print(self.username, message, "feature", "info", self.logger)
+        highlight_print(Settings, self.username, message, "feature", "info", self.logger)
 
         if not isinstance(urls, list):
             urls = [urls]
@@ -4244,7 +4257,7 @@ class FacebookPy:
                         not_valid_users += 1
                         continue
                     else:
-                        web_address_navigator(self.browser, url)
+                        web_address_navigator( self.browser, url)
 
                     # try to like
                     like_state, msg = like_image(self.browser,
@@ -4380,6 +4393,7 @@ class FacebookPy:
         return self
 
     def set_quota_supervisor(self,
+                             platform_name,
                              enabled=False,
                              sleep_after=[],
                              sleepyhead=False,
@@ -4664,7 +4678,7 @@ class FacebookPy:
         """
 
         message = "Starting to interact by comments.."
-        highlight_print(self.username, message, "feature", "info", self.logger)
+        highlight_print(Settings, self.username, message, "feature", "info", self.logger)
 
         if not isinstance(usernames, list):
             usernames = [usernames]
@@ -4701,7 +4715,7 @@ class FacebookPy:
                 break
 
             message = "User: [{}/{}]".format(s + 1, len(usernames))
-            highlight_print(
+            highlight_print(Settings,
                 self.username, message, "user iteration", "info", self.logger)
 
             validation, details = self.validate_user_call(username)
@@ -4762,7 +4776,7 @@ class FacebookPy:
                     break
 
                 message = "Post: [{}/{}]".format(i + 1, len(links))
-                highlight_print(self.username, message, "post iteration",
+                highlight_print(Settings, self.username, message, "post iteration",
                                 "info", self.logger)
 
                 (inappropriate, user_name,
@@ -4842,6 +4856,7 @@ class FacebookPy:
                     # language detection if enabled
                     text_analysis_state = text_analysis(comment,
                                                         "comment",
+                                                        Settings,
                                                         self.logger)
                     if text_analysis_state is False:
                         # comment is inappropriate to be liked [and replied]
@@ -5002,3 +5017,30 @@ class FacebookPy:
         return all(self.is_mandatory_character(uchr)
                    for uchr in unistr
                    if uchr.isalpha())
+
+@contextmanager
+def smart_run(session):
+    try:
+        session.login()
+        yield
+
+    except (Exception, KeyboardInterrupt) as exc:
+        if isinstance(exc, NoSuchElementException):
+            # the problem is with a change in IG page layout
+            log_file = "{}.html".format(time.strftime("%Y%m%d-%H%M%S"))
+            file_path = os.path.join(gettempdir(), log_file)
+            with open(file_path, "wb") as fp:
+                fp.write(session.browser.page_source.encode("utf-8"))
+            print("{0}\nIf raising an issue, "
+                  "please also upload the file located at:\n{1}\n{0}"
+                  .format('*' * 70, file_path))
+
+        # provide full stacktrace (else than external interrupt)
+        if isinstance(exc, KeyboardInterrupt):
+            clean_exit("You have exited successfully.")
+
+        else:
+            raise
+
+    finally:
+        session.end()

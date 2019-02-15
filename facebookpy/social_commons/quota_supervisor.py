@@ -10,11 +10,9 @@ from pkg_resources import resource_filename as get_pkg_resource_path
 from .time_util import sleep_actual
 from .time_util import get_time
 from .database_engine import get_database
-from .settings import Settings
-from .settings import Storage
 
 
-def quota_supervisor(job, update=False):
+def quota_supervisor(platform_name, Settings, job, update=False):
     """ Supervise activity flow through action engines and take measures"""
     # --ACTION----------ENGINE--------------FILE--------------OPTION--- #
     #   Like         `like_image`       [like_util.py]      jump|sleep  #
@@ -40,14 +38,14 @@ def quota_supervisor(job, update=False):
             update_record(job)
 
         else:  # inspect and control the action's availability
-            quota_state = controller(job)
+            quota_state = controller(platform_name, job)
             return quota_state
 
 
-def controller(job):
+def controller(platform_name, job):
     """ Control and supervise """
     if not records:
-        load_records()
+        load_records(platform_name)
 
     sleep_after = configuration["sleep_after"]
     sleepyhead = configuration["sleepyhead"]
@@ -67,14 +65,14 @@ def controller(job):
             nap = remaining_time(sleepyhead, interval)
             send_message(job, "sleep", interval, nap)
 
-            toast_notification(notify, "sleep", job, interval)
+            toast_notification(platform_name, notify, "sleep", job, interval)
             sleep_actual(nap)
-            toast_notification(notify, "wakeup", job, interval)
+            toast_notification(platform_name, notify, "wakeup", job, interval)
 
         else:
             if job == "server_calls":
                 send_message(job, "exit", interval, None)
-                toast_notification(notify, "exit", job, interval)
+                toast_notification(platform_name, notify, "exit", job, interval)
 
                 logger.warning("You're about to leave the session. "
                                "FacebookPy will exit soon!")
@@ -256,14 +254,14 @@ def send_message(job, action, interval, nap):
     logger.info(message)
 
 
-def toast_notification(notify, alert, job, interval):
+def toast_notification(platform_name, notify, alert, job, interval):
     """ Send toast notifications about supervising states directly to OS
     using 'plyer' module """
     platform_matches = platform.startswith(("win32",
                                             "linux",
                                             "darwin"))
     if notify is True and platform_matches:
-        icons = get_icons()
+        icons = get_icons(platform_name)
         delay = 9 if alert == "exit" else 7
         label = job.replace('_', ' ').capitalize()
 
@@ -293,10 +291,10 @@ def toast_notification(notify, alert, job, interval):
             configuration.update(nofity=False)
 
 
-def get_icons():
+def get_icons(platform_name):
     """ Return the locations of icons according to the operating system """
     # get full location of icons folder inside package
-    icons_path = get_pkg_resource_path("facebookpy", "icons/")
+    icons_path = get_pkg_resource_path(platform_name+"py", "icons/")
 
     windows_ico = [
         "Windows/qs_sleep_windows.ico",
@@ -328,9 +326,9 @@ def get_icons():
     return icons
 
 
-def load_records():
+def load_records(platform_name, Settings):
     """ Load the data from local DB file """
-    db, id = get_database()
+    db, id = get_database(platform_name, Settings)
     conn = sqlite3.connect(db)
 
     # fetch live data from database

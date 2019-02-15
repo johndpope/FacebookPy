@@ -1,23 +1,24 @@
 from datetime import datetime
 
-from .util import update_activity
-from .util import emergency_exit
-from .util import explicit_wait
-from .util import find_user_id
-from .util import is_page_available
-from .util import web_address_navigator
-from .util import click_visibly
-from .print_log_writer import log_friended_pool
-from .print_log_writer import log_record_all_friended
-from .database_engine import get_database
-from .quota_supervisor import quota_supervisor
+from .social_commons.util import update_activity
+from .social_commons.util import emergency_exit
+from .social_commons.util import explicit_wait
+from .social_commons.util import find_user_id
+from .social_commons.util import is_page_available
+from .social_commons.util import web_address_navigator
+from .social_commons.util import click_visibly
+from .social_commons.print_log_writer import log_friended_pool
+from .social_commons.print_log_writer import log_record_all_friended
+from .social_commons.database_engine import get_database
+from .social_commons.quota_supervisor import quota_supervisor
+from .settings import Settings
 
 def get_friending_status(browser, track, username, person, person_id, logger,
                          logfolder):
     """ Verify if you are friending the user in the loaded page """
     if track == "profile":
         ig_homepage = "https://www.facebook.com/"
-        web_address_navigator(browser, ig_homepage + person)
+        web_address_navigator( browser, ig_homepage + person, Settings)
 
     friend_button_XP = ("//div[@id='fbTimelineHeadline']/div/div/div/div/button[@type='button'][text()='Add Friend']")
     failure_msg = "--> Unable to detect the friending status of '{}'!"
@@ -26,7 +27,7 @@ def get_friending_status(browser, track, username, person, person_id, logger,
         " username".format(person))
 
     # check if the page is available
-    valid_page = is_page_available(browser, logger)
+    valid_page = is_page_available(browser, logger, "facebook", Settings)
     if not valid_page:
         logger.warning(user_inaccessible_msg)
         person_new = verify_username_by_id(browser,
@@ -36,8 +37,8 @@ def get_friending_status(browser, track, username, person, person_id, logger,
                                            logger,
                                            logfolder)
         if person_new:
-            web_address_navigator(browser, ig_homepage + person_new)
-            valid_page = is_page_available(browser, logger)
+            web_address_navigator( browser, ig_homepage + person_new, Settings)
+            valid_page = is_page_available(browser, logger, "facebook", Settings)
             if not valid_page:
                 logger.error(failure_msg.format(person_new.encode("utf-8")))
                 return "UNAVAILABLE", None
@@ -51,7 +52,7 @@ def get_friending_status(browser, track, username, person, person_id, logger,
                                   logger, 7, False)
     if not friend_button:
         browser.execute_script("location.reload()")
-        update_activity()
+        update_activity("facebook", Settings)
 
         friend_button = explicit_wait(browser, "VOEL",
                                       [friend_button_XP, "XPath"], logger, 14,
@@ -74,13 +75,13 @@ def friend_user(browser, track, login, userid_to_friend, button, blacklist,
     # list of available tracks to friend in: ["profile", "post" "dialog"]
 
     # check action availability
-    if quota_supervisor("friends") == "jump":
+    if quota_supervisor("facebook", Settings, "friends") == "jump":
         return False, "jumped"
 
     # check URL of the webpage, if it already is user's profile
     # page, then do not navigate to it again
     user_link = "https://www.facebook.com/{}/".format(userid_to_friend)
-    web_address_navigator(browser, user_link)
+    web_address_navigator( browser, user_link, Settings)
 
     # find out CURRENT friending status
     friending_status, friend_button = \
@@ -93,7 +94,7 @@ def friend_user(browser, track, login, userid_to_friend, button, blacklist,
                                 logfolder)
     logger.info(friending_status)
     if friending_status in ["Add Friend"]:
-        click_visibly(browser, friend_button)  # click to friend
+        click_visibly(browser, Settings, friend_button)  # click to friend
         friend_state, msg = verify_action(browser, "friend", track, login,
                                             userid_to_friend, None, logger,
                                             logfolder)
@@ -101,8 +102,8 @@ def friend_user(browser, track, login, userid_to_friend, button, blacklist,
             return False, msg
     elif friending_status is None:
         # TODO:BUG:2nd login has to be fixed with userid of loggedin user
-        sirens_wailing, emergency_state = emergency_exit(browser, login,
-                                                            login, logger)
+        sirens_wailing, emergency_state = emergency_exit(browser, Settings, "https://facebook.com", login,
+                                                            login, logger, logfolder)
         if sirens_wailing is True:
             return False, emergency_state
 
@@ -114,7 +115,7 @@ def friend_user(browser, track, login, userid_to_friend, button, blacklist,
 
     # general tasks after a successful friend
     logger.info("--> Friended '{}'!".format(userid_to_friend.encode("utf-8")))
-    update_activity('friendeds')
+    update_activity('facebook', Settings, 'friendeds')
 
     # get user ID to record alongside username
     user_id = get_user_id(browser, track, userid_to_friend, logger)
@@ -145,7 +146,7 @@ def friend_restriction(operation, username, limit, logger):
 
     try:
         # get a DB and start a connection
-        db, id = get_database()
+        db, id = get_database("facebook", Settings)
         conn = sqlite3.connect(db)
 
         with conn:
@@ -219,7 +220,7 @@ def verify_action(browser, action, track, username, person, person_id, logger,
                                       [post_action_text, "XPath"], logger, 7,
                                       False)
         if not button_change:
-            reload_webpage(browser)
+            reload_webpage(browser, "facebook", Settings)
             following_status, follow_button = get_following_status(browser,
                                                                    track,
                                                                    username,
@@ -245,7 +246,7 @@ def verify_action(browser, action, track, username, person, person_id, logger,
 
             elif action_state is False:
                 # try to do the action one more time!
-                click_visibly(browser, follow_button)
+                click_visibly(browser, Settings, follow_button)
 
                 if action == "unfollow":
                     sleep(4)  # TODO: use explicit wait here
@@ -276,7 +277,7 @@ def get_user_id(browser, track, username, logger):
 
     if track != "dialog":  # currently do not get the user ID for follows
         # from 'dialog'
-        user_id = find_user_id(browser, track, username, logger)
+        user_id = find_user_id("facebook", Settings, browser, track, username, logger)
 
     return user_id
 

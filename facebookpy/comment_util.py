@@ -4,15 +4,16 @@
 import random
 import emoji
 
-from .time_util import sleep
-from .util import update_activity
-from .util import add_user_to_blacklist
-from .util import click_element
-from .util import get_action_delay
-from .util import explicit_wait
-from .util import extract_text_from_element
-from .util import web_address_navigator
-from .quota_supervisor import quota_supervisor
+from .social_commons.time_util import sleep
+from .social_commons.util import update_activity
+from .social_commons.util import add_user_to_blacklist
+from .social_commons.util import click_element
+from .social_commons.util import get_action_delay
+from .social_commons.util import explicit_wait
+from .social_commons.util import extract_text_from_element
+from .social_commons.util import web_address_navigator
+from .social_commons.quota_supervisor import quota_supervisor
+from .settings import Settings
 
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import InvalidElementStateException
@@ -40,7 +41,7 @@ def open_comment_section(browser, logger):
 
     if len(comment_elem) > 0:
         try:
-            click_element(browser, comment_elem[0])
+            click_element(browser, Settings, comment_elem[0])
 
         except WebDriverException:
             logger.warning(missing_comment_elem_warning)
@@ -52,7 +53,7 @@ def open_comment_section(browser, logger):
 def comment_image(browser, username, comments, blacklist, logger, logfolder):
     """Checks if it should comment on the image"""
     # check action availability
-    if quota_supervisor('comments') == 'jump':
+    if quota_supervisor("facebook", Settings, 'comments') == 'jump':
         return False, "jumped"
 
     rand_comment = (random.choice(comments).format(username))
@@ -78,7 +79,7 @@ def comment_image(browser, username, comments, blacklist, logger, logfolder):
             comment_input[0].send_keys('\b')
             comment_input = get_comment_input(browser)
             comment_input[0].submit()
-            update_activity('comments')
+            update_activity("facebook", Settings, 'comments')
 
             if blacklist['enabled'] is True:
                 action = 'commented'
@@ -178,7 +179,7 @@ def get_comments_on_post(browser,
                          logger):
     """ Fetch comments data on posts """
 
-    web_address_navigator(browser, post_link)
+    web_address_navigator( browser, post_link, Settings)
 
     orig_amount = amount
     if randomize is True:
@@ -278,7 +279,7 @@ def is_commenting_enabled(browser, logger):
     except WebDriverException:
         try:
             browser.execute_script("location.reload()")
-            update_activity()
+            update_activity("facebook", Settings)
 
             comments_disabled = browser.execute_script(
                 "return window._sharedData.entry_data."

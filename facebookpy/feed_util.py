@@ -1,5 +1,5 @@
 """ Module that handles the like features """
-from .util import update_activity
+from .social_commons.util import update_activity
 
 from selenium.common.exceptions import NoSuchElementException
 
@@ -47,4 +47,4 @@ def get_like_on_feed(browser, amount):
 
         browser.execute_script(
             "window.scrollTo(0, document.body.scrollHeight);")
-        update_activity()
+        update_activity("facebook", Settings)

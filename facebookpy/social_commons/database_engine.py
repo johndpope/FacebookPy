@@ -1,8 +1,6 @@
 import os
 import sqlite3
 
-from .settings import Settings
-
 SELECT_FROM_PROFILE_WHERE_NAME = "SELECT * FROM profiles WHERE name = :name"
 
 INSERT_INTO_PROFILE = "INSERT INTO profiles (name) VALUES (?)"
@@ -42,18 +40,18 @@ SQL_CREATE_ACCOUNTS_PROGRESS_TABLE = """
         FOREIGN KEY(`profile_id`) REFERENCES `profiles`(`id`));"""
 
 
-def get_database(make=False):
-    address = Settings.database_location
+def get_database(platform_name, Settings, make=False):
+    address = Settings.DATABASE_LOCATION
     logger = Settings.logger
     credentials = Settings.profile
 
     id, name = credentials["id"], credentials['name']
-    address = validate_database_address()
+    address = validate_database_address(platform_name, Settings)
 
     if not os.path.isfile(address) or make:
         create_database(address, logger, name)
 
-    id = get_profile(name, address, logger) if id is None or make else id
+    id = get_profile(name, address, logger, Settings) if id is None or make else id
 
     return address, id
 
@@ -103,18 +101,18 @@ def verify_database_directories(address):
         os.makedirs(db_dir)
 
 
-def validate_database_address():
-    address = Settings.database_location
+def validate_database_address(platform_name, Settings):
+    address = Settings.DATABASE_LOCATION
     if not address.endswith(".db"):
         slash = "\\" if "\\" in address else "/"
         address = address if address.endswith(slash) else address + slash
-        address += "facebookpy.db"
-        Settings.database_location = address
+        address = address + platform_name + "py.db"
+        DATABASE_LOCATION = address
     verify_database_directories(address)
     return address
 
 
-def get_profile(name, address, logger):
+def get_profile(name, address, logger, Settings):
     try:
         conn = sqlite3.connect(address)
         with conn:

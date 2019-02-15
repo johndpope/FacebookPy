@@ -5,12 +5,12 @@ import glob
 import random
 import json
 
-from .time_util import sleep
-from .util import web_address_navigator
-from .util import get_relationship_counts
-from .util import interruption_handler
-from .util import truncate_float
-from .util import progress_tracker
+from .social_commons.time_util import sleep
+from .social_commons.util import web_address_navigator
+from .social_commons.util import get_relationship_counts
+from .social_commons.util import interruption_handler
+from .social_commons.util import truncate_float
+from .social_commons.util import progress_tracker
 from .settings import Settings
 
 from selenium.common.exceptions import NoSuchElementException
@@ -40,13 +40,14 @@ def get_followers(browser,
                                                          grab_info))
 
     user_link = "https://www.facebook.com/{}/".format(userid)
-    web_address_navigator(browser, user_link)
+    web_address_navigator( browser, user_link, Settings)
 
     # Get followers count
     followers_count, following_count = get_relationship_counts(browser,
-                                                               username,
-                                                               userid,
-                                                               logger)
+                                                            "https://www.facebook.com/",
+                                                            username,
+                                                            userid,
+                                                            logger, Settings)
 
     if grab != "full" and grab > followers_count:
         logger.info(
@@ -102,7 +103,7 @@ def get_followers(browser,
             '{}&variables={}'
                 .format(graphql_followers, str(json.dumps(variables)))
         )
-        web_address_navigator(browser, url)
+        web_address_navigator( browser, url, Settings)
 
         """ Get stored graphql queries data to be used """
         try:
@@ -206,7 +207,7 @@ def get_followers(browser,
                         graphql_followers, str(json.dumps(variables)))
                 )
 
-                web_address_navigator(browser, url)
+                web_address_navigator( browser, url, Settings)
                 sc_rolled += 1
 
                 # dump the current graphql queries data
@@ -302,13 +303,14 @@ def get_following(browser,
                                                          grab_info))
 
     user_link = "https://www.facebook.com/{}/".format(userid)
-    web_address_navigator(browser, user_link)
+    web_address_navigator( browser, user_link, Settings)
 
     # Get following count
     followers_count, following_count = get_relationship_counts(browser,
-                                                               username,
-                                                               userid,
-                                                               logger)
+                                                            "https://www.facebook.com/",
+                                                            username,
+                                                            userid,
+                                                            logger, Settings)
 
     if grab != "full" and grab > following_count:
         logger.info(
@@ -364,7 +366,7 @@ def get_following(browser,
             '{}&variables={}'
                 .format(graphql_following, str(json.dumps(variables)))
         )
-        web_address_navigator(browser, url)
+        web_address_navigator( browser, url, Settings)
 
         """ Get stored graphql queries data to be used """
         try:
@@ -464,7 +466,7 @@ def get_following(browser,
                         graphql_following, str(json.dumps(variables)))
                 )
 
-                web_address_navigator(browser, url)
+                web_address_navigator( browser, url, Settings)
                 sc_rolled += 1
 
                 # dumps the current graphql queries data

@@ -12,7 +12,6 @@ import re
 # local project
 from .util import interruption_handler
 from .util import highlight_print
-from .settings import Settings
 from .file_manager import get_chromedriver_location
 
 
@@ -24,7 +23,8 @@ def set_selenium_local_session(proxy_address,
                                browser_profile_path,
                                disable_image_load,
                                page_delay,
-                               logger):
+                               logger,
+                               Settings):
     """Starts local session for a selenium server.
     Default case scenario."""
 
@@ -62,7 +62,7 @@ def set_selenium_local_session(proxy_address,
                                     options=firefox_options)
 
     else:
-        chromedriver_location = get_chromedriver_location()
+        chromedriver_location = get_chromedriver_location(Settings)
         chrome_options = Options()
         chrome_options.add_argument("--mute-audio")
         chrome_options.add_argument('--dns-prefetch-disable')
@@ -141,7 +141,7 @@ def set_selenium_local_session(proxy_address,
     browser.implicitly_wait(page_delay)
 
     message = "Session started!"
-    highlight_print('browser', message, "initialization", "info", logger)
+    highlight_print(Settings, 'browser', message, "initialization", "info", logger)
     print('')
 
     return browser, err_msg
@@ -173,7 +173,7 @@ def set_selenium_remote_session(use_firefox,
                 desired_capabilities=DesiredCapabilities.CHROME)
 
     message = "Session started!"
-    highlight_print('browser', message, "initialization", "info", logger)
+    highlight_print(Settings, 'browser', message, "initialization", "info", logger)
     print('')
 
     return browser

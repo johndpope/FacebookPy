@@ -4,11 +4,12 @@
 from facebookpy import FacebookPy
 from facebookpy import smart_run
 from facebookpy import set_workspace
+from facebookpy import settings
 
 import random
 
 # set workspace folder at desired location (default is at your home folder)
-set_workspace(path=None)
+set_workspace("facebook", settings.Settings, path=None)
 
 # get an FacebookPy session!
 session = FacebookPy()

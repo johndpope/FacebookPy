@@ -11,34 +11,25 @@ from os.path import join as join_path
 from os.path import exists as path_exists
 
 
-WORKSPACE = {"name": "FacebookPy",
-             "path": environmental_variables.get("FACEBOOKPY_WORKSPACE")}
-OS_ENV = ("windows" if platform == "win32"
-          else "osx" if platform == "darwin"
-          else "linux")
-
-
-def localize_path(*args):
-    """ Join given locations as an OS path """
-
-    if WORKSPACE["path"]:
-        path = join_path(WORKSPACE["path"], *args)
-        return path
-
-    else:
-        return None
-
-
 class Settings:
     """ Globally accessible settings throughout whole project """
+    def localize_path(*args):
+        """ Join given locations as an OS path """
+        if environmental_variables.get("FACEBOOKPY_WORKSPACE"):
+            path = join_path(environmental_variables.get("FACEBOOKPY_WORKSPACE"), *args)
+        else:
+            path = join_path('~', *args)
+        return path
 
     # locations
     log_location = localize_path("logs")
-    database_location = localize_path("db", "facebookpy.db")
+    OS_ENV = ("windows" if platform == "win32"
+        else "osx" if platform == "darwin"
+        else "linux")
+
     specific_chromedriver = "chromedriver_{}".format(OS_ENV)
     chromedriver_location = localize_path("assets", specific_chromedriver)
-    if (not chromedriver_location
-            or not path_exists(chromedriver_location)):
+    if (not chromedriver_location or not path_exists(chromedriver_location)):
         chromedriver_location = localize_path("assets", "chromedriver")
 
     # minimum supported version of chromedriver
@@ -71,10 +62,12 @@ class Settings:
     # store what browser the user is using, if they are using firefox it is
     # true, chrome if false.
     use_firefox = None
+    FACEBOOKPY_IS_RUNNING = False
 
-    # state of instantiation of FacebookPy
-    FacebookPy_is_running = False
+    WORKSPACE = {"name": "FacebookPy",
+                    "path": environmental_variables.get("FACEBOOKPY_WORKSPACE")}
 
+    DATABASE_LOCATION = localize_path("FacebookPy", "db", "facebookpy.db")
 
 class Storage:
     """ Globally accessible standalone storage """
@@ -83,12 +76,5 @@ class Storage:
     record_activity = {}
 
 
-class Selectors:
-    """
-    Store XPath, CSS, and other element selectors to be used at many places
-    """
 
-    likes_dialog_body_xpath = \
-        ('//*[@id="facebook"]/body/div[10]/div[2][@role="dialog"]')
-
-    likes_dialog_close_xpath = '//a[@title="Close"]'
+# state of instantiation of FacebookPy

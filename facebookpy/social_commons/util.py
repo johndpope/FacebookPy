@@ -20,6 +20,7 @@ from tempfile import gettempdir
 import emoji
 from emoji.unicode_codes import UNICODE_EMOJI
 from argparse import ArgumentParser
+import pickle
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -29,32 +30,12 @@ from .time_util import sleep
 from .time_util import sleep_actual
 from .database_engine import get_database
 from .quota_supervisor import quota_supervisor
-from .settings import Settings
-from .settings import Selectors
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
 
-default_profile_pic_facebook = [
-    "https://facebook.flas1-2.fna.fbcdn.net/vp"
-    "/a8539c22ed9fec8e1c43b538b1ebfd1d/5C5A1A7A/t51.2885-19"
-    "/11906329_960233084022564_1448528159_a.jpg",
-    "https://scontent-yyz1-1.cdnfacebook.com/vp"
-    "/a8539c22ed9fec8e1c43b538b1ebfd1d/5C5A1A7A/t51.2885-19"
-    "/11906329_960233084022564_1448528159_a.jpg",
-    "https://facebook.faep12-1.fna.fbcdn.net/vp"
-    "/a8539c22ed9fec8e1c43b538b1ebfd1d/5C5A1A7A/t51.2885-19"
-    "/11906329_960233084022564_1448528159_a.jpg",
-    "https://facebook.fbts2-1.fna.fbcdn.net/vp"
-    "/a8539c22ed9fec8e1c43b538b1ebfd1d/5C5A1A7A/t51.2885-19"
-    "/11906329_960233084022564_1448528159_a.jpg",
-    "https://scontent-mia3-1.cdnfacebook.com/vp"
-    "/a8539c22ed9fec8e1c43b538b1ebfd1d/5C5A1A7A/t51.2885-19"
-    "/11906329_960233084022564_1448528159_a.jpg"]
-
-
-def is_private_profile(browser, logger, following=True):
+def is_private_profile(platform_name, Settings, browser, logger, following=True):
     is_private = None
     try:
         is_private = browser.execute_script(
@@ -64,7 +45,7 @@ def is_private_profile(browser, logger, following=True):
     except WebDriverException:
         try:
             browser.execute_script("location.reload()")
-            update_activity()
+            update_activity(platform_name, Settings)
 
             is_private = browser.execute_script(
                 "return window._sharedData.entry_data."
@@ -85,29 +66,30 @@ def is_private_profile(browser, logger, following=True):
 
 
 def validate_userid(browser,
-                      userid,
-                      own_userid,
-                      own_username,
-                      ignore_users,
-                      blacklist,
-                      potency_ratio,
-                      delimit_by_numbers,
-                      max_followers,
-                      max_following,
-                      min_followers,
-                      min_following,
-                      min_posts,
-                      max_posts,
-                      skip_private,
-                      skip_private_percentage,
-                      skip_no_profile_pic,
-                      skip_no_profile_pic_percentage,
-                      skip_business,
-                      skip_business_percentage,
-                      skip_business_categories,
-                      dont_skip_business_categories,
-                      logger,
-                      logfolder):
+                    base_url,
+                    userid,
+                    own_userid,
+                    own_username,
+                    ignore_users,
+                    blacklist,
+                    potency_ratio,
+                    delimit_by_numbers,
+                    max_followers,
+                    max_following,
+                    min_followers,
+                    min_following,
+                    min_posts,
+                    max_posts,
+                    skip_private,
+                    skip_private_percentage,
+                    skip_no_profile_pic,
+                    skip_no_profile_pic_percentage,
+                    skip_business,
+                    skip_business_percentage,
+                    skip_business_categories,
+                    dont_skip_business_categories,
+                    logger,
+                    logfolder, Settings):
     """Check if we can interact with the user"""
     if userid == own_userid:
         inap_msg = "---> Username '{}' is yours!\t~skipping user\n".format(
@@ -142,9 +124,10 @@ def validate_userid(browser,
 
         # get followers & following counts
         followers_count, following_count = get_relationship_counts(browser,
-                                                                   userid,
-                                                                   userid,
-                                                                   logger)
+                                                                base_url,
+                                                                userid,
+                                                                userid,
+                                                                logger, Settings)
 
         if potency_ratio and potency_ratio < 0:
             potency_ratio *= -1
@@ -230,7 +213,7 @@ def validate_userid(browser,
     # if min_posts or max_posts or skip_private or skip_no_profile_pic or \
     #         skip_business:
     #     user_link = "https://www.facebook.com/{}/".format(userid)
-    #     web_address_navigator(browser, user_link)
+    #     web_address_navigator( browser, user_link)
 
     # if min_posts or max_posts:
     #     # if you are interested in relationship number of posts boundaries
@@ -314,31 +297,32 @@ def validate_userid(browser,
     return True, "Valid user"
 
 
-def getUserData(query,
-                browser,
-                basequery="return window._sharedData.entry_data.ProfilePage["
-                          "0]."):
-    try:
-        data = browser.execute_script(
-            basequery + query)
-        return data
-    except WebDriverException:
-        browser.execute_script("location.reload()")
-        update_activity()
+# def getUserData(platform_name,
+#                 query,
+#                 browser,
+#                 basequery="return window._sharedData.entry_data.ProfilePage["
+#                           "0]."):
+#     try:
+#         data = browser.execute_script(
+#             basequery + query)
+#         return data
+#     except WebDriverException:
+#         browser.execute_script("location.reload()")
+#         update_activity(platform_name)
 
-        data = browser.execute_script(
-            basequery + query)
-        return data
+#         data = browser.execute_script(
+#             basequery + query)
+#         return data
 
 
-def update_activity(action="server_calls"):
+def update_activity(platform_name, Settings, action="server_calls"):
     """ Record every Facebook server call (page load, content load, likes,
         comments, follows, unfollow). """
     # check action availability
-    quota_supervisor("server_calls")
+    quota_supervisor(platform_name, Settings, "server_calls")
 
     # get a DB and start a connection
-    db, id = get_database()
+    db, id = get_database(platform_name, Settings)
     conn = sqlite3.connect(db)
 
     with conn:
@@ -365,12 +349,12 @@ def update_activity(action="server_calls"):
 
             # update
             data[action] += 1
-            quota_supervisor(action, update=True)
+            quota_supervisor(platform_name, Settings, action, update=True)
 
             if action != "server_calls":
                 # always update server calls
                 data["server_calls"] += 1
-                quota_supervisor("server_calls", update=True)
+                quota_supervisor(platform_name, Settings, "server_calls", update=True)
 
             sql = ("UPDATE recordActivity set likes = ?, comments = ?, "
                    "follows = ?, unfollows = ?, friendeds = ?, unfriendeds = ?, server_calls = ?, "
@@ -411,251 +395,251 @@ def add_user_to_blacklist(username, campaign, action, logger, logfolder):
                 .format(username, campaign, action))
 
 
-def get_active_users(browser, username, userid, posts, boundary, logger):
-    """Returns a list with usernames who liked the latest n posts"""
+# def get_active_users(browser, username, userid, posts, boundary, logger, Selectors):
+#     """Returns a list with usernames who liked the latest n posts"""
 
-    user_link = 'https://www.facebook.com/{}/'.format(userid)
+#     user_link = 'https://www.facebook.com/{}/'.format(userid)
 
-    # check URL of the webpage, if it already is user's profile page,
-    # then do not navigate to it again
-    web_address_navigator(browser, user_link)
+#     # check URL of the webpage, if it already is user's profile page,
+#     # then do not navigate to it again
+#     web_address_navigator( browser, user_link)
 
-    try:
-        total_posts = browser.execute_script(
-            "return window._sharedData.entry_data."
-            "ProfilePage[0].graphql.user.edge_owner_to_timeline_media.count")
+#     try:
+#         total_posts = browser.execute_script(
+#             "return window._sharedData.entry_data."
+#             "ProfilePage[0].graphql.user.edge_owner_to_timeline_media.count")
 
-    except WebDriverException:
-        try:
-            topCount_elements = browser.find_elements_by_xpath(
-                "//span[contains(@class,'g47SY')]")
+#     except WebDriverException:
+#         try:
+#             topCount_elements = browser.find_elements_by_xpath(
+#                 "//span[contains(@class,'g47SY')]")
 
-            if topCount_elements:  # prevent an empty string scenario
-                total_posts = format_number(topCount_elements[0].text)
+#             if topCount_elements:  # prevent an empty string scenario
+#                 total_posts = format_number(topCount_elements[0].text)
 
-            else:
-                logger.info(
-                    "Failed to get posts count on your profile!  ~empty "
-                    "string")
-                total_posts = None
+#             else:
+#                 logger.info(
+#                     "Failed to get posts count on your profile!  ~empty "
+#                     "string")
+#                 total_posts = None
 
-        except NoSuchElementException:
-            logger.info("Failed to get posts count on your profile!")
-            total_posts = None
+#         except NoSuchElementException:
+#             logger.info("Failed to get posts count on your profile!")
+#             total_posts = None
 
-    # if posts > total user posts, assume total posts
-    posts = posts if total_posts is None else total_posts if posts > \
-                                                             total_posts \
-        else posts
+#     # if posts > total user posts, assume total posts
+#     posts = posts if total_posts is None else total_posts if posts > \
+#                                                              total_posts \
+#         else posts
 
-    # click latest post
-    try:
-        latest_posts = browser.find_elements_by_xpath(
-            "//div[contains(@class, '_9AhH0')]")
-        # avoid no posts
-        if latest_posts:
-            latest_post = latest_posts[0]
-            click_element(browser, latest_post)
+#     # click latest post
+#     try:
+#         latest_posts = browser.find_elements_by_xpath(
+#             "//div[contains(@class, '_9AhH0')]")
+#         # avoid no posts
+#         if latest_posts:
+#             latest_post = latest_posts[0]
+#             click_element(browser, Settings, latest_post)
 
-    except (NoSuchElementException, WebDriverException):
-        logger.warning(
-            "Failed to click on the latest post to grab active likers!\n")
-        return []
+#     except (NoSuchElementException, WebDriverException):
+#         logger.warning(
+#             "Failed to click on the latest post to grab active likers!\n")
+#         return []
 
-    active_users = []
-    sc_rolled = 0
-    start_time = time.time()
-    too_many_requests = 0  # helps to prevent misbehaviours when requests
-    # list of active users repeatedly within less than 10 min of breaks
+#     active_users = []
+#     sc_rolled = 0
+#     start_time = time.time()
+#     too_many_requests = 0  # helps to prevent misbehaviours when requests
+#     # list of active users repeatedly within less than 10 min of breaks
 
-    message = (
-        "~collecting the entire usernames from posts without a boundary!\n"
-        if boundary is None else
-        "~collecting only the visible usernames from posts without scrolling "
-        "at the boundary of zero..\n" if boundary == 0 else
-        "~collecting the usernames from posts with the boundary of {}"
-        "\n".format(
-            boundary))
-    # posts argument is the number of posts to collect usernames
-    logger.info(
-        "Getting active users who liked the latest {} posts:\n  {}".format(
-            posts, message))
+#     message = (
+#         "~collecting the entire usernames from posts without a boundary!\n"
+#         if boundary is None else
+#         "~collecting only the visible usernames from posts without scrolling "
+#         "at the boundary of zero..\n" if boundary == 0 else
+#         "~collecting the usernames from posts with the boundary of {}"
+#         "\n".format(
+#             boundary))
+#     # posts argument is the number of posts to collect usernames
+#     logger.info(
+#         "Getting active users who liked the latest {} posts:\n  {}".format(
+#             posts, message))
 
-    for count in range(1, posts + 1):
-        try:
-            sleep_actual(2)
-            try:
-                likers_count = browser.execute_script(
-                    "return window._sharedData.entry_data."
-                    "PostPage["
-                    "0].graphql.shortcode_media.edge_media_preview_like.count")
-            except WebDriverException:
-                try:
-                    likers_count = (browser.find_element_by_xpath(
-                        "//button[contains(@class, '_8A5w5')]/span").text)
-                    if likers_count:  # prevent an empty string scenarios
-                        likers_count = format_number(likers_count)
-                    else:
-                        logger.info(
-                            "Failed to get likers count on your post {}  "
-                            "~empty string".format(
-                                count))
-                        likers_count = None
-                except NoSuchElementException:
-                    logger.info(
-                        "Failed to get likers count on your post {}".format(
-                            count))
-                    likers_count = None
-            try:
-                likes_button = browser.find_elements_by_xpath(
-                    "//button[contains(@class, '_8A5w5')]")[1]
-                click_element(browser, likes_button)
-                sleep_actual(5)
-            except (IndexError, NoSuchElementException):
-                # Video have no likes button / no posts in page
-                continue
+#     for count in range(1, posts + 1):
+#         try:
+#             sleep_actual(2)
+#             try:
+#                 likers_count = browser.execute_script(
+#                     "return window._sharedData.entry_data."
+#                     "PostPage["
+#                     "0].graphql.shortcode_media.edge_media_preview_like.count")
+#             except WebDriverException:
+#                 try:
+#                     likers_count = (browser.find_element_by_xpath(
+#                         "//button[contains(@class, '_8A5w5')]/span").text)
+#                     if likers_count:  # prevent an empty string scenarios
+#                         likers_count = format_number(likers_count)
+#                     else:
+#                         logger.info(
+#                             "Failed to get likers count on your post {}  "
+#                             "~empty string".format(
+#                                 count))
+#                         likers_count = None
+#                 except NoSuchElementException:
+#                     logger.info(
+#                         "Failed to get likers count on your post {}".format(
+#                             count))
+#                     likers_count = None
+#             try:
+#                 likes_button = browser.find_elements_by_xpath(
+#                     "//button[contains(@class, '_8A5w5')]")[1]
+#                 click_element(browser, Settings, likes_button)
+#                 sleep_actual(5)
+#             except (IndexError, NoSuchElementException):
+#                 # Video have no likes button / no posts in page
+#                 continue
 
-            # get a reference to the 'Likes' dialog box
-            dialog = browser.find_element_by_xpath(
-                Selectors.likes_dialog_body_xpath)
+#             # get a reference to the 'Likes' dialog box
+#             dialog = browser.find_element_by_xpath(
+#                 Selectors.likes_dialog_body_xpath)
 
-            scroll_it = True
-            try_again = 0
-            start_time = time.time()
-            user_list = []
+#             scroll_it = True
+#             try_again = 0
+#             start_time = time.time()
+#             user_list = []
 
-            if likers_count:
-                amount = (
-                    likers_count if boundary is None
-                    else None if boundary == 0
-                    else (
-                        boundary if boundary < likers_count
-                        else likers_count
-                    )
-                )
-            else:
-                amount = None
+#             if likers_count:
+#                 amount = (
+#                     likers_count if boundary is None
+#                     else None if boundary == 0
+#                     else (
+#                         boundary if boundary < likers_count
+#                         else likers_count
+#                     )
+#                 )
+#             else:
+#                 amount = None
 
-            while scroll_it is not False and boundary != 0:
-                scroll_it = browser.execute_script('''
-                    var div = arguments[0];
-                    if (div.offsetHeight + div.scrollTop < div.scrollHeight) {
-                        div.scrollTop = div.scrollHeight;
-                        return true;}
-                    else {
-                        return false;}
-                    ''', dialog)
+#             while scroll_it is not False and boundary != 0:
+#                 scroll_it = browser.execute_script('''
+#                     var div = arguments[0];
+#                     if (div.offsetHeight + div.scrollTop < div.scrollHeight) {
+#                         div.scrollTop = div.scrollHeight;
+#                         return true;}
+#                     else {
+#                         return false;}
+#                     ''', dialog)
 
-                if scroll_it is True:
-                    update_activity()
+#                 if scroll_it is True:
+#                     update_activity(platform_name)
 
-                if sc_rolled > 91 or too_many_requests > 1:  # old value 100
-                    print('\n')
-                    logger.info(
-                        "Too Many Requests sent! ~will sleep some :>\n")
-                    sleep_actual(600)
-                    sc_rolled = 0
-                    too_many_requests = 0 if too_many_requests >= 1 else \
-                        too_many_requests
+#                 if sc_rolled > 91 or too_many_requests > 1:  # old value 100
+#                     print('\n')
+#                     logger.info(
+#                         "Too Many Requests sent! ~will sleep some :>\n")
+#                     sleep_actual(600)
+#                     sc_rolled = 0
+#                     too_many_requests = 0 if too_many_requests >= 1 else \
+#                         too_many_requests
 
-                else:
-                    sleep_actual(1.2)  # old value 5.6
-                    sc_rolled += 1
+#                 else:
+#                     sleep_actual(1.2)  # old value 5.6
+#                     sc_rolled += 1
 
-                """ Old method 1 """
-                # tmp_list = browser.find_elements_by_xpath(
-                #     "//a[contains(@class, 'FPmhX')]")
+#                 """ Old method 1 """
+#                 # tmp_list = browser.find_elements_by_xpath(
+#                 #     "//a[contains(@class, 'FPmhX')]")
 
-                user_list = get_users_from_dialog(user_list, dialog)
-                # print("len(user_list): {}".format(len(user_list)))
+#                 user_list = get_users_from_dialog(user_list, dialog)
+#                 # print("len(user_list): {}".format(len(user_list)))
 
-                # write & update records at Progress Tracker
-                if amount:
-                    progress_tracker(len(user_list), amount, start_time, None)
+#                 # write & update records at Progress Tracker
+#                 if amount:
+#                     progress_tracker(len(user_list), amount, start_time, None)
 
-                if boundary is not None:
-                    if len(user_list) >= boundary:
-                        break
+#                 if boundary is not None:
+#                     if len(user_list) >= boundary:
+#                         break
 
-                if (scroll_it is False and
-                        likers_count and
-                        likers_count - 1 > len(user_list)):
+#                 if (scroll_it is False and
+#                         likers_count and
+#                         likers_count - 1 > len(user_list)):
 
-                    if ((boundary is not None
-                         and likers_count - 1 > boundary)
-                            or boundary is None):
+#                     if ((boundary is not None
+#                          and likers_count - 1 > boundary)
+#                             or boundary is None):
 
-                        if try_again <= 1:  # can increase the amount of tries
-                            print('\n')
-                            logger.info(
-                                "Cor! Failed to get the desired amount of "
-                                "usernames but trying again.."
-                                "\t|> post:{}  |> attempt: {}\n"
-                                .format(posts, try_again + 1))
-                            try_again += 1
-                            too_many_requests += 1
-                            scroll_it = True
-                            nap_it = 4 if try_again == 0 else 7
-                            sleep_actual(nap_it)
+#                         if try_again <= 1:  # can increase the amount of tries
+#                             print('\n')
+#                             logger.info(
+#                                 "Cor! Failed to get the desired amount of "
+#                                 "usernames but trying again.."
+#                                 "\t|> post:{}  |> attempt: {}\n"
+#                                 .format(posts, try_again + 1))
+#                             try_again += 1
+#                             too_many_requests += 1
+#                             scroll_it = True
+#                             nap_it = 4 if try_again == 0 else 7
+#                             sleep_actual(nap_it)
 
-            print('\n')
-            user_list = get_users_from_dialog(user_list, dialog)
+#             print('\n')
+#             user_list = get_users_from_dialog(user_list, dialog)
 
-            logger.info("Post {}  |  Likers: found {}, catched {}\n\n".format(
-                count, likers_count, len(user_list)))
+#             logger.info("Post {}  |  Likers: found {}, catched {}\n\n".format(
+#                 count, likers_count, len(user_list)))
 
-        except NoSuchElementException as exc:
-            logger.error("Ku-ku! There is an error searching active users"
-                         "~\t{}\n\n".format(str(exc).encode("utf-8")))
+#         except NoSuchElementException as exc:
+#             logger.error("Ku-ku! There is an error searching active users"
+#                          "~\t{}\n\n".format(str(exc).encode("utf-8")))
 
-            """ Old method 2 """
-            # try:
-            #     tmp_list = browser.find_elements_by_xpath(
-            #         "//div[contains(@class, '_1xe_U')]/a")
+#             """ Old method 2 """
+#             # try:
+#             #     tmp_list = browser.find_elements_by_xpath(
+#             #         "//div[contains(@class, '_1xe_U')]/a")
 
-            #     if len(tmp_list) > 0:
-            #         logger.info(
-            #             "Post {}  |  Likers: found {}, catched {}".format(
-            #                 count, len(tmp_list), len(tmp_list)))
+#             #     if len(tmp_list) > 0:
+#             #         logger.info(
+#             #             "Post {}  |  Likers: found {}, catched {}".format(
+#             #                 count, len(tmp_list), len(tmp_list)))
 
-            # except NoSuchElementException:
-            #     print("Ku-ku")
+#             # except NoSuchElementException:
+#             #     print("Ku-ku")
 
-        for user in user_list:
-            active_users.append(user)
+#         for user in user_list:
+#             active_users.append(user)
 
-        sleep_actual(1)
+#         sleep_actual(1)
 
-        # if not reached posts(parameter) value, continue
-        if count + 1 != posts + 1 and count != 0:
-            try:
-                # click close button
-                close_dialog_box(browser)
+#         # if not reached posts(parameter) value, continue
+#         if count + 1 != posts + 1 and count != 0:
+#             try:
+#                 # click close button
+#                 close_dialog_box(browser)
 
-                # click next button
-                next_button = browser.find_element_by_xpath(
-                    "//a[contains(@class, 'HBoOv')]"
-                    "[text()='Next']")
-                click_element(browser, next_button)
+#                 # click next button
+#                 next_button = browser.find_element_by_xpath(
+#                     "//a[contains(@class, 'HBoOv')]"
+#                     "[text()='Next']")
+#                 click_element(browser, Settings, next_button)
 
-            except Exception:
-                logger.error('Unable to go to next profile post')
+#             except Exception:
+#                 logger.error('Unable to go to next profile post')
 
-    real_time = time.time()
-    diff_in_minutes = int((real_time - start_time) / 60)
-    diff_in_seconds = int((real_time - start_time) % 60)
+#     real_time = time.time()
+#     diff_in_minutes = int((real_time - start_time) / 60)
+#     diff_in_seconds = int((real_time - start_time) % 60)
 
-    # delete duplicated users
-    active_users = list(set(active_users))
+#     # delete duplicated users
+#     active_users = list(set(active_users))
 
-    logger.info(
-        "Gathered total of {} unique active followers from the latest {} "
-        "posts in {} minutes and {} seconds".format(len(active_users),
-                                                    posts,
-                                                    diff_in_minutes,
-                                                    diff_in_seconds))
+#     logger.info(
+#         "Gathered total of {} unique active followers from the latest {} "
+#         "posts in {} minutes and {} seconds".format(len(active_users),
+#                                                     posts,
+#                                                     diff_in_minutes,
+#                                                     diff_in_seconds))
 
-    return active_users
+#     return active_users
 
 
 def delete_line_from_file(filepath, userToDelete, logger):
@@ -731,13 +715,13 @@ def scroll_bottom(browser, element, range_int):
         browser.execute_script(
             "arguments[0].scrollTop = arguments[0].scrollHeight", element)
         # update server calls
-        update_activity()
+        update_activity(platform_name, Settings)
         sleep(1)
 
     return
 
 
-def click_element(browser, element, tryNum=0):
+def click_element(browser, Settings, element, tryNum=0):
     """
     There are three (maybe more) different ways to "click" an element/button.
     1. element.click()
@@ -764,7 +748,7 @@ def click_element(browser, element, tryNum=0):
         element.click()
 
         # update server calls after a successful click by selenium
-        update_activity()
+        update_activity("facebook", Settings)
 
     except Exception:
         # click attempt failed
@@ -794,12 +778,12 @@ def click_element(browser, element, tryNum=0):
                 "document.getElementsByClassName('" + element.get_attribute(
                     "class") + "')[0].click()")
             # update server calls after last click attempt by JS
-            update_activity()
+            update_activity(platform_name, Settings)
             # end condition for the recursive function
             return
 
         # update server calls after the scroll(s) in 0, 1 and 2 attempts
-        update_activity()
+        update_activity(platform_name, Settings)
 
         # sleep for 1 second to allow window to adjust (may or may not be
         # needed)
@@ -808,7 +792,7 @@ def click_element(browser, element, tryNum=0):
         tryNum += 1
 
         # try again!
-        click_element(browser, element, tryNum)
+        click_element(browser, Settings, element, tryNum)
 
 
 def format_number(number):
@@ -833,10 +817,10 @@ def format_number(number):
         return 0
 
 
-def username_url_to_username(username_url):
-    a = username_url.replace("https://www.facebook.com/", "")
-    username = a.split('/')
-    return username[0]
+# def username_url_to_username(base_url, username_url):
+#     a = username_url.replace(base_url, "")
+#     username = a.split('/')
+#     return username[0]
 
 
 def get_number_of_posts(browser):
@@ -866,7 +850,7 @@ def get_number_of_posts(browser):
 def get_following_count(browser, username, userid, logger):
     """ Gets the followers & following counts of a given user """
     user_link = "https://www.facebook.com/{}/following".format(userid)
-    web_address_navigator(browser, user_link)
+    web_address_navigator( browser, user_link, Settings)
 
     try:
         following_count = browser.execute_script(
@@ -892,10 +876,12 @@ def get_followers_count_nonfriend_public_case(browser, username, userid, logger)
         return None
     return followers_count
 
-def get_followers_count(browser, username, userid, logger):
+def get_followers_count(browser, base_url, username, userid, logger, Settings):
     """ Gets the followers & following counts of a given user """
-    user_link = "https://www.facebook.com/{}/followers".format(userid)
-    web_address_navigator(browser, user_link)
+    if not base_url.endswith('/'):
+        base_url = base_url + '/'
+    user_link = base_url + "{}/followers".format(userid)
+    web_address_navigator( browser, user_link, Settings)
 
     # try:
     #     followers_count = browser.execute_script(
@@ -912,22 +898,23 @@ def get_followers_count(browser, username, userid, logger):
         followers_count = get_followers_count_nonfriend_public_case(browser, username, userid, logger)
     return followers_count
 
-def get_relationship_counts(browser, username, userid, logger):
+def get_relationship_counts(browser, base_url, username, userid, logger, Settings):
     """ Gets the followers & following counts of a given user """
-    followers_count = get_followers_count(browser, username, userid, logger)
+    followers_count = get_followers_count(browser, base_url, username, userid, logger, Settings)
     following_count = 0#get_following_count(browser, username, userid, logger)
     logger.info('followers_count = {}'.format(followers_count))
     logger.info('following_count = {}'.format(following_count))
     return followers_count, following_count
 
 
-def web_address_navigator(browser, link):
+def web_address_navigator(browser, link, Settings):
     """Checks and compares current URL of web page and the URL to be
     navigated and if it is different, it does navigate"""
     current_url = get_current_url(browser)
     total_timeouts = 0
     page_type = None  # file or directory
 
+    print("Navigating from", current_url, "To", link)
     # remove slashes at the end to compare efficiently
     if current_url is not None and current_url.endswith('/'):
         current_url = current_url[:-1]
@@ -941,12 +928,13 @@ def web_address_navigator(browser, link):
     if current_url is None or new_navigation:
         link = link + '/' if page_type == "dir" else link  # directory links
         # navigate faster
+        print("Link:", link)
 
         while True:
             try:
                 browser.get(link)
                 # update server calls
-                update_activity()
+                update_activity("facebook", Settings)
                 sleep(2)
                 break
 
@@ -981,7 +969,7 @@ def interruption_handler(threaded=False, SIG_type=signal.SIGINT,
             signal.signal(SIG_type, original_handler)
 
 
-def highlight_print(username=None, message=None, priority=None, level=None,
+def highlight_print(Settings, username=None, message=None, priority=None, level=None,
                     logger=None):
     """ Print headers in a highlighted style """
     # can add other highlighters at other priorities enriching this function
@@ -1084,69 +1072,69 @@ def remove_duplicates(container, keep_order, logger):
     return result
 
 
-def dump_record_activity(profile_name, logger, logfolder):
-    """ Dump the record activity data to a local human-readable JSON """
+# def dump_record_activity(profile_name, logger, logfolder, Settings):
+#     """ Dump the record activity data to a local human-readable JSON """
 
-    try:
-        # get a DB and start a connection
-        db, id = get_database()
-        conn = sqlite3.connect(db)
+#     try:
+#         # get a DB and start a connection
+#         db, id = get_database(platform_name, Settings)
+#         conn = sqlite3.connect(db)
 
-        with conn:
-            conn.row_factory = sqlite3.Row
-            cur = conn.cursor()
+#         with conn:
+#             conn.row_factory = sqlite3.Row
+#             cur = conn.cursor()
 
-            cur.execute("SELECT * FROM recordActivity WHERE profile_id=:var",
-                        {"var": id})
-            user_data = cur.fetchall()
+#             cur.execute("SELECT * FROM recordActivity WHERE profile_id=:var",
+#                         {"var": id})
+#             user_data = cur.fetchall()
 
-        if user_data:
-            ordered_user_data = {}
-            current_data = {}
+#         if user_data:
+#             ordered_user_data = {}
+#             current_data = {}
 
-            # get the existing data
-            filename = "{}recordActivity.json".format(logfolder)
-            if os.path.isfile(filename):
-                with open(filename) as recordActFile:
-                    current_data = json.load(recordActFile)
+#             # get the existing data
+#             filename = "{}recordActivity.json".format(logfolder)
+#             if os.path.isfile(filename):
+#                 with open(filename) as recordActFile:
+#                     current_data = json.load(recordActFile)
 
-            # re-order live user data in the required structure
-            for hourly_data in user_data:
-                hourly_data = tuple(hourly_data)
-                day = hourly_data[-1][:10]
-                hour = hourly_data[-1][-8:-6]
+#             # re-order live user data in the required structure
+#             for hourly_data in user_data:
+#                 hourly_data = tuple(hourly_data)
+#                 day = hourly_data[-1][:10]
+#                 hour = hourly_data[-1][-8:-6]
 
-                if day not in ordered_user_data.keys():
-                    ordered_user_data.update({day: {}})
+#                 if day not in ordered_user_data.keys():
+#                     ordered_user_data.update({day: {}})
 
-                ordered_user_data[day].update({hour: {"likes": hourly_data[1],
-                                                      "comments": hourly_data[
-                                                          2],
-                                                      "follows": hourly_data[
-                                                          3],
-                                                      "unfollows": hourly_data[
-                                                          4],
-                                                      "server_calls":
-                                                          hourly_data[5]}})
+#                 ordered_user_data[day].update({hour: {"likes": hourly_data[1],
+#                                                       "comments": hourly_data[
+#                                                           2],
+#                                                       "follows": hourly_data[
+#                                                           3],
+#                                                       "unfollows": hourly_data[
+#                                                           4],
+#                                                       "server_calls":
+#                                                           hourly_data[5]}})
 
-            # update user data with live data whilst preserving all other
-            # data (keys)
-            current_data.update({profile_name: ordered_user_data})
+#             # update user data with live data whilst preserving all other
+#             # data (keys)
+#             current_data.update({profile_name: ordered_user_data})
 
-            # dump the fresh record data to a local human readable JSON
-            with open(filename, 'w') as recordActFile:
-                json.dump(current_data, recordActFile)
+#             # dump the fresh record data to a local human readable JSON
+#             with open(filename, 'w') as recordActFile:
+#                 json.dump(current_data, recordActFile)
 
-    except Exception as exc:
-        logger.error(
-            "Pow! Error occurred while dumping record activity data to a "
-            "local JSON:\n\t{}".format(
-                str(exc).encode("utf-8")))
+#     except Exception as exc:
+#         logger.error(
+#             "Pow! Error occurred while dumping record activity data to a "
+#             "local JSON:\n\t{}".format(
+#                 str(exc).encode("utf-8")))
 
-    finally:
-        if conn:
-            # close the open connection
-            conn.close()
+#     finally:
+#         if conn:
+#             # close the open connection
+#             conn.close()
 
 
 def ping_server(host, logger):
@@ -1184,21 +1172,20 @@ def ping_server(host, logger):
 
     return True
 
-
-def emergency_exit(browser, username, userid, logger):
+def emergency_exit(browser, Settings, base_url, username, userid, logger, logfolder):
     """ Raise emergency if the is no connection to server OR if user is not
     logged in """
     using_proxy = True if Settings.connection_type == "proxy" else False
     # ping the server only if connected directly rather than through a proxy
     if not using_proxy:
-        server_address = "facebook.com"
+        server_address = base_url
         connection_state = ping_server(server_address, logger)
         if connection_state is False:
             return True, "not connected"
 
     # check if the user is logged in
     auth_method = "activity counts"
-    login_state = check_authorization(browser, username, userid, auth_method, logger)
+    login_state = check_authorization(browser, Settings, base_url, username, userid, method, logger, logfolder)
     if login_state is False:
         return True, "not logged in"
 
@@ -1236,7 +1223,7 @@ def load_user_id(username, person, logger, logfolder):
     return user_id
 
 
-def check_authorization(browser, username, userid, method, logger, notify=True):
+def check_authorization(browser, Settings, base_url, username, userid, method, logger, logfolder, notify=True):
     """ Check if user is NOW logged in """
     if notify is True:
         logger.info("Checking if '{}' is logged in...".format(username))
@@ -1246,59 +1233,22 @@ def check_authorization(browser, username, userid, method, logger, notify=True):
 
     # navigate to owner's profile page only if it is on an unusual page
     current_url = get_current_url(browser)
-    if (not current_url or
-            "https://www.facebook.com" not in current_url or
-            "https://www.facebook.com/graphql/" in current_url):
-        profile_link = 'https://www.facebook.com/{}'.format(userid)
-        web_address_navigator(browser, profile_link)
-        logger.critical("--> '{}' is not logged in!\n".format(username))
-        nav = browser.find_elements_by_xpath('//div[@role="navigation"]')
-        if len(nav) == 2:
-            # create cookie for username
-            pickle.dump(browser.get_cookies(), open(
-                '{0}{1}_cookie.pkl'.format(logfolder, username), 'wb'))
-            return True
+    logger.info(current_url)
+    if (not current_url or base_url not in current_url):
         return False
-
-        # # if user is not logged in, `activity_counts` will be `None`- JS `null`
-        # try:
-        #     activity_counts = browser.execute_script(
-        #         "return window._sharedData.activity_counts")
-
-        # except WebDriverException:
-        #     try:
-        #         browser.execute_script("location.reload()")
-        #         update_activity()
-
-        #         activity_counts = browser.execute_script(
-        #             "return window._sharedData.activity_counts")
-
-        #     except WebDriverException:
-        #         activity_counts = None
-
-        # # if user is not logged in, `activity_counts_new` will be `None`- JS
-        # # `null`
-        # try:
-        #     activity_counts_new = browser.execute_script(
-        #         "return window._sharedData.config.viewer")
-
-        # except WebDriverException:
-        #     try:
-        #         browser.execute_script("location.reload()")
-        #         activity_counts_new = browser.execute_script(
-        #             "return window._sharedData.config.viewer")
-
-        #     except WebDriverException:
-        #         activity_counts_new = None
-
-        # if activity_counts is None and activity_counts_new is None:
-        #     if notify is True:
-        #         logger.critical(
-        #             "--> '{}' is not logged in!\n".format(username))
-        #     return False
-
-    return True
-
+    if not base_url.endswith('/'):
+        base_url = base_url + '/'
+    profile_link = base_url + '{}'.format(userid)
+    web_address_navigator(browser, profile_link, Settings)
+    logger.critical("--> '{}' is not logged in!\n".format(username))
+    nav = browser.find_elements_by_xpath('//div[@role="navigation"]')
+    print('nav', nav)
+    if len(nav) >= 1:
+        # create cookie for username
+        pickle.dump(browser.get_cookies(), open(
+            '{0}{1}_cookie.pkl'.format(logfolder, username), 'wb'))
+        return True
+    return False
 
 def get_username(browser, track, logger):
     """ Get the username of a user from the loaded profile page """
@@ -1316,7 +1266,7 @@ def get_username(browser, track, logger):
     except WebDriverException:
         try:
             browser.execute_script("location.reload()")
-            update_activity()
+            update_activity(platform_name, Settings)
 
             username = browser.execute_script(query)
 
@@ -1332,7 +1282,7 @@ def get_username(browser, track, logger):
     return username
 
 
-def find_user_id(browser, track, username, logger):
+def find_user_id(platform_name, Settings, browser, track, username, logger):
     """  Find the user ID from the loaded page """
     if track in ["dialog", "profile"]:
         query = "return window._sharedData.entry_data.ProfilePage[" \
@@ -1352,7 +1302,7 @@ def find_user_id(browser, track, username, logger):
     except WebDriverException:
         try:
             browser.execute_script("location.reload()")
-            update_activity()
+            update_activity(platform_name, Settings)
 
             user_id = browser.execute_script(query)
 
@@ -1477,7 +1427,7 @@ def get_current_url(browser):
     return current_url
 
 
-def get_username_from_id(browser, user_id, logger):
+def get_username_from_id(browser, base_url, user_id, logger):
     """ Convert user ID to username """
     # method using graphql 'Account media' endpoint
     logger.info(
@@ -1485,13 +1435,13 @@ def get_username_from_id(browser, user_id, logger):
 
     query_hash = "42323d64886122307be10013ad2dcc44"  # earlier-
     # "472f257a40c653c64c666ce877d59d2b"
-    graphql_query_URL = "https://www.facebook.com/graphql/query/?query_hash" \
+    graphql_query_URL = base_url+ "graphql/query/?query_hash" \
                         "={}".format(query_hash)
     variables = {"id": str(user_id), "first": 1}
     post_url = u"{}&variables={}".format(graphql_query_URL,
                                          str(json.dumps(variables)))
 
-    web_address_navigator(browser, post_url)
+    web_address_navigator( browser, post_url, Settings)
     try:
         pre = browser.find_element_by_tag_name("pre").text
     except NoSuchElementException:
@@ -1505,9 +1455,9 @@ def get_username_from_id(browser, user_id, logger):
 
         if user_data["edges"]:
             post_code = user_data["edges"][0]["node"]["shortcode"]
-            post_page = "https://www.facebook.com/p/{}".format(post_code)
+            post_page = base_url + "/p/{}".format(post_code)
 
-            web_address_navigator(browser, post_page)
+            web_address_navigator( browser, post_page, Settings)
             username = get_username(browser, "post", logger)
             if username:
                 return username
@@ -1551,20 +1501,20 @@ def get_username_from_id(browser, user_id, logger):
     user_link_by_id = ("https://www.facebook.com/web/friendships/{}/follow/"
                        .format(user_id))
 
-    web_address_navigator(browser, user_link_by_id)
+    web_address_navigator( browser, user_link_by_id)
     username = get_username(browser, "profile", logger)
     """
 
     return None
 
 
-def is_page_available(browser, logger):
+def is_page_available(browser, logger, platform_name, Settings):
     """ Check if the page is available and valid """
     expected_keywords = ["Page Not Found", "Content Unavailable"]
     page_title = get_page_title(browser, logger)
 
     if any(keyword in page_title for keyword in expected_keywords):
-        reload_webpage(browser)
+        reload_webpage(browser, platform_name, Settings)
         page_title = get_page_title(browser, logger)
 
         if any(keyword in page_title for keyword in expected_keywords):
@@ -1583,38 +1533,10 @@ def is_page_available(browser, logger):
     return True
 
 
-@contextmanager
-def smart_run(session):
-    try:
-        session.login()
-        yield
-
-    except (Exception, KeyboardInterrupt) as exc:
-        if isinstance(exc, NoSuchElementException):
-            # the problem is with a change in IG page layout
-            log_file = "{}.html".format(time.strftime("%Y%m%d-%H%M%S"))
-            file_path = os.path.join(gettempdir(), log_file)
-            with open(file_path, "wb") as fp:
-                fp.write(session.browser.page_source.encode("utf-8"))
-            print("{0}\nIf raising an issue, "
-                  "please also upload the file located at:\n{1}\n{0}"
-                  .format('*' * 70, file_path))
-
-        # provide full stacktrace (else than external interrupt)
-        if isinstance(exc, KeyboardInterrupt):
-            clean_exit("You have exited successfully.")
-
-        else:
-            raise
-
-    finally:
-        session.end()
-
-
-def reload_webpage(browser):
+def reload_webpage(browser, platform_name, Settings):
     """ Reload the current webpage """
     browser.execute_script("location.reload()")
-    update_activity()
+    update_activity(platform_name, Settings)
     sleep(2)
 
     return True
@@ -1644,10 +1566,10 @@ def get_page_title(browser, logger):
     return page_title
 
 
-def click_visibly(browser, element):
+def click_visibly(browser, Settings, element):
     """ Click as the element become visible """
     if element.is_displayed():
-        click_element(browser, element)
+        click_element(browser, Settings, element)
 
     else:
         browser.execute_script("arguments[0].style.visibility = 'visible'; "
@@ -1656,9 +1578,9 @@ def click_visibly(browser, element):
                                "arguments[0].style.opacity = 1",
                                element)
         # update server calls
-        update_activity()
+        update_activity(platform_name, Settings)
 
-        click_element(browser, element)
+        click_element(browser, Settings, element)
 
     return True
 
@@ -1808,7 +1730,7 @@ def has_any_letters(text):
     return result
 
 
-def save_account_progress(browser, username, logger):
+def save_account_progress(browser, base_url, username, logger, Settings):
     """
     Check account current progress and update database
 
@@ -1818,7 +1740,7 @@ def save_account_progress(browser, username, logger):
         :logger: library to log actions
     """
     logger.info('Saving account progress...')
-    followers, following = get_relationship_counts(browser, username, userid, logger)
+    followers, following = get_relationship_counts(browser, base_url, username, userid, logger, Settings)
 
     #TODO:FIX IT
     # save profile total posts
@@ -1828,7 +1750,7 @@ def save_account_progress(browser, username, logger):
 
     try:
         # DB instance
-        db, id = get_database()
+        db, id = get_database(platform_name, Settings)
         conn = sqlite3.connect(db)
         logger.info('INSERTING Data INTO accountsProgress: {}, {}, {}, {}'.format(id, followers, following, posts))
         with conn:
@@ -1844,7 +1766,7 @@ def save_account_progress(browser, username, logger):
         logger.exception('message')
 
 
-def get_users_from_dialog(old_data, dialog, logger):
+def get_users_from_dialog(base_url, old_data, dialog, logger):
     """
     Prepared to work specially with the dynamic data load in the 'Likes'
     dialog box
@@ -1857,7 +1779,7 @@ def get_users_from_dialog(old_data, dialog, logger):
         try:
             last_word = extract_text_from_element(u).split(' ')[-1]
             if last_word not in ['1', 'Close', 'mutual', 'friends', 'Message']:
-                loaded_users.append(u.get_attribute('href').replace('https://www.facebook.com/', '').split('?')[0])
+                loaded_users.append(u.get_attribute('href').replace(base_url, '').split('?')[0])
         except Exception as e:
             logger.info(e)
 
@@ -1931,7 +1853,7 @@ def close_dialog_box(browser):
     try:
         close = browser.find_element_by_xpath(
             Selectors.likes_dialog_close_xpath)
-        click_element(browser, close)
+        click_element(browser, Settings, close)
 
     except NoSuchElementException as exc:
         print('Error closing dialog box:', exc)

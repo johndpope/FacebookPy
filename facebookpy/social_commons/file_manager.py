@@ -11,46 +11,42 @@ from platform import python_version
 from instapy_chromedriver import binary_path
 
 from .util import highlight_print
-from .settings import Settings
-from .settings import localize_path
-from .settings import WORKSPACE
-from .settings import OS_ENV
 from .exceptions import FacebookPyError
 
 
-def get_workspace():
+def get_workspace(platform_name, Settings):
     """ Make a workspace ready for user """
 
-    if WORKSPACE["path"]:
-        workspace = verify_workspace_name(WORKSPACE["path"])
+    if Settings.WORKSPACE["path"]:
+        workspace = verify_workspace_name(Settings.WORKSPACE["path"])
 
     else:
         home_dir = get_home_path()
-        workspace = "{}/{}".format(home_dir, WORKSPACE["name"])
+        workspace = "{}/{}".format(home_dir, Settings.WORKSPACE["name"])
 
     message = "Workspace in use: \"{}\"".format(workspace)
-    highlight_print(Settings.profile["name"],
+    highlight_print(Settings, Settings.profile["name"],
                     message,
                     "workspace",
                     "info",
                     Settings.logger)
-    update_workspace(workspace)
-    update_locations()
-    return WORKSPACE
+    update_workspace(workspace, Settings)
+    update_locations(platform_name, Settings)
+    return Settings.WORKSPACE
 
 
-def set_workspace(path=None):
+def set_workspace(platform_name, Settings, path=None):
     """ Set a custom workspace for use """
 
-    if not Settings.FacebookPy_is_running:
+    if not Settings.FACEBOOKPY_IS_RUNNING:
         if path:
             path = verify_workspace_name(path)
             workspace_is_new = differ_paths(WORKSPACE["path"], path)
             if workspace_is_new:
-                update_workspace(path)
-                update_locations()
+                update_workspace(path, Settings)
+                update_locations(platform_name, Settings)
                 message = "Custom workspace set: \"{}\" :]".format(path)
-                highlight_print(Settings.profile["name"],
+                highlight_print(Settings, Settings.profile["name"],
                                 message,
                                 "workspace",
                                 "info",
@@ -58,7 +54,7 @@ def set_workspace(path=None):
 
             else:
                 message = "Given workspace path is identical as current :/"
-                highlight_print(Settings.profile["name"],
+                highlight_print(Settings, Settings.profile["name"],
                                 message,
                                 "workspace",
                                 "info",
@@ -66,7 +62,7 @@ def set_workspace(path=None):
 
         else:
             message = "No any custom workspace provided.\t~using existing.."
-            highlight_print(Settings.profile["name"],
+            highlight_print(Settings, Settings.profile["name"],
                             message,
                             "workspace",
                             "info",
@@ -75,19 +71,19 @@ def set_workspace(path=None):
     else:
         message = ("Sorry! You can't change workspace after"
                    " FacebookPy has started :>\t~using existing..")
-        highlight_print(Settings.profile["name"],
+        highlight_print(Settings, Settings.profile["name"],
                         message,
                         "workspace",
                         "info",
                         Settings.logger)
 
 
-def update_workspace(latest_path):
+def update_workspace(latest_path, Settings):
     """ Update the workspace constant with its latest path """
 
     latest_path = slashen(latest_path, "native")
     validate_path(latest_path)
-    WORKSPACE.update(path=latest_path)
+    Settings.WORKSPACE.update(path=latest_path)
 
 
 def move_workspace(old_path, new_path):
@@ -95,7 +91,7 @@ def move_workspace(old_path, new_path):
     # write in future
 
 
-def update_locations():
+def update_locations(platform_name, Settings):
     """
     As workspace has changed, locations also should be updated
 
@@ -104,19 +100,19 @@ def update_locations():
 
     # update logs location
     if not Settings.log_location:
-        Settings.log_location = localize_path("logs")
+        Settings.log_location = Settings.localize_path("logs")
 
     # update database location
-    if not Settings.database_location:
-        Settings.database_location = localize_path("db", "facebookpy.db")
+    if not Settings.DATABASE_LOCATION:
+        Settings.DATABASE_LOCATION = Settings.localize_path("db", platform_name+"py.db")
 
     # update chromedriver location
     if not Settings.chromedriver_location:
-        Settings.chromedriver_location = localize_path(
+        Settings.chromedriver_location = Settings.localize_path(
             "assets", Settings.specific_chromedriver)
         if (not Settings.chromedriver_location
                 or not path_exists(Settings.chromedriver_location)):
-            Settings.chromedriver_location = localize_path("assets",
+            Settings.chromedriver_location = Settings.localize_path("assets",
                                                            "chromedriver")
 
 
@@ -160,13 +156,13 @@ def remove_last_slash(path):
     return path
 
 
-def verify_workspace_name(path):
+def verify_workspace_name(path, Settings):
     """ Make sure chosen workspace name is FacebookPy friendly """
 
     path = slashen(path)
     path = remove_last_slash(path)
     custom_workspace_name = path.split('/')[-1]
-    default_workspace_name = WORKSPACE["name"]
+    default_workspace_name = Settings.WORKSPACE["name"]
 
     if default_workspace_name not in custom_workspace_name:
         if default_workspace_name.lower() not in custom_workspace_name.lower():
@@ -209,16 +205,16 @@ def validate_path(path):
             raise FacebookPyError(msg)
 
 
-def get_chromedriver_location():
+def get_chromedriver_location(Settings):
     """ Solve chromedriver access issues """
     CD = Settings.chromedriver_location
 
-    if OS_ENV == "windows":
+    if Settings.OS_ENV == "windows":
         if not CD.endswith(".exe"):
             CD += ".exe"
 
     if not file_exists(CD):
-        workspace_path = slashen(WORKSPACE["path"], "native")
+        workspace_path = slashen(Settings.WORKSPACE["path"], "native")
         assets_path = "{}{}assets".format(workspace_path, native_slash)
         validate_path(assets_path)
 
@@ -227,7 +223,7 @@ def get_chromedriver_location():
             "instapy_chromedriver").version
         message = "Using built in instapy-chromedriver" \
                   "executable (version {})".format(chrome_version)
-        highlight_print(Settings.profile["name"],
+        highlight_print(Settings, Settings.profile["name"],
                         message,
                         "workspace",
                         "info",
@@ -238,7 +234,7 @@ def get_chromedriver_location():
     return CD
 
 
-def get_logfolder(username, multi_logs):
+def get_logfolder(username, multi_logs, Settings):
     if multi_logs:
         logfolder = "{0}{1}{2}{1}".format(Settings.log_location,
                                           native_slash,

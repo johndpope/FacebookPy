@@ -16,11 +16,13 @@ def get_log_time():
     return log_time
 
 
-def log_follower_num(browser, username, userid, logfolder):
+def log_follower_num(browser, platform_name, base_url, username, userid, logfolder, Settings):
     """Prints and logs the current number of followers to
     a seperate file"""
-    user_link = "https://www.facebook.com/{}".format(userid)
-    web_address_navigator(browser, user_link)
+    if base_url[-1] != '/':
+        base_url = base_url + '/'
+    user_link = base_url + userid
+    web_address_navigator( browser, user_link, Settings)
 
     try:
         followed_by = browser.execute_script(
@@ -30,7 +32,7 @@ def log_follower_num(browser, username, userid, logfolder):
     except WebDriverException:  # handle the possible `entry_data` error
         try:
             browser.execute_script("location.reload()")
-            update_activity()
+            update_activity(platform_name, Settings)
 
             sleep(1)
             followed_by = browser.execute_script(
@@ -47,11 +49,13 @@ def log_follower_num(browser, username, userid, logfolder):
     return followed_by
 
 
-def log_following_num(browser, username, userid, logfolder):
+def log_following_num(browser, platform_name, base_url, username, userid, logfolder, Settings):
     """Prints and logs the current number of followers to
     a seperate file"""
-    user_link = "https://www.facebook.com/{}".format(userid)
-    web_address_navigator(browser, user_link)
+    if base_url[-1] != '/':
+        base_url = base_url + '/'
+    user_link = base_url + userid
+    web_address_navigator( browser, user_link, Settings)
 
     try:
         following_num = browser.execute_script(
@@ -61,7 +65,7 @@ def log_following_num(browser, username, userid, logfolder):
     except WebDriverException:
         try:
             browser.execute_script("location.reload()")
-            update_activity()
+            update_activity(platform_name, Settings)
 
             sleep(10)
             following_num = browser.execute_script(
