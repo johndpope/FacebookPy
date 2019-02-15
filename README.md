@@ -118,6 +118,8 @@ Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute t
   * [Follow someone else's followers](#follow-someone-elses-followers)  ✔
   * [Follow the likers of posts of users](#follow-the-likers-of-photos-of-users)   ✔
   * [Follow the commenters of photos of users](#follow-the-commenters-of-photos-of-users)  
+  * [Friending](#friending)  ✔
+  * [Friending by a list](#friending-by-a-list)  ✔
   * [Interact with specific users](#interact-with-specific-users)
   * [Interact with someone else's followers](#interact-with-someone-elses-followers)
   * [Interact on posts at given URLs](#interact-on-posts-at-given-urls)
@@ -286,6 +288,14 @@ session.set_user_interact(amount=3,
                   randomize=True,
                   media='Video')
 session.follow_commenters(['user1', 'user2', 'user3'], amount=100, daysold=365, max_pic = 100, sleep_delay=600, interact=True)
+```
+
+### Friending by a list
+
+##### This will add as friend each account from a list of facebook userids
+
+```python
+friend_by_list(friendlist=['samantha3', 'larry_ok'], times=1, sleep_delay=600, interact=False)
 ```
 
 ### Interact with specific users
