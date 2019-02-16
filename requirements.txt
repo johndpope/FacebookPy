@@ -26,11 +26,10 @@ plyer == 1.4.0
 # facebookpy/social_commons/util.py: 7
 regex == 2019.2.7
 
-requests==2.18.4
 
 # facebookpy/facebookpy.py: 11
 # facebookpy/social_commons/text_analytics.py: 10,19,20
-requests == 2.18.4
+requests == 2.20.0
 
 # facebookpy/comment_util.py: 18,19,20
 # facebookpy/commenters_util.py: 11,23
