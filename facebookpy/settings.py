@@ -17,9 +17,9 @@ class Settings:
         """ Join given locations as an OS path """
         if environmental_variables.get("FACEBOOKPY_WORKSPACE"):
             path = join_path(environmental_variables.get("FACEBOOKPY_WORKSPACE"), *args)
+            return path
         else:
-            path = join_path('~', *args)
-        return path
+            return None
 
     # locations
     log_location = localize_path("logs")
