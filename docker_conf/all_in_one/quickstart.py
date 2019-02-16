@@ -1,4 +1,4 @@
-from instapy import InstaPy
+from facebookpy import FacebookPy
 
 # Write your automation here
 # Stuck ? Look at the github page or the examples in the examples folder
@@ -8,10 +8,10 @@ ignore_words = ['pizza']
 friend_list = ['friend1', 'friend2', 'friend3']
 
 # If you want to enter your Instagram Credentials directly just enter
-# username=<your-username-here> and password=<your-password> into InstaPy
-# e.g like so InstaPy(username="instagram", password="test1234")
+# username=<your-username-here> and password=<your-password> into FacebookPy
+# e.g like so FacebookPy(username="instagram", password="test1234")
 
-InstaPy() \
+FacebookPy() \
     .login() \
     .set_relationship_bounds(enabled=True, \
                  potency_ratio=-1.21, \
