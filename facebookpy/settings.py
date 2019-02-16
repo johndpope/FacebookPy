@@ -15,22 +15,22 @@ class Settings:
     """ Globally accessible settings throughout whole project """
     def localize_path(*args):
         """ Join given locations as an OS path """
-        if environmental_variables.get("FACEBOOKPY_WORKSPACE"):
-            path = join_path(environmental_variables.get("FACEBOOKPY_WORKSPACE"), *args)
+        if environmental_variables.get("HOME"):
+            path = join_path(environmental_variables.get("HOME"), *args)
             return path
         else:
             return None
 
     # locations
-    log_location = localize_path("logs")
+    log_location = localize_path("FacebookPy", "logs")
     OS_ENV = ("windows" if platform == "win32"
         else "osx" if platform == "darwin"
         else "linux")
 
     specific_chromedriver = "chromedriver_{}".format(OS_ENV)
-    chromedriver_location = localize_path("assets", specific_chromedriver)
+    chromedriver_location = localize_path("FacebookPy", "assets", specific_chromedriver)
     if (not chromedriver_location or not path_exists(chromedriver_location)):
-        chromedriver_location = localize_path("assets", "chromedriver")
+        chromedriver_location = localize_path("FacebookPy", "assets", "chromedriver")
 
     # minimum supported version of chromedriver
     chromedriver_min_version = 2.36
@@ -66,8 +66,7 @@ class Settings:
     use_firefox = None
     FACEBOOKPY_IS_RUNNING = False
 
-    WORKSPACE = {"name": "FacebookPy",
-                    "path": environmental_variables.get("FACEBOOKPY_WORKSPACE")}
+    WORKSPACE = {"name": "FacebookPy", "path": environmental_variables.get("HOME")}
 
     DATABASE_LOCATION = localize_path("FacebookPy", "db", "facebookpy.db")
 

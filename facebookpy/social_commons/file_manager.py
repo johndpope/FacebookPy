@@ -17,8 +17,7 @@ from .exceptions import FacebookPyError
 def get_workspace(Settings):
     """ Make a workspace ready for user """
     if Settings.WORKSPACE["path"]:
-        workspace = verify_workspace_name(Settings.WORKSPACE["path"])
-
+        workspace = verify_workspace_name(Settings.WORKSPACE["path"], Settings)
     else:
         home_dir = get_home_path()
         workspace = "{}/{}".format(home_dir, Settings.WORKSPACE["name"])
@@ -38,7 +37,7 @@ def set_workspace(Settings, path=None):
     """ Set a custom workspace for use """
     if not Settings.FACEBOOKPY_IS_RUNNING:
         if path:
-            path = verify_workspace_name(path)
+            path = verify_workspace_name(path, Settings)
             workspace_is_new = differ_paths(WORKSPACE["path"], path)
             if workspace_is_new:
                 update_workspace(path, Settings)
@@ -98,20 +97,18 @@ def update_locations(Settings):
 
     # update logs location
     if not Settings.log_location:
-        Settings.log_location = Settings.localize_path("logs")
+        Settings.log_location = Settings.localize_path("FacebookPy", "logs")
 
     # update database location
     if not Settings.DATABASE_LOCATION:
-        Settings.DATABASE_LOCATION = Settings.localize_path("db", Settings.platform_name+"py.db")
+        Settings.DATABASE_LOCATION = Settings.localize_path("FacebookPy", "db", Settings.platform_name+"py.db")
 
     # update chromedriver location
     if not Settings.chromedriver_location:
-        Settings.chromedriver_location = Settings.localize_path(
-            "assets", Settings.specific_chromedriver)
+        Settings.chromedriver_location = Settings.localize_path("FacebookPy",  "assets", Settings.specific_chromedriver)
         if (not Settings.chromedriver_location
                 or not path_exists(Settings.chromedriver_location)):
-            Settings.chromedriver_location = Settings.localize_path("assets",
-                                                           "chromedriver")
+            Settings.chromedriver_location = Settings.localize_path("FacebookPy", "assets", "chromedriver")
 
 
 def get_home_path():
