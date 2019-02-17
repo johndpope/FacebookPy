@@ -112,3 +112,6 @@ Pipfile
 
 # Instances
 z_*
+
+#configs
+config.txt
