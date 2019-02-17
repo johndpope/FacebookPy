@@ -82,9 +82,9 @@
 #### 4. Edit the facebookpy.py file
 
 - Open file facebookpy.py an disabling the clarifai import
-- comment the line "from .clarifai_util import check_image"
+- comment the line "from socialcommons.clarifai_util import check_image"
 
-> `from .clarifai_util import check_image`
+> `from socialcommons.clarifai_util import check_image`
 
 #### 5. Starting the script
 

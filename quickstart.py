@@ -3,7 +3,7 @@
 # imports
 from facebookpy import FacebookPy
 from facebookpy import smart_run
-from facebookpy import set_workspace
+from socialcommons.file_manager import set_workspace
 from facebookpy import settings
 
 import random

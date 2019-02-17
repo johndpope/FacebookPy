@@ -5,12 +5,12 @@ import glob
 import random
 import json
 
-from .social_commons.time_util import sleep
-from .social_commons.util import web_address_navigator
-from .social_commons.util import get_relationship_counts
-from .social_commons.util import interruption_handler
-from .social_commons.util import truncate_float
-from .social_commons.util import progress_tracker
+from socialcommons.time_util import sleep
+from socialcommons.util import web_address_navigator
+from socialcommons.util import get_relationship_counts
+from socialcommons.util import interruption_handler
+from socialcommons.util import truncate_float
+from socialcommons.util import progress_tracker
 from .settings import Settings
 
 from selenium.common.exceptions import NoSuchElementException

@@ -5,12 +5,12 @@ import pickle
 from selenium.webdriver.common.action_chains import ActionChains
 
 # import FacebookPy modules
-from .social_commons.time_util import sleep
-from .social_commons.util import update_activity
-from .social_commons.util import web_address_navigator
-from .social_commons.util import reload_webpage
-from .social_commons.util import click_element
-from .social_commons.util import check_authorization
+from socialcommons.time_util import sleep
+from socialcommons.util import update_activity
+from socialcommons.util import web_address_navigator
+from socialcommons.util import reload_webpage
+from socialcommons.util import click_element
+from socialcommons.util import check_authorization
 from .settings import Settings
 
 # import exceptions

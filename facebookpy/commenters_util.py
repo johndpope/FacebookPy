@@ -10,14 +10,14 @@ import collections
 from operator import itemgetter
 from selenium.webdriver.common.keys import Keys
 
-from .social_commons.util import get_number_of_posts
-from .social_commons.util import click_element
-from .social_commons.util import update_activity
-from .social_commons.util import web_address_navigator
-from .social_commons.util import scroll_bottom
-from .social_commons.util import get_users_from_dialog
-from .social_commons.util import progress_tracker
-from .social_commons.util import close_dialog_box
+from socialcommons.util import get_number_of_posts
+from socialcommons.util import click_element
+from socialcommons.util import update_activity
+from socialcommons.util import web_address_navigator
+from socialcommons.util import scroll_bottom
+from socialcommons.util import get_users_from_dialog
+from socialcommons.util import progress_tracker
+from socialcommons.util import close_dialog_box
 from .settings import Settings
 
 from selenium.common.exceptions import NoSuchElementException

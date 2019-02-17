@@ -3,19 +3,19 @@ import random
 import re
 from re import findall
 
-from .social_commons.time_util import sleep
-from .social_commons.util import format_number
-from .social_commons.util import add_user_to_blacklist
-from .social_commons.util import click_element
-from .social_commons.util import is_private_profile
-from .social_commons.util import update_activity
-from .social_commons.util import web_address_navigator
-from .social_commons.util import get_number_of_posts
-from .social_commons.util import get_action_delay
-from .social_commons.util import explicit_wait
-from .social_commons.util import extract_text_from_element
-from .social_commons.quota_supervisor import quota_supervisor
-from .unfollow_util import get_following_status
+from socialcommons.time_util import sleep
+from socialcommons.util import format_number
+from socialcommons.util import add_user_to_blacklist
+from socialcommons.util import click_element
+from socialcommons.util import is_private_profile
+from socialcommons.util import update_activity
+from socialcommons.util import web_address_navigator
+from socialcommons.util import get_number_of_posts
+from socialcommons.util import get_action_delay
+from socialcommons.util import explicit_wait
+from socialcommons.util import extract_text_from_element
+from socialcommons.quota_supervisor import quota_supervisor
+from .unfollow_util  import get_following_status
 from .settings import Settings
 
 from selenium.common.exceptions import WebDriverException

@@ -1,16 +1,16 @@
 from datetime import datetime
 
-from .social_commons.util import update_activity
-from .social_commons.util import emergency_exit
-from .social_commons.util import explicit_wait
-from .social_commons.util import find_user_id
-from .social_commons.util import is_page_available
-from .social_commons.util import web_address_navigator
-from .social_commons.util import click_visibly
-from .social_commons.print_log_writer import log_friended_pool
-from .social_commons.print_log_writer import log_record_all_friended
-from .social_commons.database_engine import get_database
-from .social_commons.quota_supervisor import quota_supervisor
+from socialcommons.util import update_activity
+from socialcommons.util import emergency_exit
+from socialcommons.util import explicit_wait
+from socialcommons.util import find_user_id
+from socialcommons.util import is_page_available
+from socialcommons.util import web_address_navigator
+from socialcommons.util import click_visibly
+from socialcommons.print_log_writer import log_friended_pool
+from socialcommons.print_log_writer import log_record_all_friended
+from socialcommons.database_engine import get_database
+from socialcommons.quota_supervisor import quota_supervisor
 from .settings import Settings
 
 def get_friending_status(browser, track, username, person, person_id, logger,

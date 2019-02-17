@@ -1,5 +1,5 @@
 """ Module that handles the like features """
-from .social_commons.util import update_activity
+from socialcommons.util import update_activity
 
 from selenium.common.exceptions import NoSuchElementException
 

@@ -19,7 +19,7 @@ import unicodedata
 from sys import exit as clean_exit
 
 # import FacebookPy modules
-from .social_commons.clarifai_util import check_image
+from socialcommons.clarifai_util import check_image
 from .comment_util import comment_image
 from .comment_util import verify_commenting
 from .comment_util import get_comments_on_post
@@ -34,29 +34,29 @@ from .like_util import get_links_for_username
 from .like_util import like_comment
 from .login_util import login_user
 from .settings import Settings
-from .social_commons.print_log_writer import log_follower_num
-from .social_commons.print_log_writer import log_following_num
+from socialcommons.print_log_writer import log_follower_num
+from socialcommons.print_log_writer import log_following_num
 
-from .social_commons.time_util import sleep
-from .social_commons.time_util import set_sleep_percentage
-# from .social_commons.util import get_active_users
-from .social_commons.util import validate_userid
-from .social_commons.util import web_address_navigator
-from .social_commons.util import interruption_handler
-from .social_commons.util import highlight_print
-# from .social_commons.util import dump_record_activity
-from .social_commons.util import truncate_float
-from .social_commons.util import save_account_progress
-from .social_commons.util import parse_cli_args
-from .unfollow_util import get_given_user_followers
-from .unfollow_util import get_given_user_following
-from .unfollow_util import unfollow
-from .unfollow_util import unfollow_user
-from .unfollow_util import follow_user
-from .unfollow_util import follow_restriction
-from .unfollow_util import dump_follow_restriction
-from .unfollow_util import set_automated_followed_pool
-from .unfollow_util import get_follow_requests
+from socialcommons.time_util import sleep
+from socialcommons.time_util import set_sleep_percentage
+# from socialcommons.util import get_active_users
+from socialcommons.util import validate_userid
+from socialcommons.util import web_address_navigator
+from socialcommons.util import interruption_handler
+from socialcommons.util import highlight_print
+# from socialcommons.util import dump_record_activity
+from socialcommons.util import truncate_float
+from socialcommons.util import save_account_progress
+from socialcommons.util import parse_cli_args
+from .unfollow_util  import get_given_user_followers
+from .unfollow_util  import get_given_user_following
+from .unfollow_util  import unfollow
+from .unfollow_util  import unfollow_user
+from .unfollow_util  import follow_user
+from .unfollow_util  import follow_restriction
+from .unfollow_util  import dump_follow_restriction
+from .unfollow_util  import set_automated_followed_pool
+from .unfollow_util  import get_follow_requests
 from .unfriend_util import friend_user
 from .commenters_util import extract_information
 from .commenters_util import users_liked
@@ -67,18 +67,18 @@ from .relationship_tools import get_unfollowers
 from .relationship_tools import get_nonfollowers
 from .relationship_tools import get_fans
 from .relationship_tools import get_mutual_following
-from .social_commons.database_engine import get_database
-from .social_commons.text_analytics import text_analysis
-from .social_commons.text_analytics import yandex_supported_languages
-from .social_commons.browser import set_selenium_local_session
-from .social_commons.browser import close_browser
-from .social_commons.file_manager import get_workspace
-from .social_commons.file_manager import get_logfolder
+from socialcommons.database_engine import get_database
+from socialcommons.text_analytics import text_analysis
+from socialcommons.text_analytics import yandex_supported_languages
+from socialcommons.browser import set_selenium_local_session
+from socialcommons.browser import close_browser
+from socialcommons.file_manager import get_workspace
+from socialcommons.file_manager import get_logfolder
 from .selectors import Selectors
 
 # import exceptions
 from selenium.common.exceptions import NoSuchElementException
-from .social_commons.exceptions import FacebookPyError
+from socialcommons.exceptions import FacebookPyError
 from .settings import Settings
 
 
