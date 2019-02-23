@@ -17,6 +17,7 @@ from contextlib import contextmanager
 from copy import deepcopy
 import unicodedata
 from sys import exit as clean_exit
+from tempfile import gettempdir
 
 # import FacebookPy modules
 from socialcommons.clarifai_util import check_image
