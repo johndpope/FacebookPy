@@ -50,7 +50,7 @@ def open_comment_section(browser, logger):
         logger.warning(missing_comment_elem_warning)
 
 
-def comment_image(browser, username, comments, blacklist, logger, logfolder):
+def comment_image(browser, username, comments, blacklist, logger, logfolder, Settings):
     """Checks if it should comment on the image"""
     # check action availability
     if quota_supervisor(Settings, 'comments') == 'jump':
@@ -101,7 +101,7 @@ def comment_image(browser, username, comments, blacklist, logger, logfolder):
     logger.info("--> Commented: {}".format(rand_comment.encode('utf-8')))
 
     # get the post-comment delay time to sleep
-    naply = get_action_delay("comment")
+    naply = get_action_delay("comment", Settings)
     sleep(naply)
 
     return True, "success"

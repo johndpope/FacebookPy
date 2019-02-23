@@ -662,7 +662,7 @@ def check_link(browser, post_link, dont_like, mandatory_words,
     return False, user_name, is_video, 'None', "Success"
 
 
-def like_image(browser, username, blacklist, logger, logfolder):
+def like_image(browser, username, blacklist, logger, logfolder, Settings):
     """Likes the browser opened image"""
     # check action availability
     if quota_supervisor(Settings, "likes") == "jump":
@@ -691,7 +691,7 @@ def like_image(browser, username, blacklist, logger, logfolder):
                     username, blacklist['campaign'], action, logger, logfolder)
 
             # get the post-like delay time to sleep
-            naply = get_action_delay("like")
+            naply = get_action_delay("like", Settings)
             sleep(naply)
             return True, "success"
 

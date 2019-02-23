@@ -1341,7 +1341,8 @@ class FacebookPy:
                                                      user_name,
                                                      self.blacklist,
                                                      self.logger,
-                                                     self.logfolder)
+                                                     self.logfolder,
+                                                     Settings)
 
                         if like_state is True:
                             liked_img += 1
@@ -1392,7 +1393,8 @@ class FacebookPy:
                                             comments,
                                             self.blacklist,
                                             self.logger,
-                                            self.logfolder)
+                                            self.logfolder,
+                                            Settings)
                                         if comment_state is True:
                                             commented += 1
 
@@ -1585,7 +1587,8 @@ class FacebookPy:
                                         comments,
                                         self.blacklist,
                                         self.logger,
-                                        self.logfolder)
+                                        self.logfolder,
+                                        Settings)
                                     if comment_state is True:
                                         commented += 1
                                         # reset jump counter after a
@@ -1752,7 +1755,8 @@ class FacebookPy:
                                                      user_name,
                                                      self.blacklist,
                                                      self.logger,
-                                                     self.logfolder)
+                                                     self.logfolder,
+                                                     Settings)
 
                         if like_state is True:
                             liked_img += 1
@@ -1803,7 +1807,8 @@ class FacebookPy:
                                             comments,
                                             self.blacklist,
                                             self.logger,
-                                            self.logfolder)
+                                            self.logfolder,
+                                            Settings)
                                         if comment_state is True:
                                             commented += 1
 
@@ -2005,7 +2010,8 @@ class FacebookPy:
                                                      user_name,
                                                      self.blacklist,
                                                      self.logger,
-                                                     self.logfolder)
+                                                     self.logfolder,
+                                                     Settings)
                         if like_state is True:
                             total_liked_img += 1
                             liked_img += 1
@@ -2053,7 +2059,8 @@ class FacebookPy:
                                             comments,
                                             self.blacklist,
                                             self.logger,
-                                            self.logfolder)
+                                            self.logfolder,
+                                            Settings)
                                         if comment_state is True:
                                             commented += 1
 
@@ -2273,7 +2280,8 @@ class FacebookPy:
                                                          user_name,
                                                          self.blacklist,
                                                          self.logger,
-                                                         self.logfolder)
+                                                         self.logfolder,
+                                                         Settings)
                             if like_state is True:
                                 total_liked_img += 1
                                 liked_img += 1
@@ -2318,7 +2326,8 @@ class FacebookPy:
                                                 comments,
                                                 self.blacklist,
                                                 self.logger,
-                                                self.logfolder)
+                                                self.logfolder,
+                                                Settings)
                                             if comment_state is True:
                                                 commented += 1
 
@@ -2568,7 +2577,8 @@ class FacebookPy:
                                                          user_name,
                                                          self.blacklist,
                                                          self.logger,
-                                                         self.logfolder)
+                                                         self.logfolder,
+                                                         Settings)
                             if like_state is True:
                                 total_liked_img += 1
                                 liked_img += 1
@@ -2620,7 +2630,8 @@ class FacebookPy:
                                             comments,
                                             self.blacklist,
                                             self.logger,
-                                            self.logfolder)
+                                            self.logfolder,
+                                            Settings)
                                         if comment_state is True:
                                             commented += 1
 
@@ -3642,7 +3653,8 @@ class FacebookPy:
                                                              user_name,
                                                              self.blacklist,
                                                              self.logger,
-                                                             self.logfolder)
+                                                             self.logfolder,
+                                                             Settings)
 
                                 if like_state is True:
                                     liked_img += 1
@@ -3701,7 +3713,8 @@ class FacebookPy:
                                                         comments,
                                                         self.blacklist,
                                                         self.logger,
-                                                        self.logfolder)
+                                                        self.logfolder,
+                                                        Settings)
                                             if comment_state is True:
                                                 commented += 1
 
@@ -4264,7 +4277,8 @@ class FacebookPy:
                                                  user_name,
                                                  self.blacklist,
                                                  self.logger,
-                                                 self.logfolder)
+                                                 self.logfolder,
+                                                 Settings)
 
                     if like_state is True:
                         liked_img += 1
@@ -4314,7 +4328,8 @@ class FacebookPy:
                                         comments,
                                         self.blacklist,
                                         self.logger,
-                                        self.logfolder)
+                                        self.logfolder,
+                                        Settings)
 
                                     if comment_state is True:
                                         commented += 1
@@ -4821,7 +4836,8 @@ class FacebookPy:
                                                    user_name,
                                                    self.blacklist,
                                                    self.logger,
-                                                   self.logfolder)
+                                                   self.logfolder,
+                                                   Settings)
                 if image_like_state is True:
                     like_failures_tracker["consequent"]["post_likes"] = 0
                     self.liked_img += 1
@@ -4908,7 +4924,8 @@ class FacebookPy:
                                     reply_msg,
                                     self.blacklist,
                                     self.logger,
-                                    self.logfolder)
+                                    self.logfolder,
+                                    Settings)
 
                                 if reply_to_comment_state is True:
                                     per_user_used_replies.extend(chosen_reply)

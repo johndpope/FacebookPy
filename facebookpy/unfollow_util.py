@@ -701,7 +701,7 @@ def follow_user(browser, track, login, userid_to_follow, button, blacklist,
                               logfolder)
 
     # get the post-follow delay time to sleep
-    naply = get_action_delay("follow")
+    naply = get_action_delay("follow", Settings)
     sleep(naply)
 
     return True, "success"
@@ -1340,7 +1340,7 @@ def unfollow_user(browser, track, username, userid, person, person_id, button,
                           person_id, logger, logfolder)
 
     # get the post-unfollow delay time to sleep
-    naply = get_action_delay("unfollow")
+    naply = get_action_delay("unfollow", Settings)
     sleep(naply)
 
     return True, "success"
