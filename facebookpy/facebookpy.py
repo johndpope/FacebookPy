@@ -78,7 +78,7 @@ from .selectors import Selectors
 
 # import exceptions
 from selenium.common.exceptions import NoSuchElementException
-from socialcommons.exceptions import FacebookPyError
+from socialcommons.exceptions import SocialPyError
 from .settings import Settings
 
 
@@ -120,7 +120,7 @@ class FacebookPy:
         FACEBOOKPY_IS_RUNNING = True
         # workspace must be ready before anything
         if not get_workspace(Settings):
-            raise FacebookPyError(
+            raise SocialPyError(
                 "Oh no! I don't have a workspace to work at :'(")
 
         self.nogui = nogui
@@ -336,7 +336,7 @@ class FacebookPy:
                                        self.logger,
                                        Settings)
         if len(err_msg) > 0:
-            raise FacebookPyError(err_msg)
+            raise SocialPyError(err_msg)
 
     def set_selenium_remote_session(self, selenium_url='',
                                     selenium_driver=None):
@@ -596,13 +596,13 @@ class FacebookPy:
         Which 'project' will be used (only 5000 calls per month)
 
         Raises:
-            FacebookPyError if os is windows
+            SocialPyError if os is windows
         """
         if self.aborting:
             return self
 
         # if os.name == 'nt':
-        #    raise FacebookPyError('Clarifai is not supported on Windows')
+        #    raise SocialPyError('Clarifai is not supported on Windows')
 
         self.use_clarifai = enabled
 
