@@ -1,5 +1,12 @@
 > **Disclaimer**: Please Note that this is a research project. I am by no means responsible for any usage of this tool. Use on your own behalf. I'm also not responsible if your accounts get banned due to extensive use of this tool.
 
+Follow Us:
+
+[Discord](https://discord.gg/eMA3mvS)
+
+[Slack](
+https://join.slack.com/t/socialbotspy/shared_invite/enQtNTUwNTY3ODM4MjU5LWQ2OTBjMTkyNWI5NDcxOWNjYTIyZGU4NTI4ZjNiMWQ3MDk0NGU1MzAyNWNlMGUwOTEyMzIxMjRlYmY0Mzc5ZGU)
+
 # FacebookPy
 
 [![MIT license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://github.com/socialbotspy/FacebookPy/blob/master/LICENSE)
