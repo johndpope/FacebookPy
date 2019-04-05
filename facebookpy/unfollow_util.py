@@ -681,7 +681,7 @@ def follow_user(browser, track, login, userid_to_follow, button, blacklist,
 
     # general tasks after a successful follow
     logger.info("--> Followed '{}'!".format(userid_to_follow.encode("utf-8")))
-    update_activity('follows', Settings)
+    update_activity(Settings, 'follows')
 
     # get user ID to record alongside username
     user_id = get_user_id(browser, track, userid_to_follow, logger)
