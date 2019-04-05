@@ -118,7 +118,7 @@ class FacebookPy:
             cli_args.bypass_suspicious_attempt or bypass_suspicious_attempt)
         bypass_with_mobile = cli_args.bypass_with_mobile or bypass_with_mobile
 
-        FACEBOOKPY_IS_RUNNING = True
+        IS_RUNNING = True
         # workspace must be ready before anything
         if not get_workspace(Settings):
             raise SocialPyError(
@@ -4055,7 +4055,7 @@ class FacebookPy:
     def end(self):
         """Closes the current session"""
 
-        FACEBOOKPY_IS_RUNNING = False
+        IS_RUNNING = False
         close_browser(self.browser, False, self.logger)
 
         with interruption_handler():
