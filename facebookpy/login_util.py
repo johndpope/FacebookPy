@@ -301,30 +301,3 @@ def login_user(browser,
     else:
         return False
 
-
-# def dismiss_get_app_offer(browser, logger):
-#     """ Dismiss 'Get the Facebook App' page after a fresh login """
-#     offer_elem = "//*[contains(text(), 'Get App')]"
-#     dismiss_elem = "//*[contains(text(), 'Not Now')]"
-
-#     # wait a bit and see if the 'Get App' offer rises up
-#     offer_loaded = explicit_wait(
-#         browser, "VOEL", [offer_elem, "XPath"], logger, 5, False)
-
-#     if offer_loaded:
-#         dismiss_elem = browser.find_element_by_xpath(dismiss_elem)
-#         click_element(browser, Settings, dismiss_elem)
-
-
-# def dismiss_notification_offer(browser, logger):
-#     """ Dismiss 'Turn on Notifications' offer on session start """
-#     offer_elem_loc = "//div/h2[text()='Turn on Notifications']"
-#     dismiss_elem_loc = "//button[text()='Not Now']"
-
-#     # wait a bit and see if the 'Turn on Notifications' offer rises up
-#     offer_loaded = explicit_wait(
-#         browser, "VOEL", [offer_elem_loc, "XPath"], logger, 4, False)
-
-#     if offer_loaded:
-#         dismiss_elem = browser.find_element_by_xpath(dismiss_elem_loc)
-#         click_element(browser, Settings, dismiss_elem)
