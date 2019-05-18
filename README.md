@@ -1,12 +1,3 @@
-> **Disclaimer**: Please Note that this is a research project. I am by no means responsible for any usage of this tool. Use on your own behalf. I'm also not responsible if your accounts get banned due to extensive use of this tool.
-
-Follow Us:
-
-[Discord](https://discord.gg/eMA3mvS)
-
-[Slack](
-https://join.slack.com/t/socialbotspy/shared_invite/enQtNTUwNTY3ODM4MjU5LWQ2OTBjMTkyNWI5NDcxOWNjYTIyZGU4NTI4ZjNiMWQ3MDk0NGU1MzAyNWNlMGUwOTEyMzIxMjRlYmY0Mzc5ZGU)
-
 # FacebookPy
 
 [![MIT license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://github.com/socialbotspy/FacebookPy/blob/master/LICENSE)
@@ -29,6 +20,7 @@ We will be supporting python 3.6.0 and above going forward
 ```
 curl https://pyenv.run | bash
 curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+pyenv install 3.6.0
 pyenv local 3.6.0
 pip install --upgrade git+https://github.com/socialbotspy/SocialCommons.git
 pip install -r requirements.txt
@@ -126,70 +118,14 @@ Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute t
   * [Following by a list](#following-by-a-list)  ✔
   * [Follow someone else's followers](#follow-someone-elses-followers)  ✔
   * [Follow the likers of posts of users](#follow-the-likers-of-photos-of-users)   ✔
-  * [Follow the commenters of photos of users](#follow-the-commenters-of-photos-of-users)  
   * [Friending](#friending)  ✔
   * [Friending by a list](#friending-by-a-list)  ✔
-  * [Interact with specific users](#interact-with-specific-users)
-  * [Interact with someone else's followers](#interact-with-someone-elses-followers)
-  * [Interact on posts at given URLs](#interact-on-posts-at-given-urls)
-  * [Interact by Comments](#interact-by-comments)
-  * [Unfollowing](#unfollowing)
-  * [Remove outgoing follow requests](#remove-outgoing-follow-requests)
-  * [Don't unfollow active users](#dont-unfollow-active-users)
-  * [Interactions based on the number of followers and/or following a user has](#interactions-based-on-the-number-of-followers-andor-following-a-user-has)
-  * [Interactions based on the number of posts a user has](#interactions-based-on-the-number-of-posts-a-user-has)
-  * [Skipping user for private account, no profile picture, business account](#skipping-user-for-private-account-no-profile-picture-business-account)
-  * [Liking based on the number of existing likes a post has](#liking-based-on-the-number-of-existing-likes-a-post-has)
-  * [Commenting based on the number of existing comments a post has](#commenting-based-on-the-number-of-existing-comments-a-post-has)
-  * [Commenting based on mandatory words in the description or first comment](#commenting-based-on-mandatory-words-in-the-description-or-first-comment)
-  * [Mandatory Words](#mandatory-words)
-  * [Mandatory Language](#mandatory-language)
   * [Restricting Likes](#restricting-likes)  ✔
   * [Ignoring Users](#ignoring-users)  ✔
   * [Ignoring Restrictions](#ignoring-restrictions)
   * [Excluding friends](#excluding-friends)  ✔
   * [Blacklist Campaign](#blacklist-campaign)  ✔
-  * [Smart Hashtags](#smart-hashtags)
-  * [Follow/Unfollow/exclude not working?](#followunfollowexclude-not-working)
-  * [Bypass Suspicious Login Attempt](#bypass-suspicious-login-attempt)
   * [Quota Supervisor](#quota-supervisor)  ✔
-* [Relationship tools](#relationship-tools)
-  * [Grab Followers of a user](#grab-followers-of-a-user)
-  * [Grab Following of a user](#grab-following-of-a-user)
-  * [Pick Unfollowers of a user](#pick-unfollowers-of-a-user)
-  * [Pick Nonfollowers of a user](#pick-nonfollowers-of-a-user)
-  * [Pick Fans of a user](#pick-fans-of-a-user)
-  * [Pick Mutual Following of a user](#pick-mutual-following-of-a-user)
-* [Text Analytics](#text-analytics)
-  * [Yandex Translate API](#yandex-translate-api)
-  * [MeaningCloud Sentiment Analysis API](#meaningcloud-sentiment-analysis-api)
-* [Use a proxy](#use-a-proxy)
-* [Switching to Firefox](#switching-to-firefox)
-* [Emoji Support](#emoji-support)
-* [Clarifai ImageAPI](#clarifai-imageapi)
-* [Running on a Server](#running-on-a-server)
-* [Running on a Headless Browser](#running-on-a-headless-browser)
-* [Running Multiple Accounts](#running-multiple-accounts)
-* [Running with Docker microservices manual](#running-with-docker-microservices-manual)
-* [Running all-in-one with Docker (legacy)](#running-all-in-one-with-docker-legacy)
-* [Running all with Docker Compose using config file](./docs/How_to_Docker_Compose.md)
-* [Automate FacebookPy](#automate-facebookpy)
-  * [Windows Task Scheduler](#windows-task-scheduler)
-  * [cron](#cron)
-  * [Schedule](#schedule)
-* [Workspace folders](#workspace-folders)
-* [Extensions](#extensions)
-* [Extra Information](#extra-information)
-  * [Custom chromedriver version](#custom-chromedriver-version)
-  * [Using one of the templates](#using-one-of-the-templates)
-  * [How not to be banned](#how-not-to-be-banned)
-  * [Simulation](#simulation)
-  * [Disable Image Loading](#disable-image-loading)
-  * [Using Multiple Chromedrivers](#using-multiple-chromedrivers)
-  * [Changing DB or Chromedriver locations](#changing-db-or-chromedriver-locations)
-  * [Custom action delays](#custom-action-delays)
-  * [How to avoid _python_ & **pip** confusion](#how-to-avoid-python--pip-confusion)
-  * [Pass arguments by CLI](#pass-arguments-by-cli)
 
 <br />
 
