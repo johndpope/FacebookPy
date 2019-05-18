@@ -50,8 +50,6 @@ session = FacebookPy(username="abc",
 
 ### Table of Contents
 
-#### NOTE: Checked are the ones that have been migrated and tested for Facedbook, while the rest are yet to be migrated or investigated the scope of.
-
 * [FacebookPy Available Features](#facebookpy-available-features)
   * [Following](#following)  ✔
   * [Following by a list](#following-by-a-list)  ✔
