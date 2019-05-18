@@ -5,13 +5,6 @@
 [![built with Python3](https://img.shields.io/badge/built%20with-Python3-red.svg)](https://www.python.org/)
 [![Travis](https://img.shields.io/travis/rust-lang/rust.svg)](https://travis-ci.org/socialbotspy/FacebookPy)
 
-### Tooling that automates your social media interactions to “farm” Likes, Comments, and Followers on Facebook
-
-Implemented in Python using the Selenium module.
-
-**Have an issue?**
-If you should encounter any issue, please first [search for similar issues](https://github.com/socialbotspy/FacebookPy/issues)
-
 ## **Installation**
 
 It is recomended to use via pyenv
