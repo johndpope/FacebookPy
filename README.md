@@ -53,60 +53,6 @@ session = FacebookPy(username="abc",
 
 <br />
 
-🛸 Also, if you like to run _FacebookPy_ in **background**, just enable the **headless** mode!
-
-```erlang
-python quickstart.py -u abc -p 123 --headless-browser
-```
-
-Or do it right inside the **quickstart** script.
-
-```python
-# inside quickstart script
-
-session = FacebookPy(username="abc",
-                  password="123",
-                  headless_browser=True)  
-```
-
-_Until you enable the **headless** mode, FacebookPy will run in the **graphical** mode where you can watch the ongoing automation in your web browser_.
-
-> If you've used _FacebookPy_ before installing it by **pip**, you have to move your _old_ data to the new **workspace** folder for once.
-[Read how to do this here](#migrating-your-data-to-the-workspace-folder).
-
-<br />
-
----
-
-### Social
-
-#### [Twitter of FacebookPy](https://twitter.com/FacebookPy) | [Twitter of Ishan](https://twitter.com/ishandutta2007) | [Talk about doing Open-Source work](https://www.youtube.com/watch?v=A_UtST302Og&t=0s&list=PLa4P1NPX9hthXV-wko0xyxFpbhYZFkW7o) | [Listen to the "Talk Python to me"-Episode](https://talkpython.fm/episodes/show/142/automating-the-web-with-selenium-and-facebookpy)
-
-### Do you want to support us ?
-
-<a href="https://opencollective.com/facebookpy/donate" target="_blank">
-  <img align="left" hspace="10" src="https://opencollective.com/facebookpy/contribute/button@2x.png?color=blue" width=300 />
-</a>
-
-<a href="https://www.paypal.me/supportFacebookPy">
-  <img hspace="14" alt="paypalme" src="http://codeinpython.com/tutorials/wp-content/uploads/2017/09/PayPal-ME-300x300.jpg.png" width=100 />
-</a>
-
-**Help build FacebookPy!**
-Head over to https://github.com/socialbotspy/FacebookPy/wiki/How-to-Contribute to find out how you can help.
-
----
-
-### Guides
-
-#### Written Guides:
-
-**[How to Ubuntu (64-Bit)](./docs/How_To_DO_Ubuntu_on_Digital_Ocean.md) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**
-
-**[How to RaspberryPi](./docs/How_to_Raspberry.md) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**
-
-**[How to Windows](./docs/How_to_Windows.md)**
-
 # Documentation
 
 ### Table of Contents
