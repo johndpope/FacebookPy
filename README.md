@@ -61,7 +61,6 @@ session = FacebookPy(username="abc",
   * [Ignoring Users](#ignoring-users)  ✔
   * [Ignoring Restrictions](#ignoring-restrictions)
   * [Excluding friends](#excluding-friends)  ✔
-  * [Blacklist Campaign](#blacklist-campaign)  ✔
   * [Quota Supervisor](#quota-supervisor)  ✔
 
 <br />
