@@ -59,7 +59,6 @@ session = FacebookPy(username="abc",
   * [Friending by a list](#friending-by-a-list)  ✔
   * [Restricting Likes](#restricting-likes)  ✔
   * [Ignoring Users](#ignoring-users)  ✔
-  * [Ignoring Restrictions](#ignoring-restrictions)
   * [Excluding friends](#excluding-friends)  ✔
   * [Quota Supervisor](#quota-supervisor)  ✔
 
@@ -182,15 +181,6 @@ You have 4 options to exclude posts from your FacebookPy session:
 # completely ignore liking images from certain users
 
 session.set_ignore_users(['random_user', 'another_username'])
-```
-
-### Ignoring Restrictions
-
-```python
-# will ignore the don't like if the description contains
-# one of the given words
-
-session.set_ignore_if_contains(['glutenfree', 'french', 'tasty'])
 ```
 
 ### Excluding friends
