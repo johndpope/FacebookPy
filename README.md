@@ -297,9 +297,6 @@ session.set_quota_supervisor(Settings, enabled=True, peak_comments=(21, 240))
 
 >_That's it! When it reaches the comments peak, it will just jump all of the comments and will again continue to put comments when is available [in the next  hour/day]_.
 
-* Alicia has a **24**/**7** 🕦 working **quickstart** script and **would like to** keep _server calls_ in control to AVOID **excessive amount of requests** to the _server_ in **hourly** basis, also,
-  * **wants** the program to **sleep after** reaching **hourly** _server calls_ peak: **adds** `"server_calls_h"` into `sleep_after` parameter
-  * **wants** the program to **wake up** _a little bit later_ than real sleep time [once reaches the peaks]: **uses** `sleepyhead=True` parameter
 
 ```python
 session.set_quota_supervisor(Settings, enabled=True, peak_server_calls=(490, None), sleep_after=["server_calls_h"], sleepyhead=True)
@@ -316,8 +313,3 @@ session.set_quota_supervisor(Settings, enabled=True, peak_server_calls=(490, Non
 session.set_quota_supervisor(Settings, enabled=True, peak_follows=(56, 660), peak_unfollows=(49, 550), sleep_after=["follows_h", "unfollows_d"], stochastic_flow=True, notify_me=True)
 ```
 
----
->**Big Hint**: _Find your NEED_ 🤔 _and supervise it!_
-
-* _EITHER_ **fully** configure QS to supervise **all** of the _actions_ all time  
-* _OR_ **just** supervise the desired _action_(_s_) in desired _interval_(_s_) [**hourly** and/or **daily**] per your need
