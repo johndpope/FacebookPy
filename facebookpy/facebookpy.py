@@ -75,7 +75,6 @@ from socialcommons.browser import set_selenium_local_session
 from socialcommons.browser import close_browser
 from socialcommons.file_manager import get_workspace
 from socialcommons.file_manager import get_logfolder
-from .selectors import Selectors
 
 # import exceptions
 from selenium.common.exceptions import NoSuchElementException

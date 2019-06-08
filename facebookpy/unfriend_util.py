@@ -124,7 +124,7 @@ def friend_user(browser, track, login, userid_to_friend, button, blacklist,
     log_friended_pool(login, userid_to_friend, logger,
                       logfolder, logtime, user_id)
 
-    # friend_restriction("write", userid_to_friend, None, logger)
+    friend_restriction("write", userid_to_friend, None, logger)
 
     # if blacklist['enabled'] is True:
     #     action = 'friendeds'
