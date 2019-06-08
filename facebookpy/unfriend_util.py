@@ -8,7 +8,7 @@ from socialcommons.util import is_page_available
 from socialcommons.util import web_address_navigator
 from socialcommons.util import click_visibly
 from socialcommons.print_log_writer import log_friended_pool
-from socialcommons.print_log_writer import log_record_all_friended
+# from socialcommons.print_log_writer import log_record_all_friended
 from socialcommons.database_engine import get_database
 from socialcommons.quota_supervisor import quota_supervisor
 from .settings import Settings

@@ -55,8 +55,8 @@ class Settings:
     action_delays = {}
 
     # store configuration of text analytics
-    meaningcloud_config = {}
-    yandex_config = {}
+    # meaningcloud_config = {}
+    # yandex_config = {}
 
     # store the parameter for global access
     show_logs = None
@@ -64,20 +64,20 @@ class Settings:
     # store what browser the user is using, if they are using firefox it is
     # true, chrome if false.
     use_firefox = None
-    IS_RUNNING = False
+    # IS_RUNNING = False
 
     WORKSPACE = {"name": "FacebookPy", "path": environmental_variables.get("HOME")}
 
     DATABASE_LOCATION = localize_path("FacebookPy", "db", "facebookpy.db")
 
-    followers_count_xpath = '//a[@name="Followers"]/span[2]'
-    following_count_xpath = '//a[@name="Following"]/span[2]'
+    # followers_count_xpath = '//a[@name="Followers"]/span[2]'
+    # following_count_xpath = '//a[@name="Following"]/span[2]'
 
-class Storage:
-    """ Globally accessible standalone storage """
+# class Storage:
+#     """ Globally accessible standalone storage """
 
-    # store realtime record activity data
-    record_activity = {}
+#     # store realtime record activity data
+#     record_activity = {}
 
 
 

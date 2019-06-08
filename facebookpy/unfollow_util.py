@@ -4,7 +4,7 @@ from datetime import datetime
 import os
 import random
 import json
-import csv
+# import csv
 import sqlite3
 from math import ceil
 
@@ -32,8 +32,8 @@ from socialcommons.print_log_writer import log_followed_pool
 from socialcommons.print_log_writer import log_uncertain_unfollowed_pool
 from socialcommons.print_log_writer import log_record_all_unfollowed
 from socialcommons.print_log_writer import get_log_time
-from .relationship_tools import get_followers
-from .relationship_tools import get_nonfollowers
+# from .relationship_tools import get_followers
+# from .relationship_tools import get_nonfollowers
 from socialcommons.database_engine import get_database
 from socialcommons.quota_supervisor import quota_supervisor
 from .settings import Settings
@@ -43,69 +43,69 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import ElementNotVisibleException
 
 
-def set_automated_followed_pool(username, unfollow_after, logger, logfolder):
-    """ Generare a user list based on the FacebookPy followed usernames """
-    pool_name = "{0}{1}_followedPool.csv".format(logfolder, username)
-    automatedFollowedPool = {"all": {}, "eligible": {}}
-    time_stamp = None
-    user_id = "undefined"  # 'undefined' rather than None is *intentional
+# def set_automated_followed_pool(username, unfollow_after, logger, logfolder):
+#     """ Generare a user list based on the FacebookPy followed usernames """
+#     pool_name = "{0}{1}_followedPool.csv".format(logfolder, username)
+#     automatedFollowedPool = {"all": {}, "eligible": {}}
+#     time_stamp = None
+#     user_id = "undefined"  # 'undefined' rather than None is *intentional
 
-    try:
-        with open(pool_name, 'r+') as followedPoolFile:
-            reader = csv.reader(followedPoolFile)
+#     try:
+#         with open(pool_name, 'r+') as followedPoolFile:
+#             reader = csv.reader(followedPoolFile)
 
-            for row in reader:
-                entries = row[0].split(' ~ ')
-                sz = len(entries)
-                """
-                Data entry styles [historically]:
-                    user,   # oldest
-                    datetime ~ user,   # after `unfollow_after` was introduced
-                    datetime ~ user ~ user_id,   # after `user_id` was added
-                """
-                if sz == 1:
-                    time_stamp = None
-                    user = entries[0]
+#             for row in reader:
+#                 entries = row[0].split(' ~ ')
+#                 sz = len(entries)
+#                 """
+#                 Data entry styles [historically]:
+#                     user,   # oldest
+#                     datetime ~ user,   # after `unfollow_after` was introduced
+#                     datetime ~ user ~ user_id,   # after `user_id` was added
+#                 """
+#                 if sz == 1:
+#                     time_stamp = None
+#                     user = entries[0]
 
-                elif sz == 2:
-                    time_stamp = entries[0]
-                    user = entries[1]
+#                 elif sz == 2:
+#                     time_stamp = entries[0]
+#                     user = entries[1]
 
-                elif sz == 3:
-                    time_stamp = entries[0]
-                    user = entries[1]
-                    user_id = entries[2]
+#                 elif sz == 3:
+#                     time_stamp = entries[0]
+#                     user = entries[1]
+#                     user_id = entries[2]
 
-                automatedFollowedPool["all"].update({user: {"id": user_id}})
-                # get eligible list
-                if unfollow_after is not None and time_stamp:
-                    try:
-                        log_time = datetime.strptime(time_stamp,
-                                                     '%Y-%m-%d %H:%M')
-                    except ValueError:
-                        continue
+#                 automatedFollowedPool["all"].update({user: {"id": user_id}})
+#                 # get eligible list
+#                 if unfollow_after is not None and time_stamp:
+#                     try:
+#                         log_time = datetime.strptime(time_stamp,
+#                                                      '%Y-%m-%d %H:%M')
+#                     except ValueError:
+#                         continue
 
-                    former_epoch = (log_time - datetime(1970, 1,
-                                                        1)).total_seconds()
-                    cur_epoch = (datetime.now() - datetime(1970, 1,
-                                                           1)).total_seconds()
+#                     former_epoch = (log_time - datetime(1970, 1,
+#                                                         1)).total_seconds()
+#                     cur_epoch = (datetime.now() - datetime(1970, 1,
+#                                                            1)).total_seconds()
 
-                    if cur_epoch - former_epoch > unfollow_after:
-                        automatedFollowedPool["eligible"].update(
-                            {user: {"id": user_id}})
+#                     if cur_epoch - former_epoch > unfollow_after:
+#                         automatedFollowedPool["eligible"].update(
+#                             {user: {"id": user_id}})
 
-                else:
-                    automatedFollowedPool["eligible"].update(
-                        {user: {"id": user_id}})
+#                 else:
+#                     automatedFollowedPool["eligible"].update(
+#                         {user: {"id": user_id}})
 
-        followedPoolFile.close()
+#         followedPoolFile.close()
 
-    except BaseException as exc:
-        logger.error(
-            "Error occurred while generating a user list from the followed "
-            "pool!\n\t{}".format(str(exc).encode("utf-8")))
+#     except BaseException as exc:
+#         logger.error(
+#             "Error occurred while generating a user list from the followed "
+#             "pool!\n\t{}".format(str(exc).encode("utf-8")))
 
-    return automatedFollowedPool
+#     return automatedFollowedPool
 
 
 def get_following_status(browser, track, username, person, person_id, logger,
@@ -163,446 +163,446 @@ def get_following_status(browser, track, username, person, person_id, logger,
     return following_status, follow_button
 
 
-def unfollow(browser,
-             username,
-             userid,
-             amount,
-             customList,
-             FacebookpyFollowed,
-             nonFollowers,
-             allFollowing,
-             style,
-             automatedFollowedPool,
-             relationship_data,
-             dont_include,
-             white_list,
-             sleep_delay,
-             jumps,
-             logger,
-             logfolder):
-    """ Unfollows the given amount of users"""
+# def unfollow(browser,
+#              username,
+#              userid,
+#              amount,
+#              customList,
+#              FacebookpyFollowed,
+#              nonFollowers,
+#              allFollowing,
+#              style,
+#              automatedFollowedPool,
+#              relationship_data,
+#              dont_include,
+#              white_list,
+#              sleep_delay,
+#              jumps,
+#              logger,
+#              logfolder):
+#     """ Unfollows the given amount of users"""
 
-    if (customList is not None and
-            type(customList) in [tuple, list] and
-            len(customList) == 3 and
-            customList[0] is True and
-            type(customList[1]) in [list, tuple, set] and
-            len(customList[1]) > 0 and
-            customList[2] in ["all", "nonfollowers"]):
-        customList_data = customList[1]
-        if type(customList_data) != list:
-            customList_data = list(customList_data)
-        unfollow_track = customList[2]
-        customList = True
-    else:
-        customList = False
+#     if (customList is not None and
+#             type(customList) in [tuple, list] and
+#             len(customList) == 3 and
+#             customList[0] is True and
+#             type(customList[1]) in [list, tuple, set] and
+#             len(customList[1]) > 0 and
+#             customList[2] in ["all", "nonfollowers"]):
+#         customList_data = customList[1]
+#         if type(customList_data) != list:
+#             customList_data = list(customList_data)
+#         unfollow_track = customList[2]
+#         customList = True
+#     else:
+#         customList = False
 
-    if (FacebookpyFollowed is not None and
-            type(FacebookpyFollowed) in [tuple, list] and
-            len(FacebookpyFollowed) == 2 and
-            FacebookpyFollowed[0] is True and
-            FacebookpyFollowed[1] in ["all", "nonfollowers"]):
-        unfollow_track = FacebookpyFollowed[1]
-        FacebookpyFollowed = True
-    else:
-        FacebookpyFollowed = False
+#     if (FacebookpyFollowed is not None and
+#             type(FacebookpyFollowed) in [tuple, list] and
+#             len(FacebookpyFollowed) == 2 and
+#             FacebookpyFollowed[0] is True and
+#             FacebookpyFollowed[1] in ["all", "nonfollowers"]):
+#         unfollow_track = FacebookpyFollowed[1]
+#         FacebookpyFollowed = True
+#     else:
+#         FacebookpyFollowed = False
 
-    unfollowNum = 0
+#     unfollowNum = 0
 
-    user_link = "https://www.facebook.com/{}/".format(userid)
+#     user_link = "https://www.facebook.com/{}/".format(userid)
 
-    # check URL of the webpage, if it already is the one to be navigated
-    # then do not navigate to it again
-    web_address_navigator( browser, user_link, Settings)
+#     # check URL of the webpage, if it already is the one to be navigated
+#     # then do not navigate to it again
+#     web_address_navigator( browser, user_link, Settings)
 
-    # check how many poeple we are following
-    allfollowers, allfollowing = get_relationship_counts(browser, "https://www.facebook.com/", username,
-                                                         userid, logger, Settings)
+#     # check how many poeple we are following
+#     allfollowers, allfollowing = get_relationship_counts(browser, "https://www.facebook.com/", username,
+#                                                          userid, logger, Settings)
 
-    if allfollowing is None:
-        logger.warning(
-            "Unable to find the count of users followed  ~leaving unfollow "
-            "feature")
-        return 0
-    elif allfollowing == 0:
-        logger.warning(
-            "There are 0 people to unfollow  ~leaving unfollow feature")
-        return 0
+#     if allfollowing is None:
+#         logger.warning(
+#             "Unable to find the count of users followed  ~leaving unfollow "
+#             "feature")
+#         return 0
+#     elif allfollowing == 0:
+#         logger.warning(
+#             "There are 0 people to unfollow  ~leaving unfollow feature")
+#         return 0
 
-    if amount > allfollowing:
-        logger.info(
-            "There are less users to unfollow than you have requested:  "
-            "{}/{}  ~using available amount\n".format(allfollowing, amount))
-        amount = allfollowing
+#     if amount > allfollowing:
+#         logger.info(
+#             "There are less users to unfollow than you have requested:  "
+#             "{}/{}  ~using available amount\n".format(allfollowing, amount))
+#         amount = allfollowing
 
-    if (customList is True or
-            FacebookpyFollowed is True or
-            nonFollowers is True):
+#     if (customList is True or
+#             FacebookpyFollowed is True or
+#             nonFollowers is True):
 
-        if customList is True:
-            logger.info("Unfollowing from the list of pre-defined usernames\n")
-            unfollow_list = customList_data
+#         if customList is True:
+#             logger.info("Unfollowing from the list of pre-defined usernames\n")
+#             unfollow_list = customList_data
 
-        elif FacebookpyFollowed is True:
-            logger.info("Unfollowing the users followed by FacebookPy\n")
-            unfollow_list = list(automatedFollowedPool["eligible"].keys())
+#         elif FacebookpyFollowed is True:
+#             logger.info("Unfollowing the users followed by FacebookPy\n")
+#             unfollow_list = list(automatedFollowedPool["eligible"].keys())
 
-        elif nonFollowers is True:
-            logger.info("Unfollowing the users who do not follow back\n")
-            """  Unfollow only the users who do not follow you back """
-            unfollow_list = get_nonfollowers(browser,
-                                             username,
-                                             relationship_data,
-                                             False,
-                                             True,
-                                             logger,
-                                             logfolder)
+#         elif nonFollowers is True:
+#             logger.info("Unfollowing the users who do not follow back\n")
+#             """  Unfollow only the users who do not follow you back """
+#             unfollow_list = get_nonfollowers(browser,
+#                                              username,
+#                                              relationship_data,
+#                                              False,
+#                                              True,
+#                                              logger,
+#                                              logfolder)
 
-        # pick only the users in the right track- ["all" or "nonfollowers"]
-        # for `customList` and
-        #  `FacebookpyFollowed` unfollow methods
-        if customList is True or FacebookpyFollowed is True:
-            if unfollow_track == "nonfollowers":
-                all_followers = get_followers(browser,
-                                              username,
-                                              userid,
-                                              "full",
-                                              relationship_data,
-                                              False,
-                                              True,
-                                              logger,
-                                              logfolder)
-                loyal_users = [user for user in unfollow_list if
-                               user in all_followers]
-                logger.info(
-                    "Found {} loyal followers!  ~will not unfollow "
-                    "them".format(
-                        len(loyal_users)))
-                unfollow_list = [user for user in unfollow_list if
-                                 user not in loyal_users]
+#         # pick only the users in the right track- ["all" or "nonfollowers"]
+#         # for `customList` and
+#         #  `FacebookpyFollowed` unfollow methods
+#         if customList is True or FacebookpyFollowed is True:
+#             if unfollow_track == "nonfollowers":
+#                 all_followers = get_followers(browser,
+#                                               username,
+#                                               userid,
+#                                               "full",
+#                                               relationship_data,
+#                                               False,
+#                                               True,
+#                                               logger,
+#                                               logfolder)
+#                 loyal_users = [user for user in unfollow_list if
+#                                user in all_followers]
+#                 logger.info(
+#                     "Found {} loyal followers!  ~will not unfollow "
+#                     "them".format(
+#                         len(loyal_users)))
+#                 unfollow_list = [user for user in unfollow_list if
+#                                  user not in loyal_users]
 
-            elif unfollow_track != "all":
-                logger.info(
-                    "Unfollow track is not specified! ~choose \"all\" or "
-                    "\"nonfollowers\"")
-                return 0
+#             elif unfollow_track != "all":
+#                 logger.info(
+#                     "Unfollow track is not specified! ~choose \"all\" or "
+#                     "\"nonfollowers\"")
+#                 return 0
 
-        # re-generate unfollow list according to the `unfollow_after`
-        # parameter for `customList` and
-        #  `nonFollowers` unfollow methods
-        if customList is True or nonFollowers is True:
-            not_found = []
-            non_eligible = []
-            for person in unfollow_list:
-                if person not in automatedFollowedPool["all"].keys():
-                    not_found.append(person)
-                elif (person in automatedFollowedPool["all"].keys() and
-                      person not in automatedFollowedPool["eligible"].keys()):
-                    non_eligible.append(person)
+#         # re-generate unfollow list according to the `unfollow_after`
+#         # parameter for `customList` and
+#         #  `nonFollowers` unfollow methods
+#         if customList is True or nonFollowers is True:
+#             not_found = []
+#             non_eligible = []
+#             for person in unfollow_list:
+#                 if person not in automatedFollowedPool["all"].keys():
+#                     not_found.append(person)
+#                 elif (person in automatedFollowedPool["all"].keys() and
+#                       person not in automatedFollowedPool["eligible"].keys()):
+#                     non_eligible.append(person)
 
-            unfollow_list = [user for user in unfollow_list if
-                             user not in non_eligible]
-            logger.info("Total {} users available to unfollow"
-                        "  ~not found in 'followedPool.csv': {}  |  didn't "
-                        "pass `unfollow_after`: {}\n".format(
-                            len(unfollow_list), len(not_found),
-                            len(non_eligible)))
+#             unfollow_list = [user for user in unfollow_list if
+#                              user not in non_eligible]
+#             logger.info("Total {} users available to unfollow"
+#                         "  ~not found in 'followedPool.csv': {}  |  didn't "
+#                         "pass `unfollow_after`: {}\n".format(
+#                             len(unfollow_list), len(not_found),
+#                             len(non_eligible)))
 
-        elif FacebookpyFollowed is True:
-            non_eligible = [user for user in
-                            automatedFollowedPool["all"].keys() if
-                            user not in automatedFollowedPool[
-                                "eligible"].keys()]
-            logger.info(
-                "Total {} users available to unfollow  ~didn't pass "
-                "`unfollow_after`: {}\n"
-                .format(len(unfollow_list), len(non_eligible)))
+#         elif FacebookpyFollowed is True:
+#             non_eligible = [user for user in
+#                             automatedFollowedPool["all"].keys() if
+#                             user not in automatedFollowedPool[
+#                                 "eligible"].keys()]
+#             logger.info(
+#                 "Total {} users available to unfollow  ~didn't pass "
+#                 "`unfollow_after`: {}\n"
+#                 .format(len(unfollow_list), len(non_eligible)))
 
-        if len(unfollow_list) < 1:
-            logger.info("There are no any users available to unfollow")
-            return 0
+#         if len(unfollow_list) < 1:
+#             logger.info("There are no any users available to unfollow")
+#             return 0
 
-        # choose the desired order of the elements
-        if style == "LIFO":
-            unfollow_list = list(reversed(unfollow_list))
-        elif style == "RANDOM":
-            random.shuffle(unfollow_list)
+#         # choose the desired order of the elements
+#         if style == "LIFO":
+#             unfollow_list = list(reversed(unfollow_list))
+#         elif style == "RANDOM":
+#             random.shuffle(unfollow_list)
 
-        if amount > len(unfollow_list):
-            logger.info(
-                "You have requested more amount: {} than {} of users "
-                "available to unfollow"
-                "~using available amount\n".format(amount, len(unfollow_list)))
-            amount = len(unfollow_list)
+#         if amount > len(unfollow_list):
+#             logger.info(
+#                 "You have requested more amount: {} than {} of users "
+#                 "available to unfollow"
+#                 "~using available amount\n".format(amount, len(unfollow_list)))
+#             amount = len(unfollow_list)
 
-        # unfollow loop
-        try:
-            sleep_counter = 0
-            sleep_after = random.randint(8, 12)
-            index = 0
+#         # unfollow loop
+#         try:
+#             sleep_counter = 0
+#             sleep_after = random.randint(8, 12)
+#             index = 0
 
-            for person in unfollow_list:
-                if unfollowNum >= amount:
-                    logger.warning(
-                        "--> Total unfollows reached it's amount given {}\n"
-                        .format(unfollowNum))
-                    break
+#             for person in unfollow_list:
+#                 if unfollowNum >= amount:
+#                     logger.warning(
+#                         "--> Total unfollows reached it's amount given {}\n"
+#                         .format(unfollowNum))
+#                     break
 
-                if jumps["consequent"]["unfollows"] >= jumps["limit"][
-                        "unfollows"]:
-                    logger.warning(
-                        "--> Unfollow quotient reached its peak!\t~leaving "
-                        "Unfollow-Users activity\n")
-                    break
+#                 if jumps["consequent"]["unfollows"] >= jumps["limit"][
+#                         "unfollows"]:
+#                     logger.warning(
+#                         "--> Unfollow quotient reached its peak!\t~leaving "
+#                         "Unfollow-Users activity\n")
+#                     break
 
-                if sleep_counter >= sleep_after and sleep_delay not in [0,
-                                                                        None]:
-                    delay_random = random.randint(ceil(sleep_delay * 0.85),
-                                                  ceil(sleep_delay * 1.14))
-                    logger.info(
-                        "Unfollowed {} new users  ~sleeping about {}\n".format(
-                            sleep_counter,
-                            '{} seconds'.format(
-                                delay_random) if delay_random < 60 else
-                            '{} minutes'.format(
-                                truncate_float(
-                                    delay_random / 60, 2))))
-                    sleep(delay_random)
-                    sleep_counter = 0
-                    sleep_after = random.randint(8, 12)
-                    pass
+#                 if sleep_counter >= sleep_after and sleep_delay not in [0,
+#                                                                         None]:
+#                     delay_random = random.randint(ceil(sleep_delay * 0.85),
+#                                                   ceil(sleep_delay * 1.14))
+#                     logger.info(
+#                         "Unfollowed {} new users  ~sleeping about {}\n".format(
+#                             sleep_counter,
+#                             '{} seconds'.format(
+#                                 delay_random) if delay_random < 60 else
+#                             '{} minutes'.format(
+#                                 truncate_float(
+#                                     delay_random / 60, 2))))
+#                     sleep(delay_random)
+#                     sleep_counter = 0
+#                     sleep_after = random.randint(8, 12)
+#                     pass
 
-                if person not in dont_include:
-                    logger.info(
-                        "Ongoing Unfollow [{}/{}]: now unfollowing '{}'..."
-                        .format(unfollowNum + 1,
-                                amount,
-                                person.encode('utf-8')))
+#                 if person not in dont_include:
+#                     logger.info(
+#                         "Ongoing Unfollow [{}/{}]: now unfollowing '{}'..."
+#                         .format(unfollowNum + 1,
+#                                 amount,
+#                                 person.encode('utf-8')))
 
-                    person_id = (automatedFollowedPool["all"][person]["id"] if
-                                 person in automatedFollowedPool[
-                                     "all"].keys() else False)
+#                     person_id = (automatedFollowedPool["all"][person]["id"] if
+#                                  person in automatedFollowedPool[
+#                                      "all"].keys() else False)
 
-                    try:
-                        unfollow_state, msg = unfollow_user(browser,
-                                                            "profile",
-                                                            username,
-                                                            person,
-                                                            person_id,
-                                                            None,
-                                                            relationship_data,
-                                                            logger,
-                                                            logfolder)
-                    except BaseException as e:
-                        logger.error(
-                            "Unfollow loop error:  {}\n".format(str(e)))
+#                     try:
+#                         unfollow_state, msg = unfollow_user(browser,
+#                                                             "profile",
+#                                                             username,
+#                                                             person,
+#                                                             person_id,
+#                                                             None,
+#                                                             relationship_data,
+#                                                             logger,
+#                                                             logfolder)
+#                     except BaseException as e:
+#                         logger.error(
+#                             "Unfollow loop error:  {}\n".format(str(e)))
 
-                    post_unfollow_actions(browser, person, logger)
+#                     post_unfollow_actions(browser, person, logger)
 
-                    if unfollow_state is True:
-                        unfollowNum += 1
-                        sleep_counter += 1
-                        # reset jump counter after a successful unfollow
-                        jumps["consequent"]["unfollows"] = 0
+#                     if unfollow_state is True:
+#                         unfollowNum += 1
+#                         sleep_counter += 1
+#                         # reset jump counter after a successful unfollow
+#                         jumps["consequent"]["unfollows"] = 0
 
-                    elif msg == "jumped":
-                        # will break the loop after certain consecutive jumps
-                        jumps["consequent"]["unfollows"] += 1
+#                     elif msg == "jumped":
+#                         # will break the loop after certain consecutive jumps
+#                         jumps["consequent"]["unfollows"] += 1
 
-                    elif msg in ["temporary block", "not connected",
-                                 "not logged in"]:
-                        # break the loop in extreme conditions to prevent
-                        # misbehaviours
-                        logger.warning(
-                            "There is a serious issue: '{}'!\t~leaving "
-                            "Unfollow-Users activity".format(
-                                msg))
-                        break
+#                     elif msg in ["temporary block", "not connected",
+#                                  "not logged in"]:
+#                         # break the loop in extreme conditions to prevent
+#                         # misbehaviours
+#                         logger.warning(
+#                             "There is a serious issue: '{}'!\t~leaving "
+#                             "Unfollow-Users activity".format(
+#                                 msg))
+#                         break
 
-                else:
-                    # if the user in dont include (should not be) we shall
-                    # remove him from the follow list
-                    # if he is a white list user (set at init and not during
-                    # run time)
-                    if person in white_list:
-                        delete_line_from_file(
-                            '{0}{1}_followedPool.csv'.format(logfolder,
-                                                             username),
-                            person, logger)
-                        list_type = 'whitelist'
-                    else:
-                        list_type = 'dont_include'
-                    logger.info(
-                        "Not unfollowed '{}'!\t~user is in the list {}"
-                        "\n".format(
-                            person, list_type))
-                    index += 1
-                    continue
-        except BaseException as e:
-            logger.error("Unfollow loop error:  {}\n".format(str(e)))
-    elif allFollowing is True:
-        logger.info("Unfollowing the users you are following")
-        # unfollow from profile
-        try:
-            following_link = browser.find_elements_by_xpath(
-                '//section//ul//li[3]')
+#                 else:
+#                     # if the user in dont include (should not be) we shall
+#                     # remove him from the follow list
+#                     # if he is a white list user (set at init and not during
+#                     # run time)
+#                     if person in white_list:
+#                         delete_line_from_file(
+#                             '{0}{1}_followedPool.csv'.format(logfolder,
+#                                                              username),
+#                             person, logger)
+#                         list_type = 'whitelist'
+#                     else:
+#                         list_type = 'dont_include'
+#                     logger.info(
+#                         "Not unfollowed '{}'!\t~user is in the list {}"
+#                         "\n".format(
+#                             person, list_type))
+#                     index += 1
+#                     continue
+#         except BaseException as e:
+#             logger.error("Unfollow loop error:  {}\n".format(str(e)))
+#     elif allFollowing is True:
+#         logger.info("Unfollowing the users you are following")
+#         # unfollow from profile
+#         try:
+#             following_link = browser.find_elements_by_xpath(
+#                 '//section//ul//li[3]')
 
-            click_element(browser, Settings, following_link[0])
-            # update server calls
-            update_activity(Settings)
-        except BaseException as e:
-            logger.error("following_link error {}".format(str(e)))
-            return 0
+#             click_element(browser, Settings, following_link[0])
+#             # update server calls
+#             update_activity(Settings)
+#         except BaseException as e:
+#             logger.error("following_link error {}".format(str(e)))
+#             return 0
 
-        # scroll down the page to get sufficient amount of usernames
-        get_users_through_dialog(browser, None, username, amount,
-                                 allfollowing, False, None, None,
-                                 None, {"enabled": False, "percentage": 0},
-                                 "Unfollow", jumps, logger, logfolder)
+#         # scroll down the page to get sufficient amount of usernames
+#         get_users_through_dialog(browser, None, username, amount,
+#                                  allfollowing, False, None, None,
+#                                  None, {"enabled": False, "percentage": 0},
+#                                  "Unfollow", jumps, logger, logfolder)
 
-        # find dialog box
-        dialog = browser.find_element_by_xpath(
-            "//div[text()='Following']/../../../following-sibling::div")
+#         # find dialog box
+#         dialog = browser.find_element_by_xpath(
+#             "//div[text()='Following']/../../../following-sibling::div")
 
-        sleep(3)
+#         sleep(3)
 
-        # get persons, unfollow buttons, and length of followed pool
-        person_list_a = dialog.find_elements_by_tag_name("a")
-        person_list = []
+#         # get persons, unfollow buttons, and length of followed pool
+#         person_list_a = dialog.find_elements_by_tag_name("a")
+#         person_list = []
 
-        for person in person_list_a:
+#         for person in person_list_a:
 
-            if person and hasattr(person, 'text') and person.text:
-                person_list.append(person.text)
+#             if person and hasattr(person, 'text') and person.text:
+#                 person_list.append(person.text)
 
-        follow_buttons = dialog.find_elements_by_tag_name('button')
+#         follow_buttons = dialog.find_elements_by_tag_name('button')
 
-        # re-generate person list to unfollow according to the
-        # `unfollow_after` parameter
-        user_info = list(zip(follow_buttons, person_list))
-        non_eligible = []
-        not_found = []
+#         # re-generate person list to unfollow according to the
+#         # `unfollow_after` parameter
+#         user_info = list(zip(follow_buttons, person_list))
+#         non_eligible = []
+#         not_found = []
 
-        for button, person in user_info:
-            if person not in automatedFollowedPool["all"].keys():
-                not_found.append(person)
-            elif (person in automatedFollowedPool["all"].keys() and
-                  person not in automatedFollowedPool["eligible"].keys()):
-                non_eligible.append(person)
+#         for button, person in user_info:
+#             if person not in automatedFollowedPool["all"].keys():
+#                 not_found.append(person)
+#             elif (person in automatedFollowedPool["all"].keys() and
+#                   person not in automatedFollowedPool["eligible"].keys()):
+#                 non_eligible.append(person)
 
-        user_info = [pair for pair in user_info if pair[1] not in non_eligible]
-        logger.info("Total {} users available to unfollow"
-                    "  ~not found in 'followedPool.csv': {}  |  didn't pass "
-                    "`unfollow_after`: {}".format(
-                        len(user_info), len(not_found), len(non_eligible)))
+#         user_info = [pair for pair in user_info if pair[1] not in non_eligible]
+#         logger.info("Total {} users available to unfollow"
+#                     "  ~not found in 'followedPool.csv': {}  |  didn't pass "
+#                     "`unfollow_after`: {}".format(
+#                         len(user_info), len(not_found), len(non_eligible)))
 
-        if len(user_info) < 1:
-            logger.info("There are no any users to unfollow")
-            return 0
-        elif len(user_info) < amount:
-            logger.info(
-                "Could not grab requested amount of usernames to unfollow:  "
-                "{}/{}  ~using available amount".format(len(user_info),
-                                                        amount))
-            amount = len(user_info)
+#         if len(user_info) < 1:
+#             logger.info("There are no any users to unfollow")
+#             return 0
+#         elif len(user_info) < amount:
+#             logger.info(
+#                 "Could not grab requested amount of usernames to unfollow:  "
+#                 "{}/{}  ~using available amount".format(len(user_info),
+#                                                         amount))
+#             amount = len(user_info)
 
-        if style == "LIFO":
-            user_info = list(reversed(user_info))
-        elif style == "RANDOM":
-            random.shuffle(user_info)
+#         if style == "LIFO":
+#             user_info = list(reversed(user_info))
+#         elif style == "RANDOM":
+#             random.shuffle(user_info)
 
-        # unfollow loop
-        try:
-            hasSlept = False
+#         # unfollow loop
+#         try:
+#             hasSlept = False
 
-            for button, person in user_info:
-                if unfollowNum >= amount:
-                    logger.info(
-                        "--> Total unfollowNum reached it's amount given: {}"
-                        .format(unfollowNum))
-                    break
+#             for button, person in user_info:
+#                 if unfollowNum >= amount:
+#                     logger.info(
+#                         "--> Total unfollowNum reached it's amount given: {}"
+#                         .format(unfollowNum))
+#                     break
 
-                if jumps["consequent"]["unfollows"] >= jumps["limit"][
-                        "unfollows"]:
-                    logger.warning(
-                        "--> Unfollow quotient reached its peak!\t~leaving "
-                        "Unfollow-Users activity\n")
-                    break
+#                 if jumps["consequent"]["unfollows"] >= jumps["limit"][
+#                         "unfollows"]:
+#                     logger.warning(
+#                         "--> Unfollow quotient reached its peak!\t~leaving "
+#                         "Unfollow-Users activity\n")
+#                     break
 
-                if (unfollowNum != 0 and
-                        hasSlept is False and
-                        unfollowNum % 10 == 0 and
-                        sleep_delay not in [0, None]):
-                    logger.info("sleeping for about {} min\n"
-                                .format(int(sleep_delay / 60)))
-                    sleep(sleep_delay)
-                    hasSlept = True
-                    pass
+#                 if (unfollowNum != 0 and
+#                         hasSlept is False and
+#                         unfollowNum % 10 == 0 and
+#                         sleep_delay not in [0, None]):
+#                     logger.info("sleeping for about {} min\n"
+#                                 .format(int(sleep_delay / 60)))
+#                     sleep(sleep_delay)
+#                     hasSlept = True
+#                     pass
 
-                if person not in dont_include:
-                    logger.info(
-                        "Ongoing Unfollow [{}/{}]: now unfollowing '{}'..."
-                        .format(unfollowNum + 1,
-                                amount,
-                                person.encode('utf-8')))
+#                 if person not in dont_include:
+#                     logger.info(
+#                         "Ongoing Unfollow [{}/{}]: now unfollowing '{}'..."
+#                         .format(unfollowNum + 1,
+#                                 amount,
+#                                 person.encode('utf-8')))
 
-                    person_id = (automatedFollowedPool["all"][person]["id"] if
-                                 person in automatedFollowedPool[
-                                     "all"].keys() else False)
+#                     person_id = (automatedFollowedPool["all"][person]["id"] if
+#                                  person in automatedFollowedPool[
+#                                      "all"].keys() else False)
 
-                    try:
-                        unfollow_state, msg = unfollow_user(browser,
-                                                            "dialog",
-                                                            username,
-                                                            person,
-                                                            person_id,
-                                                            button,
-                                                            relationship_data,
-                                                            logger,
-                                                            logfolder)
-                    except Exception as exc:
-                        logger.error("Unfollow loop error:\n\n{}\n\n".format(
-                            str(exc).encode('utf-8')))
+#                     try:
+#                         unfollow_state, msg = unfollow_user(browser,
+#                                                             "dialog",
+#                                                             username,
+#                                                             person,
+#                                                             person_id,
+#                                                             button,
+#                                                             relationship_data,
+#                                                             logger,
+#                                                             logfolder)
+#                     except Exception as exc:
+#                         logger.error("Unfollow loop error:\n\n{}\n\n".format(
+#                             str(exc).encode('utf-8')))
 
-                    if unfollow_state is True:
-                        unfollowNum += 1
-                        # reset jump counter after a successful unfollow
-                        jumps["consequent"]["unfollows"] = 0
+#                     if unfollow_state is True:
+#                         unfollowNum += 1
+#                         # reset jump counter after a successful unfollow
+#                         jumps["consequent"]["unfollows"] = 0
 
-                    elif msg == "jumped":
-                        # will break the loop after certain consecutive jumps
-                        jumps["consequent"]["unfollows"] += 1
+#                     elif msg == "jumped":
+#                         # will break the loop after certain consecutive jumps
+#                         jumps["consequent"]["unfollows"] += 1
 
-                    elif msg in ["temporary block", "not connected",
-                                 "not logged in"]:
-                        # break the loop in extreme conditions to prevent
-                        # misbehaviours
-                        logger.warning(
-                            "There is a serious issue: '{}'!\t~leaving "
-                            "Unfollow-Users activity".format(
-                                msg))
-                        break
+#                     elif msg in ["temporary block", "not connected",
+#                                  "not logged in"]:
+#                         # break the loop in extreme conditions to prevent
+#                         # misbehaviours
+#                         logger.warning(
+#                             "There is a serious issue: '{}'!\t~leaving "
+#                             "Unfollow-Users activity".format(
+#                                 msg))
+#                         break
 
-                    # To only sleep once until there is the next unfollow
-                    if hasSlept:
-                        hasSlept = False
+#                     # To only sleep once until there is the next unfollow
+#                     if hasSlept:
+#                         hasSlept = False
 
-                else:
-                    logger.info(
-                        "Not unfollowing '{}'!  ~user is in the "
-                        "whitelist\n".format(
-                            person))
+#                 else:
+#                     logger.info(
+#                         "Not unfollowing '{}'!  ~user is in the "
+#                         "whitelist\n".format(
+#                             person))
 
-        except Exception as exc:
-            logger.error("Unfollow loop error:\n\n{}\n\n".format(
-                str(exc).encode('utf-8')))
+#         except Exception as exc:
+#             logger.error("Unfollow loop error:\n\n{}\n\n".format(
+#                 str(exc).encode('utf-8')))
 
-    else:
-        logger.info(
-            "Please select a proper unfollow method!  ~leaving unfollow "
-            "activity\n")
+#     else:
+#         logger.info(
+#             "Please select a proper unfollow method!  ~leaving unfollow "
+#             "activity\n")
 
-    return unfollowNum
+#     return unfollowNum
 
 
 def follow_user(browser, track, login, userid_to_follow, button, blacklist,
@@ -707,236 +707,236 @@ def follow_user(browser, track, login, userid_to_follow, button, blacklist,
     return True, "success"
 
 
-def scroll_to_bottom_of_followers_list(browser, element):
-    browser.execute_script(
-        "arguments[0].children[1].scrollIntoView()", element)
-    sleep(1)
-    return
+# def scroll_to_bottom_of_followers_list(browser, element):
+#     browser.execute_script(
+#         "arguments[0].children[1].scrollIntoView()", element)
+#     sleep(1)
+#     return
 
 
-def get_users_through_dialog(browser,
-                             login,
-                             user_name,
-                             amount,
-                             users_count,
-                             randomize,
-                             dont_include,
-                             blacklist,
-                             follow_times,
-                             simulation,
-                             channel,
-                             jumps,
-                             logger,
-                             logfolder):
-    sleep(2)
-    real_amount = amount
-    if randomize and amount >= 3:
-        # expanding the population for better sampling distribution
-        amount = amount * 3
+# def get_users_through_dialog(browser,
+#                              login,
+#                              user_name,
+#                              amount,
+#                              users_count,
+#                              randomize,
+#                              dont_include,
+#                              blacklist,
+#                              follow_times,
+#                              simulation,
+#                              channel,
+#                              jumps,
+#                              logger,
+#                              logfolder):
+#     sleep(2)
+#     real_amount = amount
+#     if randomize and amount >= 3:
+#         # expanding the population for better sampling distribution
+#         amount = amount * 3
 
-    if amount > int(
-            users_count * 0.85):  # taking 85 percent of possible amounts is
-        # a safe study
-        amount = int(users_count * 0.85)
-    try_again = 0
-    sc_rolled = 0
+#     if amount > int(
+#             users_count * 0.85):  # taking 85 percent of possible amounts is
+#         # a safe study
+#         amount = int(users_count * 0.85)
+#     try_again = 0
+#     sc_rolled = 0
 
-    # find dialog box
-    dialog_address = "//body/div[2]/div/div[2]"
-    dialog = browser.find_element_by_xpath(dialog_address)
+#     # find dialog box
+#     dialog_address = "//body/div[2]/div/div[2]"
+#     dialog = browser.find_element_by_xpath(dialog_address)
 
-    # scroll to end of follower list to initiate first load which hides the
-    # suggestions
-    scroll_to_bottom_of_followers_list(browser, dialog)
+#     # scroll to end of follower list to initiate first load which hides the
+#     # suggestions
+#     scroll_to_bottom_of_followers_list(browser, dialog)
 
-    buttons = get_buttons_from_dialog(dialog, channel)
+#     buttons = get_buttons_from_dialog(dialog, channel)
 
-    abort = False
-    person_list = []
-    total_list = len(buttons)
-    simulated_list = []
-    simulator_counter = 0
-    start_time = time.time()
-    pts_printed = False
+#     abort = False
+#     person_list = []
+#     total_list = len(buttons)
+#     simulated_list = []
+#     simulator_counter = 0
+#     start_time = time.time()
+#     pts_printed = False
 
-    # scroll down if the generated list of user to follow is not enough to
-    # follow amount set
-    while (total_list < amount) and not abort:
-        before_scroll = total_list
-        for i in range(4):
-            scroll_bottom(browser, dialog, 2)
-            sc_rolled += 1
-            simulator_counter += 1
-            buttons = get_buttons_from_dialog(dialog, channel)
-            total_list = len(buttons)
-            progress_tracker(total_list, amount, start_time, logger)
+#     # scroll down if the generated list of user to follow is not enough to
+#     # follow amount set
+#     while (total_list < amount) and not abort:
+#         before_scroll = total_list
+#         for i in range(4):
+#             scroll_bottom(browser, dialog, 2)
+#             sc_rolled += 1
+#             simulator_counter += 1
+#             buttons = get_buttons_from_dialog(dialog, channel)
+#             total_list = len(buttons)
+#             progress_tracker(total_list, amount, start_time, logger)
 
-        abort = (before_scroll == total_list)
-        if abort:
-            if total_list < real_amount:
-                print('')
-                logger.info("Failed to load desired amount of users!\n")
+#         abort = (before_scroll == total_list)
+#         if abort:
+#             if total_list < real_amount:
+#                 print('')
+#                 logger.info("Failed to load desired amount of users!\n")
 
-        if sc_rolled > 85:  # you may want to use up to 100
-            if total_list < amount:
-                print('')
-                logger.info(
-                    "Too many requests sent!  attempt: {}  |  gathered "
-                    "links: {}"
-                    "\t~sleeping a bit".format(try_again + 1, total_list))
-                sleep(random.randint(600, 655))
-                try_again += 1
-                sc_rolled = 0
+#         if sc_rolled > 85:  # you may want to use up to 100
+#             if total_list < amount:
+#                 print('')
+#                 logger.info(
+#                     "Too many requests sent!  attempt: {}  |  gathered "
+#                     "links: {}"
+#                     "\t~sleeping a bit".format(try_again + 1, total_list))
+#                 sleep(random.randint(600, 655))
+#                 try_again += 1
+#                 sc_rolled = 0
 
-        # Will follow a little bit of users in order to simulate real
-        # interaction
-        if (simulation["enabled"] is True and
-                simulation["percentage"] >= random.randint(1, 100) and
-                (simulator_counter > random.randint(5, 17) or
-                 abort is True or
-                 total_list >= amount or
-                 sc_rolled == random.randint(3, 5)) and
-                len(buttons) > 0):
+#         # Will follow a little bit of users in order to simulate real
+#         # interaction
+#         if (simulation["enabled"] is True and
+#                 simulation["percentage"] >= random.randint(1, 100) and
+#                 (simulator_counter > random.randint(5, 17) or
+#                  abort is True or
+#                  total_list >= amount or
+#                  sc_rolled == random.randint(3, 5)) and
+#                 len(buttons) > 0):
 
-            quick_amount = 1 if not total_list >= amount else random.randint(1,
-                                                                             4)
+#             quick_amount = 1 if not total_list >= amount else random.randint(1,
+#                                                                              4)
 
-            for i in range(0, quick_amount):
-                quick_index = random.randint(0, len(buttons) - 1)
-                quick_button = buttons[quick_index]
-                quick_username = dialog_username_extractor(quick_button)
+#             for i in range(0, quick_amount):
+#                 quick_index = random.randint(0, len(buttons) - 1)
+#                 quick_button = buttons[quick_index]
+#                 quick_username = dialog_username_extractor(quick_button)
 
-                if quick_username and quick_username[0] not in simulated_list:
-                    if not pts_printed:
-                        print('\n')
-                        if total_list >= amount:
-                            pts_printed = True
+#                 if quick_username and quick_username[0] not in simulated_list:
+#                     if not pts_printed:
+#                         print('\n')
+#                         if total_list >= amount:
+#                             pts_printed = True
 
-                    logger.info("Simulated follow : {}".format(
-                        len(simulated_list) + 1))
+#                     logger.info("Simulated follow : {}".format(
+#                         len(simulated_list) + 1))
 
-                    quick_follow = follow_through_dialog(browser,
-                                                         login,
-                                                         quick_username,
-                                                         quick_button,
-                                                         quick_amount,
-                                                         dont_include,
-                                                         blacklist,
-                                                         follow_times,
-                                                         jumps,
-                                                         logger,
-                                                         logfolder)
-                    if ((quick_amount == 1
-                         or i != (quick_amount - 1))
-                        and (not pts_printed
-                             or not abort)):
-                        print('')
-                    simulated_list.extend(quick_follow)
+#                     quick_follow = follow_through_dialog(browser,
+#                                                          login,
+#                                                          quick_username,
+#                                                          quick_button,
+#                                                          quick_amount,
+#                                                          dont_include,
+#                                                          blacklist,
+#                                                          follow_times,
+#                                                          jumps,
+#                                                          logger,
+#                                                          logfolder)
+#                     if ((quick_amount == 1
+#                          or i != (quick_amount - 1))
+#                         and (not pts_printed
+#                              or not abort)):
+#                         print('')
+#                     simulated_list.extend(quick_follow)
 
-            simulator_counter = 0
+#             simulator_counter = 0
 
-    print('')
-    person_list = dialog_username_extractor(buttons)
+#     print('')
+#     person_list = dialog_username_extractor(buttons)
 
-    if randomize:
-        random.shuffle(person_list)
+#     if randomize:
+#         random.shuffle(person_list)
 
-    person_list = person_list[:(real_amount - len(simulated_list))]
+#     person_list = person_list[:(real_amount - len(simulated_list))]
 
-    for user in simulated_list:  # add simulated users to the `person_list`
-        # in random index
-        if user not in person_list:
-            person_list.insert(random.randint(0, abs(len(person_list) - 1)),
-                               user)
+#     for user in simulated_list:  # add simulated users to the `person_list`
+#         # in random index
+#         if user not in person_list:
+#             person_list.insert(random.randint(0, abs(len(person_list) - 1)),
+#                                user)
 
-    return person_list, simulated_list
-
-
-def dialog_username_extractor(buttons):
-    """ Extract username of a follow button from a dialog box """
-
-    if not isinstance(buttons, list):
-        buttons = [buttons]
-
-    person_list = []
-    for person in buttons:
-        if person and hasattr(person, 'text') and person.text:
-            try:
-                person_list.append(person.find_element_by_xpath("../../../*")
-                                   .find_elements_by_tag_name("a")[1].text)
-            except IndexError:
-                pass  # Element list is too short to have a [1] element
-
-    return person_list
+#     return person_list, simulated_list
 
 
-def follow_through_dialog(browser,
-                          login,
-                          person_list,
-                          buttons,
-                          amount,
-                          dont_include,
-                          blacklist,
-                          follow_times,
-                          jumps,
-                          logger,
-                          logfolder):
-    """ Will follow username directly inside a dialog box """
-    if not isinstance(person_list, list):
-        person_list = [person_list]
+# def dialog_username_extractor(buttons):
+#     """ Extract username of a follow button from a dialog box """
 
-    if not isinstance(buttons, list):
-        buttons = [buttons]
+#     if not isinstance(buttons, list):
+#         buttons = [buttons]
 
-    person_followed = []
-    followNum = 0
+#     person_list = []
+#     for person in buttons:
+#         if person and hasattr(person, 'text') and person.text:
+#             try:
+#                 person_list.append(person.find_element_by_xpath("../../../*")
+#                                    .find_elements_by_tag_name("a")[1].text)
+#             except IndexError:
+#                 pass  # Element list is too short to have a [1] element
 
-    try:
-        for person, button in zip(person_list, buttons):
-            if followNum >= amount:
-                logger.info("--> Total follow number reached: {}"
-                            .format(followNum))
-                break
+#     return person_list
 
-            elif jumps["consequent"]["follows"] >= jumps["limit"]["follows"]:
-                logger.warning(
-                    "--> Follow quotient reached its peak!\t~leaving "
-                    "Follow-Through-Dialog activity\n")
-                break
 
-            if (person not in dont_include and
-                    not follow_restriction("read", person, follow_times,
-                                           logger)):
-                follow_state, msg = follow_user(browser,
-                                                "dialog",
-                                                login,
-                                                person,
-                                                button,
-                                                blacklist,
-                                                logger,
-                                                logfolder)
-                if follow_state is True:
-                    # register this session's followed user for further
-                    # interaction
-                    person_followed.append(person)
-                    followNum += 1
-                    # reset jump counter after a successful follow
-                    jumps["consequent"]["follows"] = 0
+# def follow_through_dialog(browser,
+#                           login,
+#                           person_list,
+#                           buttons,
+#                           amount,
+#                           dont_include,
+#                           blacklist,
+#                           follow_times,
+#                           jumps,
+#                           logger,
+#                           logfolder):
+#     """ Will follow username directly inside a dialog box """
+#     if not isinstance(person_list, list):
+#         person_list = [person_list]
 
-                elif msg == "jumped":
-                    # will break the loop after certain consecutive jumps
-                    jumps["consequent"]["follows"] += 1
+#     if not isinstance(buttons, list):
+#         buttons = [buttons]
 
-            else:
-                logger.info(
-                    "Not followed '{}'  ~inappropriate user".format(person))
+#     person_followed = []
+#     followNum = 0
 
-    except BaseException as e:
-        logger.error(
-            "Error occurred while following through dialog box:\n{}".format(
-                str(e)))
+#     try:
+#         for person, button in zip(person_list, buttons):
+#             if followNum >= amount:
+#                 logger.info("--> Total follow number reached: {}"
+#                             .format(followNum))
+#                 break
 
-    return person_followed
+#             elif jumps["consequent"]["follows"] >= jumps["limit"]["follows"]:
+#                 logger.warning(
+#                     "--> Follow quotient reached its peak!\t~leaving "
+#                     "Follow-Through-Dialog activity\n")
+#                 break
+
+#             if (person not in dont_include and
+#                     not follow_restriction("read", person, follow_times,
+#                                            logger)):
+#                 follow_state, msg = follow_user(browser,
+#                                                 "dialog",
+#                                                 login,
+#                                                 person,
+#                                                 button,
+#                                                 blacklist,
+#                                                 logger,
+#                                                 logfolder)
+#                 if follow_state is True:
+#                     # register this session's followed user for further
+#                     # interaction
+#                     person_followed.append(person)
+#                     followNum += 1
+#                     # reset jump counter after a successful follow
+#                     jumps["consequent"]["follows"] = 0
+
+#                 elif msg == "jumped":
+#                     # will break the loop after certain consecutive jumps
+#                     jumps["consequent"]["follows"] += 1
+
+#             else:
+#                 logger.info(
+#                     "Not followed '{}'  ~inappropriate user".format(person))
+
+#     except BaseException as e:
+#         logger.error(
+#             "Error occurred while following through dialog box:\n{}".format(
+#                 str(e)))
+
+#     return person_followed
 
 
 def get_given_user_followers(browser,
@@ -1044,108 +1044,108 @@ def get_given_user_followers(browser,
     return person_list, simulated_list
 
 
-def get_given_user_following(browser,
-                             login,
-                             user_name,
-                             amount,
-                             dont_include,
-                             randomize,
-                             blacklist,
-                             follow_times,
-                             simulation,
-                             jumps,
-                             logger,
-                             logfolder):
-    user_name = user_name.strip()
+# def get_given_user_following(browser,
+#                              login,
+#                              user_name,
+#                              amount,
+#                              dont_include,
+#                              randomize,
+#                              blacklist,
+#                              follow_times,
+#                              simulation,
+#                              jumps,
+#                              logger,
+#                              logfolder):
+#     user_name = user_name.strip()
 
-    user_link = "https://www.facebook.com/{}/".format(userid)
-    web_address_navigator( browser, user_link, Settings)
+#     user_link = "https://www.facebook.com/{}/".format(userid)
+#     web_address_navigator( browser, user_link, Settings)
 
-    if not is_page_available(browser, logger, Settings):
-        return [], []
+#     if not is_page_available(browser, logger, Settings):
+#         return [], []
 
-    #  check how many poeple are following this user.
-    #  throw RuntimeWarning if we are 0 people following this user
-    try:
-        allfollowing = format_number(
-            browser.find_element_by_xpath("//a[contains"
-                                          "(@href,'following')]/span").text)
+#     #  check how many poeple are following this user.
+#     #  throw RuntimeWarning if we are 0 people following this user
+#     try:
+#         allfollowing = format_number(
+#             browser.find_element_by_xpath("//a[contains"
+#                                           "(@href,'following')]/span").text)
 
-    except NoSuchElementException:
-        try:
-            allfollowing = browser.execute_script(
-                "return window._sharedData.entry_data."
-                "ProfilePage[0].graphql.user.edge_follow.count")
+#     except NoSuchElementException:
+#         try:
+#             allfollowing = browser.execute_script(
+#                 "return window._sharedData.entry_data."
+#                 "ProfilePage[0].graphql.user.edge_follow.count")
 
-        except WebDriverException:
-            try:
-                browser.execute_script("location.reload()")
-                update_activity(Settings)
+#         except WebDriverException:
+#             try:
+#                 browser.execute_script("location.reload()")
+#                 update_activity(Settings)
 
-                allfollowing = browser.execute_script(
-                    "return window._sharedData.entry_data."
-                    "ProfilePage[0].graphql.user.edge_follow.count")
+#                 allfollowing = browser.execute_script(
+#                     "return window._sharedData.entry_data."
+#                     "ProfilePage[0].graphql.user.edge_follow.count")
 
-            except WebDriverException:
-                try:
-                    topCount_elements = browser.find_elements_by_xpath(
-                        "//span[contains(@class,'g47SY')]")
+#             except WebDriverException:
+#                 try:
+#                     topCount_elements = browser.find_elements_by_xpath(
+#                         "//span[contains(@class,'g47SY')]")
 
-                    if topCount_elements:
-                        allfollowing = format_number(topCount_elements[2].text)
-                    else:
-                        logger.info(
-                            "Failed to get following count of '{}'  ~empty "
-                            "list".format(
-                                user_name))
-                        allfollowing = None
+#                     if topCount_elements:
+#                         allfollowing = format_number(topCount_elements[2].text)
+#                     else:
+#                         logger.info(
+#                             "Failed to get following count of '{}'  ~empty "
+#                             "list".format(
+#                                 user_name))
+#                         allfollowing = None
 
-                except (NoSuchElementException, IndexError):
-                    logger.error(
-                        "\nError occured during getting the following count "
-                        "of '{}'\n".format(
-                            user_name))
-                    return [], []
+#                 except (NoSuchElementException, IndexError):
+#                     logger.error(
+#                         "\nError occured during getting the following count "
+#                         "of '{}'\n".format(
+#                             user_name))
+#                     return [], []
 
-    # skip early for no followers
-    if not allfollowing:
-        logger.info("'{}' has no any following".format(user_name))
-        return [], []
+#     # skip early for no followers
+#     if not allfollowing:
+#         logger.info("'{}' has no any following".format(user_name))
+#         return [], []
 
-    elif allfollowing < amount:
-        logger.warning(
-            "'{}' has less following- {} than the desired amount of {}".format(
-                user_name, allfollowing, amount))
+#     elif allfollowing < amount:
+#         logger.warning(
+#             "'{}' has less following- {} than the desired amount of {}".format(
+#                 user_name, allfollowing, amount))
 
-    try:
-        following_link = browser.find_elements_by_xpath(
-            '//a[@href="/{}/following/"]'.format(user_name))
-        click_element(browser, Settings, following_link[0])
-        # update server calls
-        update_activity(Settings)
+#     try:
+#         following_link = browser.find_elements_by_xpath(
+#             '//a[@href="/{}/following/"]'.format(user_name))
+#         click_element(browser, Settings, following_link[0])
+#         # update server calls
+#         update_activity(Settings)
 
-    except NoSuchElementException:
-        logger.error(
-            'Could not find following\'s link for {}'.format(user_name))
-        return [], []
+#     except NoSuchElementException:
+#         logger.error(
+#             'Could not find following\'s link for {}'.format(user_name))
+#         return [], []
 
-    except BaseException as e:
-        logger.error("`following_link` error {}".format(str(e)))
-        return [], []
+#     except BaseException as e:
+#         logger.error("`following_link` error {}".format(str(e)))
+#         return [], []
 
-    channel = "Follow"
-    person_list, simulated_list = get_users_through_dialog(browser, login,
-                                                           user_name, amount,
-                                                           allfollowing,
-                                                           randomize,
-                                                           dont_include,
-                                                           blacklist,
-                                                           follow_times,
-                                                           simulation,
-                                                           channel, jumps,
-                                                           logger, logfolder)
+#     channel = "Follow"
+#     person_list, simulated_list = get_users_through_dialog(browser, login,
+#                                                            user_name, amount,
+#                                                            allfollowing,
+#                                                            randomize,
+#                                                            dont_include,
+#                                                            blacklist,
+#                                                            follow_times,
+#                                                            simulation,
+#                                                            channel, jumps,
+#                                                            logger, logfolder)
 
-    return person_list, simulated_list
+#     return person_list, simulated_list
 
 
 def dump_follow_restriction(profile_name, logger, logfolder):
@@ -1399,20 +1399,20 @@ def post_unfollow_cleanup(state, username, person, relationship_data,
     print('')
 
 
-def get_buttons_from_dialog(dialog, channel):
-    """ Gets buttons from the `Followers` or `Following` dialog boxes"""
+# def get_buttons_from_dialog(dialog, channel):
+#     """ Gets buttons from the `Followers` or `Following` dialog boxes"""
 
-    if channel == "Follow":
-        # get follow buttons. This approach will find the follow buttons and
-        # ignore the Unfollow/Requested buttons.
-        buttons = dialog.find_elements_by_xpath(
-            "//button[text()='Follow']")
+#     if channel == "Follow":
+#         # get follow buttons. This approach will find the follow buttons and
+#         # ignore the Unfollow/Requested buttons.
+#         buttons = dialog.find_elements_by_xpath(
+#             "//button[text()='Follow']")
 
-    elif channel == "Unfollow":
-        buttons = dialog.find_elements_by_xpath(
-            "//button[text() = 'Following']")
+#     elif channel == "Unfollow":
+#         buttons = dialog.find_elements_by_xpath(
+#             "//button[text() = 'Following']")
 
-    return buttons
+#     return buttons
 
 
 def get_user_id(browser, track, username, logger):
@@ -1526,54 +1526,54 @@ def verify_action(browser, action, track, username, person, person_id, logger,
     return True, "success"
 
 
-def post_unfollow_actions(browser, person, logger):
-    pass
+# def post_unfollow_actions(browser, person, logger):
+#     pass
 
 
-def get_follow_requests(browser, amount, sleep_delay, logger, logfolder):
-    """ Get follow requests from facebook access tool list """
+# def get_follow_requests(browser, amount, sleep_delay, logger, logfolder):
+#     """ Get follow requests from facebook access tool list """
 
-    user_link = "https://www.facebook.com/accounts/access_tool" \
-                "/current_follow_requests"
-    web_address_navigator( browser, user_link, Settings)
+#     user_link = "https://www.facebook.com/accounts/access_tool" \
+#                 "/current_follow_requests"
+#     web_address_navigator( browser, user_link, Settings)
 
-    list_of_users = []
-    view_more_button_exist = True
-    view_more_clicks = 0
+#     list_of_users = []
+#     view_more_button_exist = True
+#     view_more_clicks = 0
 
-    while len(
-            list_of_users) < amount and view_more_clicks < 750 and \
-            view_more_button_exist:
-        sleep(4)
-        list_of_users = browser.find_elements_by_xpath("//section/div")
+#     while len(
+#             list_of_users) < amount and view_more_clicks < 750 and \
+#             view_more_button_exist:
+#         sleep(4)
+#         list_of_users = browser.find_elements_by_xpath("//section/div")
 
-        if len(list_of_users) == 0:
-            logger.info("There are not outgoing follow requests")
-            break
+#         if len(list_of_users) == 0:
+#             logger.info("There are not outgoing follow requests")
+#             break
 
-        try:
-            view_more_button = browser.find_element_by_xpath(
-                "//button[text()='View More']")
-        except NoSuchElementException:
-            view_more_button_exist = False
+#         try:
+#             view_more_button = browser.find_element_by_xpath(
+#                 "//button[text()='View More']")
+#         except NoSuchElementException:
+#             view_more_button_exist = False
 
-        if view_more_button_exist:
-            logger.info(
-                "Found '{}' outgoing follow requests, Going to ask for more..."
-                .format(len(list_of_users))
-            )
-            click_element(browser, Settings, view_more_button)
-            view_more_clicks += 1
+#         if view_more_button_exist:
+#             logger.info(
+#                 "Found '{}' outgoing follow requests, Going to ask for more..."
+#                 .format(len(list_of_users))
+#             )
+#             click_element(browser, Settings, view_more_button)
+#             view_more_clicks += 1
 
-    users_to_unfollow = []
+#     users_to_unfollow = []
 
-    for user in list_of_users:
-        users_to_unfollow.append(user.text)
-        if len(users_to_unfollow) == amount:
-            break
+#     for user in list_of_users:
+#         users_to_unfollow.append(user.text)
+#         if len(users_to_unfollow) == amount:
+#             break
 
-    logger.info(
-        "Found '{}' outgoing follow requests '{}'"
-        .format(len(users_to_unfollow), users_to_unfollow))
+#     logger.info(
+#         "Found '{}' outgoing follow requests '{}'"
+#         .format(len(users_to_unfollow), users_to_unfollow))
 
-    return users_to_unfollow
+#     return users_to_unfollow

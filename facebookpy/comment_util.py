@@ -10,7 +10,7 @@ from socialcommons.util import add_user_to_blacklist
 from socialcommons.util import click_element
 from socialcommons.util import get_action_delay
 from socialcommons.util import explicit_wait
-from socialcommons.util import extract_text_from_element
+# from socialcommons.util import extract_text_from_element
 from socialcommons.util import web_address_navigator
 from socialcommons.quota_supervisor import quota_supervisor
 from .settings import Settings
@@ -169,103 +169,103 @@ def verify_commenting(browser, max, min, mand_words, logger):
     return True, 'Approval'
 
 
-def get_comments_on_post(browser,
-                         owner,
-                         poster,
-                         amount,
-                         post_link,
-                         ignore_users,
-                         randomize,
-                         logger):
-    """ Fetch comments data on posts """
+# def get_comments_on_post(browser,
+#                          owner,
+#                          poster,
+#                          amount,
+#                          post_link,
+#                          ignore_users,
+#                          randomize,
+#                          logger):
+#     """ Fetch comments data on posts """
 
-    web_address_navigator( browser, post_link, Settings)
+#     web_address_navigator( browser, post_link, Settings)
 
-    orig_amount = amount
-    if randomize is True:
-        amount = amount * 3
+#     orig_amount = amount
+#     if randomize is True:
+#         amount = amount * 3
 
-    # check if commenting on the post is enabled
-    commenting_state, msg = is_commenting_enabled(browser, logger)
-    if commenting_state is not True:
-        logger.info(msg)
-        return None
+#     # check if commenting on the post is enabled
+#     commenting_state, msg = is_commenting_enabled(browser, logger)
+#     if commenting_state is not True:
+#         logger.info(msg)
+#         return None
 
-    # check if there are any comments in the post
-    comments_count, msg = get_comments_count(browser, logger)
-    if not comments_count:
-        logger.info(msg)
-        return None
+#     # check if there are any comments in the post
+#     comments_count, msg = get_comments_count(browser, logger)
+#     if not comments_count:
+#         logger.info(msg)
+#         return None
 
-    # get comments & commenters information
-    comments_block_XPath = "//div/div/h3/../../../.."  # efficient location
-    # path
-    like_button_full_XPath = "//div/span/button/span[@aria-label='Like']"
-    unlike_button_full_XPath = "//div/span/button/span[@aria-label='Unlike']"
+#     # get comments & commenters information
+#     comments_block_XPath = "//div/div/h3/../../../.."  # efficient location
+#     # path
+#     like_button_full_XPath = "//div/span/button/span[@aria-label='Like']"
+#     unlike_button_full_XPath = "//div/span/button/span[@aria-label='Unlike']"
 
-    comments = []
-    commenters = []
-    # wait for page fully load [IMPORTANT!]
-    explicit_wait(browser, "PFL", [], logger, 10)
+#     comments = []
+#     commenters = []
+#     # wait for page fully load [IMPORTANT!]
+#     explicit_wait(browser, "PFL", [], logger, 10)
 
-    try:
-        all_comment_like_buttons = browser.find_elements_by_xpath(
-            like_button_full_XPath)
-        if all_comment_like_buttons:
-            comments_block = browser.find_elements_by_xpath(
-                comments_block_XPath)
-            for comment_line in comments_block:
-                commenter_elem = comment_line.find_element_by_tag_name('a')
-                commenter = extract_text_from_element(commenter_elem)
-                if (commenter and
-                        commenter not in [owner, poster, ignore_users] and
-                        commenter not in commenters):
-                    commenters.append(commenter)
-                else:
-                    continue
+#     try:
+#         all_comment_like_buttons = browser.find_elements_by_xpath(
+#             like_button_full_XPath)
+#         if all_comment_like_buttons:
+#             comments_block = browser.find_elements_by_xpath(
+#                 comments_block_XPath)
+#             for comment_line in comments_block:
+#                 commenter_elem = comment_line.find_element_by_tag_name('a')
+#                 commenter = extract_text_from_element(commenter_elem)
+#                 if (commenter and
+#                         commenter not in [owner, poster, ignore_users] and
+#                         commenter not in commenters):
+#                     commenters.append(commenter)
+#                 else:
+#                     continue
 
-                comment_elem = comment_line.find_elements_by_tag_name(
-                    "span")[0]
-                comment = extract_text_from_element(comment_elem)
-                if comment:
-                    comments.append(comment)
-                else:
-                    commenters.remove(commenters[-1])
-                    continue
+#                 comment_elem = comment_line.find_elements_by_tag_name(
+#                     "span")[0]
+#                 comment = extract_text_from_element(comment_elem)
+#                 if comment:
+#                     comments.append(comment)
+#                 else:
+#                     commenters.remove(commenters[-1])
+#                     continue
 
-        else:
-            comment_unlike_buttons = browser.find_elements_by_xpath(
-                unlike_button_full_XPath)
-            if comment_unlike_buttons:
-                logger.info("There are {} comments on this post and all "
-                            "of them are already liked."
-                            .format(len(comment_unlike_buttons)))
-            else:
-                logger.info(
-                    "There are no any comments available on this post.")
-            return None
+#         else:
+#             comment_unlike_buttons = browser.find_elements_by_xpath(
+#                 unlike_button_full_XPath)
+#             if comment_unlike_buttons:
+#                 logger.info("There are {} comments on this post and all "
+#                             "of them are already liked."
+#                             .format(len(comment_unlike_buttons)))
+#             else:
+#                 logger.info(
+#                     "There are no any comments available on this post.")
+#             return None
 
-    except NoSuchElementException:
-        logger.info("Failed to get comments on this post.")
-        return None
+#     except NoSuchElementException:
+#         logger.info("Failed to get comments on this post.")
+#         return None
 
-    if not comments:
-        logger.info("Could not grab any usable comments from this post..")
-        return None
+#     if not comments:
+#         logger.info("Could not grab any usable comments from this post..")
+#         return None
 
-    else:
-        comment_data = list(zip(commenters, comments))
-        if randomize is True:
-            random.shuffle(comment_data)
+#     else:
+#         comment_data = list(zip(commenters, comments))
+#         if randomize is True:
+#             random.shuffle(comment_data)
 
-        if len(comment_data) < orig_amount:
-            logger.info("Could grab only {} usable comments from this post.."
-                        .format(len(comment_data)))
-        else:
-            logger.info("Grabbed {} usable comments from this post.."
-                        .format(len(comment_data)))
+#         if len(comment_data) < orig_amount:
+#             logger.info("Could grab only {} usable comments from this post.."
+#                         .format(len(comment_data)))
+#         else:
+#             logger.info("Grabbed {} usable comments from this post.."
+#                         .format(len(comment_data)))
 
-        return comment_data
+#         return comment_data
 
 
 def is_commenting_enabled(browser, logger):
