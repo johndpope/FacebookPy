@@ -1,17 +1,17 @@
 """ Module which handles the follow features like unfollowing and following """
-import time
+# import time
 from datetime import datetime
 import os
 import random
 import json
 # import csv
 import sqlite3
-from math import ceil
+# from math import ceil
 
 from socialcommons.time_util import sleep
 from socialcommons.util import delete_line_from_file
-from socialcommons.util import scroll_bottom
-from socialcommons.util import format_number
+# from socialcommons.util import scroll_bottom
+# from socialcommons.util import format_number
 from socialcommons.util import update_activity
 from socialcommons.util import add_user_to_blacklist
 from socialcommons.util import click_element
@@ -26,8 +26,8 @@ from socialcommons.util import is_page_available
 from socialcommons.util import reload_webpage
 from socialcommons.util import click_visibly
 from socialcommons.util import get_action_delay
-from socialcommons.util import truncate_float
-from socialcommons.util import progress_tracker
+# from socialcommons.util import truncate_float
+# from socialcommons.util import progress_tracker
 from socialcommons.print_log_writer import log_followed_pool
 from socialcommons.print_log_writer import log_uncertain_unfollowed_pool
 from socialcommons.print_log_writer import log_record_all_unfollowed
@@ -38,7 +38,7 @@ from socialcommons.database_engine import get_database
 from socialcommons.quota_supervisor import quota_supervisor
 from .settings import Settings
 
-from selenium.common.exceptions import WebDriverException
+# from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import ElementNotVisibleException
 
@@ -1021,7 +1021,7 @@ def get_given_user_followers(browser,
         logger.error("`followers_link` error {}".format(str(e)))
         return [], []
 
-    channel = "Follow"
+    # channel = "Follow"
 
     # TODO: Fix it: Add simulated
     simulated_list = []

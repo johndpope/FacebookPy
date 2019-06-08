@@ -9,15 +9,15 @@ from socialcommons.util import update_activity
 from socialcommons.util import add_user_to_blacklist
 from socialcommons.util import click_element
 from socialcommons.util import get_action_delay
-from socialcommons.util import explicit_wait
+# from socialcommons.util import explicit_wait
 # from socialcommons.util import extract_text_from_element
-from socialcommons.util import web_address_navigator
+# from socialcommons.util import web_address_navigator
 from socialcommons.quota_supervisor import quota_supervisor
 from .settings import Settings
 
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import InvalidElementStateException
-from selenium.common.exceptions import NoSuchElementException
+# from selenium.common.exceptions import NoSuchElementException
 
 
 def get_comment_input(browser):

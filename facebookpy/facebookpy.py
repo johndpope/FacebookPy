@@ -3,11 +3,11 @@
 import time
 from math import ceil
 import random
-from sys import platform
+# from sys import platform
 # from platform import python_version
 import os
 # import csv
-import json
+# import json
 # import requests
 # from selenium import webdriver
 # from selenium.webdriver import DesiredCapabilities
@@ -34,7 +34,7 @@ from .like_util import like_image
 from .like_util import get_links_for_username
 # from .like_util import like_comment
 from .login_util import login_user
-from .settings import Settings
+# from .settings import Settings
 from socialcommons.print_log_writer import log_follower_num
 from socialcommons.print_log_writer import log_following_num
 
@@ -42,7 +42,7 @@ from socialcommons.time_util import sleep
 # from socialcommons.time_util import set_sleep_percentage
 # from socialcommons.util import get_active_users
 from socialcommons.util import validate_userid
-from socialcommons.util import web_address_navigator
+# from socialcommons.util import web_address_navigator
 from socialcommons.util import interruption_handler
 from socialcommons.util import highlight_print
 # from socialcommons.util import dump_record_activity
@@ -117,7 +117,7 @@ class FacebookPy:
             cli_args.bypass_suspicious_attempt or bypass_suspicious_attempt)
         bypass_with_mobile = cli_args.bypass_with_mobile or bypass_with_mobile
 
-        IS_RUNNING = True
+        # IS_RUNNING = True
         # workspace must be ready before anything
         if not get_workspace(Settings):
             raise SocialPyError(
@@ -4999,17 +4999,17 @@ class FacebookPy:
 
     #     if self.liked_comments:
             # output results
-            self.logger.info("\tLiked comments: {}".format(liked_comments))
-            self.logger.info("\tReplied to comments: {}"
-                             .format(replied_to_comments))
-            self.logger.info("\tLiked posts: {}".format(liked_img))
-            self.logger.info("\tAlready liked posts: {}".format(already_liked))
-            self.logger.info("\tCommented posts: {}".format(commented))
-            self.logger.info("\tFollowed users: {}".format(followed))
-            self.logger.info("\tAlready followed users: {}"
-                             .format(already_followed))
-            self.logger.info("\tInappropriate posts: {}".format(inap_img))
-            self.logger.info("\tNot valid users: {}".format(not_valid_users))
+            # self.logger.info("\tLiked comments: {}".format(liked_comments))
+            # self.logger.info("\tReplied to comments: {}"
+            #                  .format(replied_to_comments))
+            # self.logger.info("\tLiked posts: {}".format(liked_img))
+            # self.logger.info("\tAlready liked posts: {}".format(already_liked))
+            # self.logger.info("\tCommented posts: {}".format(commented))
+            # self.logger.info("\tFollowed users: {}".format(followed))
+            # self.logger.info("\tAlready followed users: {}"
+            #                  .format(already_followed))
+            # self.logger.info("\tInappropriate posts: {}".format(inap_img))
+            # self.logger.info("\tNot valid users: {}".format(not_valid_users))
 
     def is_mandatory_character(self, uchr):
         if self.aborting:

@@ -12,7 +12,7 @@ from socialcommons.util import update_activity
 from socialcommons.util import web_address_navigator
 from socialcommons.util import get_number_of_posts
 from socialcommons.util import get_action_delay
-from socialcommons.util import explicit_wait
+# from socialcommons.util import explicit_wait
 # from socialcommons.util import extract_text_from_element
 from socialcommons.quota_supervisor import quota_supervisor
 from .unfollow_util  import get_following_status

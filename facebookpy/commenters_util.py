@@ -6,11 +6,11 @@ import time
 from time import sleep
 # from datetime import datetime, timedelta
 import random
-import collections
+# import collections
 # from operator import itemgetter
 # from selenium.webdriver.common.keys import Keys
 
-from socialcommons.util import get_number_of_posts
+# from socialcommons.util import get_number_of_posts
 from socialcommons.util import click_element
 from socialcommons.util import update_activity
 from socialcommons.util import web_address_navigator

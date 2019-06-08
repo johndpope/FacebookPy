@@ -1,10 +1,16 @@
 from datetime import datetime
+import sqlite3
 
+from socialcommons.time_util import sleep
 from socialcommons.util import update_activity
+from socialcommons.util import click_element
 from socialcommons.util import emergency_exit
+from socialcommons.util import load_user_id
 from socialcommons.util import explicit_wait
 from socialcommons.util import find_user_id
+from socialcommons.util import get_username_from_id
 from socialcommons.util import is_page_available
+from socialcommons.util import reload_webpage
 from socialcommons.util import web_address_navigator
 from socialcommons.util import click_visibly
 from socialcommons.print_log_writer import log_friended_pool
@@ -12,6 +18,37 @@ from socialcommons.print_log_writer import log_friended_pool
 from socialcommons.database_engine import get_database
 from socialcommons.quota_supervisor import quota_supervisor
 from .settings import Settings
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import ElementNotVisibleException
+
+def verify_username_by_id(browser, username, person, person_id, logger,
+                          logfolder):
+    """ Check if the given user has changed username after the time of
+    followed """
+    # try to find the user by ID
+    if person_id is None:
+        person_id = load_user_id(username, person, logger, logfolder)
+
+    if person_id and person_id not in [None, "unknown", "undefined"]:
+        # get the [new] username of the user from the stored user ID
+        person_new = get_username_from_id(browser, "https://www.facebook.com", person_id, logger)
+        if person_new:
+            if person_new != person:
+                logger.info(
+                    "User '{}' has changed username and now is called '{}' :S"
+                    .format(person, person_new))
+            return person_new
+
+        else:
+            logger.info(
+                "The user with the ID of '{}' is unreachable".format(person))
+
+    else:
+        logger.info(
+            "The user ID of '{}' doesn't exist in local records".format(
+                person))
+
+    return None
 
 def get_friending_status(browser, track, username, person, person_id, logger,
                          logfolder):
@@ -200,6 +237,85 @@ def friend_restriction(operation, username, limit, logger):
         if conn:
             # close the open connection
             conn.close()
+
+def confirm_unfollow(browser):
+    """ Deal with the confirmation dialog boxes during an unfollow """
+    attempt = 0
+
+    while attempt < 3:
+        try:
+            attempt += 1
+            button_xp = "//button[text()='Unfollow']"  # "//button[contains(
+            # text(), 'Unfollow')]"
+            unfollow_button = browser.find_element_by_xpath(button_xp)
+
+            if unfollow_button.is_displayed():
+                click_element(browser, Settings, unfollow_button)
+                sleep(2)
+                break
+
+        except (ElementNotVisibleException, NoSuchElementException) as exc:
+            # prob confirm dialog didn't pop up
+            if isinstance(exc, ElementNotVisibleException):
+                break
+
+            elif isinstance(exc, NoSuchElementException):
+                sleep(1)
+                pass
+
+def get_following_status(browser, track, username, person, person_id, logger,
+                         logfolder):
+    """ Verify if you are following the user in the loaded page """
+    if track == "profile":
+        ig_homepage = "https://www.facebook.com/"
+        web_address_navigator( browser, ig_homepage + person, Settings)
+
+    follow_button_XP = ("//div/div/a[@role='button'][text()='Follow']")
+    failure_msg = "--> Unable to detect the following status of '{}'!"
+    user_inaccessible_msg = (
+        "Couldn't access the profile page of '{}'!\t~might have changed the"
+        " username".format(person))
+
+    # check if the page is available
+    valid_page = is_page_available(browser, logger, Settings)
+    if not valid_page:
+        logger.warning(user_inaccessible_msg)
+        person_new = verify_username_by_id(browser,
+                                           username,
+                                           person,
+                                           None,
+                                           logger,
+                                           logfolder)
+        if person_new:
+            web_address_navigator( browser, ig_homepage + person_new, Settings)
+            valid_page = is_page_available(browser, logger, Settings)
+            if not valid_page:
+                logger.error(failure_msg.format(person_new.encode("utf-8")))
+                return "UNAVAILABLE", None
+
+        else:
+            logger.error(failure_msg.format(person.encode("utf-8")))
+            return "UNAVAILABLE", None
+
+    # wait until the follow button is located and visible, then get it
+    follow_button = explicit_wait(browser, "VOEL", [follow_button_XP, "XPath"],
+                                  logger, 7, False)
+    if not follow_button:
+        browser.execute_script("location.reload()")
+        update_activity(Settings)
+
+        follow_button = explicit_wait(browser, "VOEL",
+                                      [follow_button_XP, "XPath"], logger, 14,
+                                      False)
+        if not follow_button:
+            # cannot find the any of the expected buttons
+            logger.error(failure_msg.format(person.encode("utf-8")))
+            return None, None
+
+    # get follow status
+    following_status = follow_button.text
+
+    return following_status, follow_button
 
 
 def verify_action(browser, action, track, username, person, person_id, logger,
