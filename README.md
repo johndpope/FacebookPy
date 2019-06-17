@@ -205,3 +205,14 @@ session = FacebookPy(username=facebook_username, password=facebook_password, byp
                       peak_unfollows=(35, 402),
                       peak_server_calls=(None, 4700))
 ```
+
+ 
+## How to run:
+
+ -  modify `quickstart.py` according to your requirements
+ -  `python quickstart.py -u <myusername> -p <mypssword> -ui <my_userid>`
+
+
+## How to schedule as a job:
+
+    */10 * * * * bash /path/to/FacebookPy/run_facebookpy_only_once_for_mac.sh /path/to/FacebookPy/quickstart.py $USERNAME $PASSWORD $USERID
