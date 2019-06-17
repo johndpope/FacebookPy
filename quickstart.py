@@ -12,7 +12,7 @@ import random
 set_workspace(settings.Settings, path=None)
 
 # get an FacebookPy session!
-session = FacebookPy()
+session = FacebookPy(use_firefox=True)
 
 with smart_run(session):
     """ Activity flow """
@@ -58,4 +58,5 @@ with smart_run(session):
                                   interact=True)
 
     session.follow_likers(random_targets, photos_grab_amount = 2, follow_likers_per_photo = 3, randomize=True, sleep_delay=600, interact=False)
+    session.fetch_birthdays()
 

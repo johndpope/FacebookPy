@@ -22,6 +22,7 @@ class Settings:
             return None
 
     # locations
+    IS_RUNNING = True
     log_location = localize_path("FacebookPy", "logs")
     OS_ENV = ("windows" if platform == "win32"
         else "osx" if platform == "darwin"
@@ -70,8 +71,8 @@ class Settings:
 
     DATABASE_LOCATION = localize_path("FacebookPy", "db", "facebookpy.db")
 
-    # followers_count_xpath = '//a[@name="Followers"]/span[2]'
-    # following_count_xpath = '//a[@name="Following"]/span[2]'
+    followers_count_xpath = '//a[@name="Followers"]/span[2]'
+    following_count_xpath = '//a[@name="Following"]/span[2]'
 
 # class Storage:
 #     """ Globally accessible standalone storage """

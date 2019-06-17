@@ -2,7 +2,7 @@
 
 # This is a script to mitigate possibility of multiple parallel cron jobs being triggered(discussed here: https://facebook.com/timgrossmann/FacebookPy/issues/1235)
 # The following is an example of a cron scheduled every 10 mins
-# */10 * * * * bash /path/to/FacebookPy/run_facebookpy_only_once_for_mac.sh /path/to/FacebookPy/quickstart.py $EMAIL $PASSWORD
+# */10 * * * * bash /path/to/FacebookPy/run_facebookpy_only_once_for_mac.sh /path/to/FacebookPy/quickstart.py $USERNAME $PASSWORD $USERID
 
 TEMPLATE_PATH=$1
 USERNAME=$2

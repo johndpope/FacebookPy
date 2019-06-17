@@ -3,6 +3,8 @@
 import time
 from math import ceil
 import random
+import traceback
+import pprint as pp
 # from sys import platform
 # from platform import python_version
 import os
@@ -821,6 +823,56 @@ class FacebookPy:
     #         self.logger.info("Inappropriate: {}".format(inap_img))
 
     #     return self
+
+
+    def fetch_birthdays(self):
+        self.browser.get("https://www.facebook.com/{}/friends".format(self.userid))
+        time.sleep(2)
+        try:
+            for i in range(10):
+                # self.browser.execute_script("window.scrollTo(0, " + str(1000+i*1000) + ")")
+                self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                time.sleep(2)
+
+            profile_as = self.browser.find_elements_by_css_selector("li > div > div > div.uiProfileBlockContent > div > div:nth-child(2) > div > a")
+
+            print("Found", len(profile_as), "profiles")
+            profiles = []
+            for profile_a in profile_as:
+                friend_url = profile_a.get_attribute('href').split('?')[0].split('#')[0]
+                if len(friend_url.split('/')) > 4:
+                    continue
+                profiles.append(friend_url)
+
+            # pp.pprint(profiles)
+            for profile in profiles:
+                # self.browser.get(profile+'/about?section=year-overviews')
+                # life_events = self.browser.find_elements_by_css_selector("div > ul > li > div > div > ul > li > div > div > a > span")
+                # if len(life_events) > 0:
+                #     # print(profile, life_events[-1].text)
+                #     try:
+                #         if 'Born on' in life_events[-1].text:
+                #             dob = life_events[-1].text.split('Born on ')[1]
+                #             print(profile, dob)
+                #             continue
+                #     except Exception as e:
+                #         pass
+
+                self.browser.get(profile+'/about')
+                overview_events = self.browser.find_elements_by_css_selector("div > ul > li > div > div > span > div:nth-child(2)")
+                for overview_event in overview_events:
+                    # print(profile, overview_event.text)
+                    try:
+                        from dateutil.parser import parse
+                        dob = parse(overview_event.text)
+                        print(profile, dob)
+                        continue
+                    except Exception as e:
+                        pass
+
+        except Exception as e:
+                traceback.print_exc()
+
 
 
     def follow_likers(self, userids, photos_grab_amount=3,
