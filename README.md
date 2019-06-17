@@ -128,15 +128,6 @@ session.follow_user_followers(['friend1', 'friend2', 'friend3'], amount=10, rand
 session.follow_likers(['user1' , 'user2'], photos_grab_amount = 2, follow_likers_per_photo = 3, randomize=True, sleep_delay=600, interact=False)
 ```
 
-_in this case 2 random photos from each given user will be analyzed and 3 people who liked them will be followed, so 6 follows in total_
-The `usernames` can be any list
-The `photos_grab_amount` is how many photos will I grat from users profile and analyze who liked it
-The `follow_likers_per_photo` is how many people to follow per each photo
-`randomize=False` will take photos from newes, true will take random from first 12
-`sleep_delay` is used to define break time after some good following (_averagely ~`10` follows_)
-
-* You can also **interact** with the followed users by enabling `interact=True` which will use the configuration of `set_user_interact` setting:  
-
 ```python
 session.set_user_interact(amount=2,
                     percentage=70,
@@ -165,16 +156,6 @@ friend_by_list(friendlist=['samantha3', 'larry_ok'], times=1, sleep_delay=600, i
 session.set_dont_like(['#exactmatch', '[startswith', ']endswith', 'broadmatch'])
 ```
 
-`.set_dont_like` searches the description and owner comments for hashtags and
-won't like the image if one of those hashtags are in there
-
-You have 4 options to exclude posts from your FacebookPy session:
-
-* words starting with `#` will match only exact hashtags (e. g. `#cat` matches `#cat`, but not `#catpic`)
-* words starting with `[` will match all hashtags starting with your word (e. g. `[cat` matches `#catpic`, `#caturday` and so on)
-* words starting with `]` will match all hashtags ending with your word (e. g. `]cat` matches `#mycat`, `#instacat` and so on)
-* words without these prefixes will match all hashtags that contain your word regardless if it is placed at the beginning, middle or end of the hashtag (e. g. `cat` will match `#cat`, `#mycat`, `#caturday`, `#rainingcatsanddogs` and so on)
-
 ### Ignoring Users
 
 ```python
@@ -200,8 +181,6 @@ If you notice that one or more of the above functionalities are not working as e
 session.set_do_follow(enabled=True, percentage=10, times=2)
 ```
 
-but none of the profiles are being followed - or any such functionality is misbehaving - then one thing you should check is the position/order of such methods in your script. Essentially, all the ```set_*``` methods have to be before ```like_by_tags``` or ```like_by_locations``` or ```unfollow```. This is also implicit in all the exmples and quickstart.py
-
 ### Bypass Suspicious Login Attempt
 
 If you're having issues with the "we detected an unusual login attempt" message,
@@ -211,20 +190,7 @@ you can bypass it setting FacebookPy in this way:
 session = FacebookPy(username=facebook_username, password=facebook_password, bypass_suspicious_attempt=True)
 ```
 
-```bypass_suspicious_attempt=True``` will send the verification code to your
-email, and you will be prompted to enter the security code sent to your email.
-It will login to your account, now you can set bypass_suspicious_attempt to False
-```bypass_suspicious_attempt=False``` and FacebookPy will quickly login using cookies.
-
-If you want to bypass suspicious login attempt with your phone number, set `bypass_with_mobile` to `True`
-
-```python
-FacebookPy(username=facebook_username, password=facebook_password, bypass_suspicious_attempt=True, bypass_with_mobile=True)
-```
-
 ### Quota Supervisor
-
-###### Take full control of the actions with the most sophisticated approaches
 
 ```python
   session.set_quota_supervisor(
@@ -239,77 +205,3 @@ FacebookPy(username=facebook_username, password=facebook_password, bypass_suspic
                       peak_unfollows=(35, 402),
                       peak_server_calls=(None, 4700))
 ```
-
-#### Parameters:
-
-`enabled`: put `True` to **activate** or `False` to **deactivate** supervising any time
-
-`peak_likes`: the **first value** indicates the **hourly** and the **second** indicates the **daily** peak value
-
-* _e.g._ in `peak_likes=(66, 700)` - `66` is the **hourly**, and `700` is the **daily** peak value  
-_such as_,
-  * `peak_server_calls=(500, 4745)` will _supervise_ server calls with **hourly** peak of `500` and **daily** peak of `4745`
-  * `peak_likes=(70, None)` will _supervise_ only hourly likes with the peak of `70`
-  * `peak_unfollows=(None, 350)` will _supervise_ only daily unfollows with the peak of `350`
-  * `peak_comments=(None, None)` will not _supervise_ comments at all
-
-If you **don't want to** _supervise_ likes **at all**, simply **remove** `peak_likes` parameter **OR** use `peak_likes=(None, None)`.  
-_Once_ likes **reach** peak, it will **jump** every other like, _yet_, **will do all available actions** (_e.g. follow or unfollow_).
-
-* Only `server calls` **does not** jump, it exits the program **once reaches the peak**.
-
-> Although, you can put server calls to sleep once reaches peak, read `sleep_after` parameter.
-
-* _Every action_ will be **jumped** separately after reaching it's peak, _except_ comments. Cos commenting without a like isn't welcomed that's why as like peak is reached, it will jump comments, too.
-
-**Notice**: `peak_likes=(50)` will not work, use `peak_likes=(50, None)` to supervise **hourly** peak and `peak_likes=(None, 50)` for **daily** peak.  
->_Same **form**_ **applies** to **all** actions. Just specify the peaks in desired intervals- **hourly** or **daily** you want to _supervise_.
-
-`sleep_after`: is used to put **FacebookPy** to _sleep_ **after reaching peak** _rather than_ **jumping the action** (_or exiting- **for** server calls_)  
-_Any action_ can be included `["likes", "comments", "follows", "unfollows", "server_calls"]`.  
-_As if_ you want to put _sleep_ **only after** reaching **hourly** like peak, put `"likes_h"` **OR** put `"likes_d"` for _sleeping_ **only after** reaching **daily** like peak.  
-_such as_,
-
-* `sleep_after=['follows_h']` will _sleep_ after reaching **hourly** follow peak  
-* `sleep_after=['likes_d', 'follows', 'server_calls_h']` will _sleep_ after reaching **daily** like peak, follow peaks (_**hourly** and **daily**_) and **hourly** server call peak.  
-
-**Notice**: there can be _either_ `"likes"` (_for both **hourly** and **daily** sleep_) **OR** `"likes_h"` (_for **hourly** sleep only_) **OR** `"likes_d"` (_for **daily** sleep only_).  
->_Once_ gone to sleep, it will **wake up** as _new_ **hour**/**day** (_according to the interval_) arrives AND **continue** the activity.
-
-`sleepyhead`: can help to _sound_ **more humanly** which will **wake up a little bit later** in a randomly chosen time interval around accurate wake up time.
->_e.g._, if remaining time is `17` minutes, it will sleep `20` minutes instead (_random values each time_)..
-
-`stochastic_flow`: can provide _smooth_ peak value generation by your original values.
-
-* Every ~**hour**/**day** it will generate peaks **at close range** _around_ your **original peaks** (_but below them_).
-
-> _e.g._, your peak likes **hourly** is `45`, next hour that peak will be `39`, the next `43`, etc.
-
-`notify_me`: sends **toast notifications** (_directly to your OS_) _about_ the **important states of** _supervisor_- **sleep**, **wake up** and **exit** messages.
-
-#### Mini-Examples:
-
-* Claudio has written **a new 😊 quickstart** script where it **mostly** _put likes and comments_. He wants the program to **comment safely** cos he is _afraid of exceeding_ **hourly** & **daily** comment limits,
-
-```python
-session.set_quota_supervisor(Settings, enabled=True, peak_comments=(21, 240))
-```
-
->_That's it! When it reaches the comments peak, it will just jump all of the comments and will again continue to put comments when is available [in the next  hour/day]_.
-
-
-```python
-session.set_quota_supervisor(Settings, enabled=True, peak_server_calls=(490, None), sleep_after=["server_calls_h"], sleepyhead=True)
-```
-
->_It will sleep after **hourly** server calls reaches its peak given - `490` and **never allow** one more extra request to the server out of the peak and **wake up** when **new hour** comes in WHILST **daily** server calls **will not be** supervised at all- as Alicia wishes_.
-
-* features and he wants to **do it safely**, also,
-  * is **gonna** run on local computer and **wants** to receive **toast notifications** 😋 on _supervising states_: **uses** `notify_me` parameter
-  * **wants** QS to _randomize_ his `pre-defined` peak values [at close range] each new _hour_/_day_: **uses** `stochastic_flow=True` parameter
-  * **wants** the program to sleep after reaching **hourly** _follow_ peak and **daily** _unfollow_ peak: **adds** `"follows_h"` and `"unfollows_d"`into `sleep_after` parameter
-
-```python
-session.set_quota_supervisor(Settings, enabled=True, peak_follows=(56, 660), peak_unfollows=(49, 550), sleep_after=["follows_h", "unfollows_d"], stochastic_flow=True, notify_me=True)
-```
-
