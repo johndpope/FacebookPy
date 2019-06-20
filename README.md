@@ -216,3 +216,7 @@ session = FacebookPy(username=facebook_username, password=facebook_password, byp
 ## How to schedule as a job:
 
     */10 * * * * bash /path/to/FacebookPy/run_facebookpy_only_once_for_mac.sh /path/to/FacebookPy/quickstart.py $USERNAME $PASSWORD $USERID
+
+
+## Help build socialbotspy
+Check out this short guide on [how to start contributing!](https://github.com/InstaPy/instapy-docs/blob/master/CONTRIBUTORS.md).
